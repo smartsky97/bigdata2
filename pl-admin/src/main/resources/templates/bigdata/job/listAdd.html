@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+                        <div class="col-sm-11">
+                            <ul>
+                                <div class="col-sm-12">
+                                    <li class="col-sm-4">
+                                        部　　门：
+                                        <select name="department" id="department" class="m-b">
+                                            <option>全部</option>
+                                        </select>
+                                    </li>
+                                    <li class="col-sm-4">
+                                        员　　工：
+                                        <select name="mailname" id="mailname" class="m-b">
+                                            <option>全部</option>
+                                        </select>
+                                    </li>
+                                </div>
+                                <div class="col-sm-12">
+                                    <li class="select-time" style="margin: 0;">
+                                        <li class="col-sm-4">
+                                            起始时间：<input type="text" style="padding-left:10px;"　autocomplete="off" id="startTime" class="startTime" placeholder="开始时间" name="params[beginTime]"/>
+                                        </li>
+                                        <li class="col-sm-4">
+                                            结束时间：<input type="text" style="padding-left:10px;" id="endTime"　autocomplete="off" class="endTime" placeholder="结束时间" name="params[endTime]"/>
+                                        </li>
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="col-sm-1 pull-right">
+                            <a class="btn btn-primary btn-rounded btn-sm page-btn" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm page-btn" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </div>
+					</div>
+				</form>
+			</div>
+
+            <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+                <div class="box-header box_bg">
+                    <h3 class="box-title col-md-12" style="padding: 8px 0;">工作饱和度列表(加法_8:30-17:30)</h3>
+                </div>
+            </div>
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:jobsatadd:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:jobsatadd:remove')}]];
+        var prefix = ctx + "bigdata/job";
+        console.info([[${depts}]]);
+        //二级下拉列表
+        var listproject = [[${depts}]];
+        $(function() {
+            var projectlist = [];
+            projectlist.push("<option value=''>全部</option>");
+            for (var i=0;i<listproject.length;i++) {
+                projectlist.push("<option value='"+listproject[i].id+"'>"+listproject[i].department+"</option>");
+            }
+            $("#department").html(projectlist.join(""));
+            // 群列表
+            $("#department").change(function () {
+                for (var i=0;i<listproject.length;i++) {
+                    var charlist = [];
+                    // charlist.push("<option value=''>全部</option>");
+                    if(listproject[i].id == $("#department").val()){
+                        for (var j=0;j<listproject[i].employeeList.length;j++) {
+                            charlist.push("<option value='"+listproject[i].employeeList[j].cn_name+"'>"+listproject[i].employeeList[j].cn_name+"</option>");
+                        }
+                        $("#mailname").html(charlist.join(""));
+                        return;
+                    }else{
+                        $("#mailname").html(charlist.join(""));
+                    }
+                }
+            });
+
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "员工饱和度",
+                search: false,
+                showSearch: false,
+                showExport: false,
+                showRefresh: false,
+                sortStable: true,
+                showColumns: false,
+                showToggle: false,
+                columns: [
+				{
+					field : 'mailname', 
+					title : '姓名',
+                    width: '25%'
+				},
+				{
+					field : 'date', 
+					title : '日期',
+					sortable: true,
+                    width: '25%'
+				},
+				{
+					field : 'saturability', 
+					title : '饱和度',
+					sortable: true,
+                    width: '25%'
+				}]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
