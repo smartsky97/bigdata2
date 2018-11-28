@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.DateTimeDao" >
+  <resultMap id="DateTimeResultMap" type="DateTime" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="date_time" property="date" jdbcType="VARCHAR" />
+    <result column="descb" property="descb" jdbcType="VARCHAR" />
+  </resultMap>
+
+    <!--查询所有数据(分页显示) -->
+    <select id="findAll" parameterType="Map" resultMap="DateTimeResultMap">
+        select * from date_time limit #{index},#{length};
+    </select>
+    
+    <!-- 查询所有记录数(用于分页) -->
+    <select id="getAllDataSize" resultType="java.lang.Integer">
+    	select count(*) from date_time;
+    </select>
+
+	<!-- 多种条件查询 -->
+	<select id="searchDateTimes" resultMap="DateTimeResultMap">
+		select * from date_time
+		<where>
+			<if test="date !=null and date !=''">
+				date_time = #{date}
+			</if>
+			<if test="descb != null and descb !=''">
+				and descb = #{descb}
+			</if>
+		</where>
+		limit #{index},#{length};
+	</select>
+	
+	<!-- 条件查询记录数(用于分页) -->
+	<select id="getSearchDataSize" resultType="java.lang.Integer" >
+		select count(*) from date_time
+		<where>
+			<if test="date !=null and date !=''">
+				date_time = #{date}
+			</if>
+			<if test="descb != null and descb !=''">
+				and descb = #{descb}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加数据 -->
+    <insert id="AddDateTime" parameterType="DateTime" useGeneratedKeys="true" keyProperty="id">
+        insert into date_time (date_time,descb) values(#{date},#{descb})
+    </insert>
+    
+    <!-- 用户更新 -->
+    <update id="UpdateDateTime" parameterType="DateTime">
+        update date_time
+            set date_time=#{date},
+               descb=#{descb}
+               where id=#{id}
+    </update>
+    
+    <!-- 用户删除 -->
+    <delete id="DeleteDateTime" parameterType="int">
+        delete from date_time where id = #{id}
+    </delete>
+	
+	<!-- 通过Id查询 (用于更新)-->
+	<select id="getDateTimeById" parameterType="int" resultMap="DateTimeResultMap">
+		select * from date_time where id = #{id}
+	</select>
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pl.web.dao.UrlDao">
+	<resultMap type="Url" id="UrlResult">
+		<result property="urlName" column="url_name" />
+		<result property="urlType" column="url_type" jdbcType="INTEGER"/>
+		<result property="urlType_name" column="urltype_name" />
+	</resultMap>
+	<!-- URL库数据量,用于做分页展示 -->
+	<select id="getUrlSize" resultType="java.lang.Integer">
+		select count(*) from
+		new_url_lib
+	</select>
+	<!-- 前段页面分页展示的数据 -->
+	<select id="getUrls" resultMap="UrlResult">
+		SELECT
+		a.url AS url_name,
+		a.type AS
+		url_type,
+		b.url_type AS urltype_name
+		FROM
+		new_url_lib a
+		LEFT JOIN
+		new_url_type b ON a.type = b.type
+		limit #{index},#{length}
+	</select>
+	<!-- 自建的URL库 -->
+	<select id="getUrls1" resultMap="UrlResult">
+		select * from new_url_alter
+	</select>
+	<!-- 向URL库添加新数据 -->
+	<select id="saveUrl" parameterType="Url">
+		insert into
+		new_url_lib(url,type) values (#{urlName} ,#{urlType})
+	</select>
+	<!-- 删除 -->
+	<select id="deleteUrl" parameterType="Url">
+		delete from new_url_lib
+		where
+		url=#{urlName}
+	</select>
+	<!-- 删除自建URL库数据 -->
+	<select id="deleteUrl1" parameterType="Url">
+		delete from new_url_alter
+		where url=#{urlName}
+	</select>
+	<!-- 通过名字查询URL库中的数据 -->
+	<select id="getUrlByName" parameterType="String" resultMap="UrlResult">
+		SELECT
+		a.url AS url_name,
+		a.type AS url_type,
+		b.url_type AS urltype_name
+		FROM
+		new_url_lib a
+		LEFT JOIN new_url_type b ON a.type = b.type where url=#{urlName}
+	</select>
+	<!-- 更新URL数据库 -->
+	<select id="updateUrl" parameterType="Url">
+		update new_url_lib set
+		type=#{urlType} where url=#{urlName};
+	</select>
+	<!-- 验证URL是佛存在 -->
+	<select id="compareUrl" resultType="java.lang.Integer">
+		select count(*) from  new_url_lib
+		<where>
+			<if test="urlName !=null and urlName !=''">
+				url = #{urlName}
+			</if>
+		</where>
+	</select>
+	<!-- 查询URL -->
+	<select id="searchUrl" resultMap="UrlResult">
+		SELECT
+		a.url AS url_name,
+		a.type AS url_type,
+		b.url_type AS urltype_name
+		FROM
+		new_url_lib a
+		LEFT JOIN new_url_type b ON a.type=b.type
+		<where>
+			<if test="urlName !=null and urlName !=''">
+				instr (lower(a.url),#{urlName}) &gt;0
+			</if>
+			<if test="urlType !=null and urlType !=''">
+				and a.type=#{urlType};
+			</if>
+		</where>
+	</select>
+</mapper>

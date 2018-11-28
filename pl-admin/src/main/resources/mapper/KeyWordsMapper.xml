@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.KeyWordDao">
+	<resultMap id="KeyWordsResult" type="KeyWords">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="employee_account" property="mailname" jdbcType="VARCHAR" />
+		<result column="employee_name" property="cname" jdbcType="VARCHAR" />
+		<result column="ik_word" property="ikword" jdbcType="VARCHAR" />
+		<result column="start_time" property="startime" jdbcType="VARCHAR" />
+		<result column="end_time" property="endtime" jdbcType="VARCHAR" />
+		<result column="task_name" property="taskname" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 关键词列表(分页显示) -->
+	<select id="findAll" parameterType="Map" resultMap="KeyWordsResult">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		a.id,
+		b.department AS employee_account,
+		a.employee_name,
+		a.task_name,
+		a.ik_word,
+		a.start_time,
+		a.end_time
+		FROM
+		ik_word_data a
+		INNER
+		JOIN department_index b ON a.employee_account = b.id
+		) c LIMIT #{index},#{length};
+	</select>
+	<!-- 添加分词 -->
+	<insert id="addKeyWord" parameterType="KeyWords" useGeneratedKeys="true" keyProperty="id">
+		insert into ik_word_data
+		(employee_account,employee_name,task_name,ik_word,start_time,end_time)
+		values(#{mailname},#{cname},#{taskname},#{ikword},#{startime},#{endtime})
+	</insert>
+
+	<!-- 分词修改 -->
+	<update id="updateKeyWord" parameterType="KeyWords">
+		update ik_word_data
+		set
+		employee_account=#{mailname},
+		employee_name=#{cname},
+		task_name=#{taskname},
+		ik_word=#{ikword},
+		start_time=#{startime},
+		end_time=#{endtime}
+		where
+		id=#{id}
+	</update>
+
+	<!-- 分词删除 -->
+	<delete id="deleteKeyWord" parameterType="int">
+		delete from
+		ik_word_data where id= #{id}
+	</delete>
+	<!-- 通过Id查询 -->
+	<select id="getKeyWordById" parameterType="int" resultMap="KeyWordsResult">
+		select * from ik_word_data where id = #{id}
+	</select>
+
+	<!-- 多种条件查询 -->
+	<select id="searchKeyWords" resultMap="KeyWordsResult">
+		SELECT
+		b.id,
+		c.department AS employee_account,
+		b.task_name,
+		b.employee_name,
+		b.ik_word,
+		b.start_time,
+		b.end_time
+		FROM
+		(
+		SELECT
+		*
+		FROM
+		ik_word_data a
+		<where>
+			<if test="startime !=null and startime !=''">
+				a.start_time &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and a.end_time &lt;= #{endtime}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and a.employee_account=#{mailname}
+			</if>
+			<if test="cname !=null and cname !=''">
+				and a.employee_name=#{cname}
+			</if>
+			<if test="taskname !=null and taskname !=''">
+				and a.task_name=#{taskname}
+			</if>
+		</where>
+		) b
+		INNER JOIN department_index c ON b.employee_account = c.id
+		limit #{index},#{length};
+	</select>
+	
+	<!-- 获取所有数据记录用于分页 -->
+	<select id="getKeyWordsDataSize" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		ik_word_data a
+		INNER JOIN department_index b ON a.employee_account = b.id
+	</select>
+	<!-- 搜索查询的数据量(用于分页) -->
+	<select id="getSearchKeyWordsDataSize" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		(
+		SELECT
+		*
+		FROM
+		ik_word_data a
+		<where>
+			<if test="startime !=null and startime !=''">
+				a.start_time &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and a.end_time &lt;= #{endtime}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and a.employee_account=#{mailname}
+			</if>
+			<if test="cname !=null and cname !=''">
+				and a.employee_name=#{cname}
+			</if>
+			<if test="taskname !=null and taskname !=''">
+				and a.task_name=#{taskname}
+			</if>
+		</where>
+		) b
+		INNER JOIN department_index c ON b.employee_account = c.id
+	</select>
+</mapper>

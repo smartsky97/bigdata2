@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.WifiDataDao">
+	<resultMap id="WifiDataResultMap" type="WifiData">
+		<result column="number" property="macCode" jdbcType="VARCHAR" />
+		<result column="x" property="x" jdbcType="INTEGER" />
+		<result column="y" property="y" jdbcType="INTEGER" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="avg_sig" property="avgSig" jdbcType="INTEGER" />
+		<result column="start_time" property="startTime" jdbcType="VARCHAR" />
+		<result column="end_time" property="endTime" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 表格展示WIFI数据详细查询(分页显示) -->
+	<select id="searchWifiData" resultMap="WifiDataResultMap">
+		
+		SELECT
+		c.number,
+		c.place as position_name,
+		b.cn_name as user_name,
+		a.avg_sig,
+		a.start_time,
+		a.end_time
+		FROM
+		wifi_positioning a
+		INNER JOIN user_mac b ON a.dev_mac = b.mac
+		INNER JOIN postion_mac c ON a.ap_mac = c.mac
+		<where>
+			<if test="macCode !=null and macCode !=''">
+				c.number = #{macCode}
+			</if>
+			<if test="positionName !=null and positionName !=''">
+				and c.place = #{positionName}
+			</if>
+			<if test="userName != null and userName !=''">
+				and b.user_name = #{userName}
+			</if>
+			<if test="cnName != null and cnName !=''">
+				and b.cn_name = #{cnName}
+			</if>
+			<if test="startTime != null and startTime !=''">
+				and a.start_time &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime !=''">
+				and a.end_time &lt;= #{endTime}
+			</if>
+		</where>
+		order by a.start_time DESC limit #{index},#{length};
+	</select>
+	<!-- 查询结果记录数,用于分页 -->
+	<select id="searchWifiDataSize" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		wifi_positioning a
+		INNER JOIN user_mac b ON a.dev_mac = b.mac
+		INNER JOIN postion_mac c ON a.ap_mac = c.mac
+		<where>
+			<if test="macCode !=null and macCode !=''">
+				c.number = #{macCode}
+			</if>
+			<if test="positionName !=null and positionName !=''">
+				and c.place = #{positionName}
+			</if>
+			<if test="userName != null and userName !=''">
+				and b.user_name = #{userName}
+			</if>
+			<if test="cnName != null and cnName !=''">
+				and b.cn_name = #{cnName}
+			</if>
+			<if test="startTime != null and startTime !=''">
+				and a.start_time &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime !=''">
+				and a.end_time &lt;= #{endTime}
+			</if>
+		</where>
+		
+	</select>
+	
+	<!-- 查询所有的WIFI定位数据 (由于数据量太大,查询速度较慢,暂停使用.)-->
+	<select id="findAll" parameterType="Map" resultMap="WifiDataResultMap">
+		SELECT
+		c.number,
+		c.place AS position_name,
+		d.user_name ,
+		c.avg_sig,
+		c.start_time,
+		c.end_time
+		FROM
+		(SELECT
+		b.number,
+		b.place,
+		a.dev_mac,
+		a.avg_sig,
+		a.start_time,
+		a.end_time
+		FROM
+		wifi_positioning a
+		INNER JOIN postion_mac b ON a.ap_mac = b.mac) c
+		INNER JOIN user_mac d ON c.dev_mac=d.mac order by start_time DESC  limit #{index},#{length};
+	</select>
+	
+	<!-- 查询数据总记录数，用于分页 (由于数据量太大,查询速度较慢,暂停使用.) -->
+    <select id="getWifiDataSize" resultType="java.lang.Integer" >
+		SELECT
+		COUNT(*)
+		FROM
+		(SELECT
+		b.number,
+		b.place,
+		a.dev_mac,
+		a.avg_sig,
+		a.start_time,
+		a.end_time
+		FROM
+		wifi_positioning a
+		INNER JOIN postion_mac b ON a.ap_mac = b.mac)c
+		INNER JOIN user_mac d ON c.dev_mac=d.mac
+	</select>
+	
+	<!-- 展示WIFI定位条件查询(用于Echars图表展示) -->
+	<select id="searchWifiDataShow" resultMap="WifiDataResultMap" >
+		SELECT
+		c.number,
+		c.x,
+		c.y,
+		c.place as position_name,
+		b.cn_name as user_name,
+		a.avg_sig,
+		a.start_time,
+		a.end_time
+		FROM
+		wifi_positioning a
+		INNER JOIN user_mac b ON a.dev_mac = b.mac
+		INNER JOIN postion_mac c ON a.ap_mac = c.mac
+		<where>
+			<if test="macCode !=null and macCode !=''">
+				c.number = #{macCode}
+			</if>
+			<if test="positionName !=null and positionName !=''">
+				and c.place = #{positionName}
+			</if>
+			<if test="userName != null and userName !=''">
+				and b.user_name = #{userName}
+			</if>
+			<if test="cnName != null and cnName !=''">
+				and b.cn_name = #{cnName}
+			</if>
+			<if test="startTime != null and startTime !=''">
+				and a.start_time &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime !=''">
+				and a.end_time &lt;= #{endTime}
+			</if>
+		</where>
+		ORDER BY a.start_time ASC 
+	</select>
+	
+</mapper>

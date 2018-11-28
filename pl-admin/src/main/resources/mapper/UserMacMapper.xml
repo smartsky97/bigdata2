@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.UserMacMapper" >
+  <resultMap id="UserMacResultMap" type="UserMac" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="cn_name" property="cnName" jdbcType="VARCHAR"/>
+    <result column="mac" property="mac" jdbcType="VARCHAR" />
+  </resultMap>
+
+    <!--查询所有数据(分页显示) -->
+    <select id="fiandAll" parameterType="Map" resultMap="UserMacResultMap">
+        select * from user_mac limit #{index},#{length};
+    </select>
+    
+    <!-- 查询所有记录数(用于分页) -->
+    <select id="getAllDataSize" resultType="java.lang.Integer">
+    	select count(*) from user_mac;
+    </select>
+
+	<!-- 多种条件查询 -->
+	<select id="searchUserMac" resultMap="UserMacResultMap">
+		select * from user_mac
+		<where>
+			<if test="userName !=null and userName !=''">
+				user_name = #{userName}
+			</if>
+			<if test="cnName !=null and cnName !=''">
+				cn_name = #{cnName}
+			</if>
+			<if test="mac != null and mac !=''">
+				and mac = #{mac}
+			</if>
+		</where>
+		limit #{index},#{length};
+	</select>
+	
+	<!-- 条件查询记录数(用于分页) -->
+	<select id="searchDataSize" resultType="java.lang.Integer" >
+		select count(*) from user_mac
+		<where>
+			<if test="userName !=null and userName !=''">
+				user_name = #{userName}
+			</if>
+			<if test="cnName !=null and cnName !=''">
+				cn_name = #{cnName}
+			</if>
+			<if test="mac != null and mac !=''">
+				and mac = #{mac}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加数据 -->
+    <insert id="addUserMac" parameterType="UserMac" useGeneratedKeys="true" keyProperty="id">
+        insert into user_mac (user_name,cn_name,mac) values(#{userName},#{cnName},#{mac})
+    </insert>
+    
+    <!-- 用户更新 -->
+    <update id="updateUserMac" parameterType="UserMac">
+        update user_mac
+            set user_name=#{userName},
+            	cn_name=#{cnName},
+               mac=#{mac}
+               where id=#{id}
+    </update>
+    
+    <!-- 用户删除 -->
+    <delete id="deleteUserMac" parameterType="int">
+        delete from user_mac where id = #{id}
+    </delete>
+	
+	<!-- 通过Id查询 (用于更新)-->
+	<select id="getUserMacById" parameterType="int" resultMap="UserMacResultMap">
+		select * from user_mac where id = #{id}
+	</select>
+	
+	<!-- 更新/添加之前的验证 -->
+ 	<select id="Compare" resultType="java.lang.Integer">
+ 		select count(*) from user_mac where mac =#{mac}
+ 	</select> 
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.Depart_kaoqinMapper" >
+  <resultMap id="Depart_kaoqinResultMap" type="Depart_kaoqin" >
+    <result column="depart_attendance" property="departAttendance" jdbcType="DOUBLE" />
+    <result column="attendance_days" property="attendanceDays" jdbcType="BIGINT" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+   <!-- 查询所有记录数(用于分页) -->
+    <select id="getAllDataSize" resultType="java.lang.Integer">
+    	select count(*) from depart_kaoqin;
+    </select>
+	<!--查询所有数据(分页显示) -->
+    <select id="findAll" parameterType="Map" resultMap="Depart_kaoqinResultMap">
+        select * from depart_kaoqin 
+        ORDER BY depart_attendance DESC
+        limit #{index},#{length};
+    </select>
+    
+    <!-- 条件查询记录数(用于分页) -->
+	<select id="getSearchSize" resultType="java.lang.Integer" >
+		select count(*) from depart_kaoqin
+		<where>
+			<if test="department !=null and department !=''">
+				department = #{department}
+			</if>
+			<if test="time != null and time !=''">
+				and date = #{time}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 多种条件查询 -->
+	<select id="searchDekq" resultMap="Depart_kaoqinResultMap">
+		select * from depart_kaoqin
+		<where>
+			<if test="department !=null and department !=''">
+				department = #{department}
+			</if>
+			<if test="time != null and time !=''">
+				and date = #{time}
+			</if>
+		</where>
+		ORDER BY depart_attendance DESC limit #{index},#{length};
+	</select>
+	<!-- 查询结果导出到Excel -->
+	<select id="getDeKaoqins2CSV" resultMap="Depart_kaoqinResultMap">
+		select * from depart_kaoqin
+		<where>
+			<if test="department !=null and department !=''">
+				department = #{department}
+			</if>
+			<if test="time != null and time !=''">
+				and date = #{time}
+			</if>
+		</where>
+		ORDER BY depart_attendance DESC ;
+	</select>
+</mapper>

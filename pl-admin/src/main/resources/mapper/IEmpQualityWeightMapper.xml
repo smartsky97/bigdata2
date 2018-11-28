@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pl.web.dao.IEmpQualityWeightDAO">
+   <resultMap type="SerachData" id="Result" >
+        <result property="id" column="id" />
+        <result property="dept_id" column="dept_id" />
+        <result property="key_word_weight" column="key_word_weight" />
+        <result property="job_time_weight" column="job_time_weight" />
+         <result property="examine_score_weight" column="examine_score_weight" />
+          <result property="month_file_growth_weight" column="month_file_growth_weight" />
+          <result property="work_saturation_add_weight" column="work_saturation_add_weight" />
+          <result property="work_saturation_sub_weight" column="work_saturation_sub_weight" />
+          <result property="email_send_times_weight " column="email_send_times_weight " />
+          <result property="lync_comu_times_weight" column="lync_comu_times_weight" />
+          <result property="meeting_dura_weight" column="meeting_dura_weight" />
+          <result property="call_phone_times_weight" column="call_phone_times_weight" />
+            <result property="start_time" column="start_time" />
+          <result property="end_time" column="end_time" />
+    </resultMap>
+
+	<insert id="insert" parameterType="com.pl.web.model.EmpQualityWeight">
+		insert into emp_quality_weight
+		(dept_id,key_word_weight,job_time_weight,
+		examine_score_weight,month_file_growth_weight,
+		keyboard_click_weight,
+		mouse_click_weight,
+		work_saturation_add_weight,work_saturation_sub_weight,email_send_times_weight,
+		lync_comu_times_weight,meeting_dura_weight,call_phone_times_weight,
+		start_time,end_time) value
+		(#{deptId},#{keyWordWeight},#{jobTimeWeight},
+		#{examineScoreWeight},#{monthFileGrowthWeight},#{keyboardClickWeight},
+		#{mouseClickWeight},
+		#{workSaturationAddWeight},#{workSaturationSubWeight},#{emailSendTimesWeight},
+		#{lyncComuTimesWeight},#{meetingDuraWeight},#{callPhoneTimesWeight}
+       <if test="startTime != null ">
+		 ,#{startTime}
+		</if>
+		<if test="endTime != null ">
+		  ,#{endTime}
+		 </if> 
+		)
+		
+	</insert>
+	
+   <select id="list" resultType="com.pl.web.model.EmpQualityWeight">
+	     select * from emp_quality_weight
+	</select>
+	
+<!-- 	
+	#{keyboardClickWeight},
+		#{workSaturationAddWeight},#{workSaturationSubWeight},#{emailSendTimesWeight},
+		#{lyncComuTimesWeight},#{meetingDuraWeight},#{callPhoneTimesWeight}
+	-->
+		<!-- 分词修改 -->
+	<update id="update" parameterType="com.pl.web.model.EmpQualityWeight">
+		UPDATE emp_quality_weight
+		SET
+		key_word_weight=#{keyWordWeight},
+		job_time_weight=#{jobTimeWeight},
+		examine_score_weight=#{examineScoreWeight},
+		month_file_growth_weight=#{monthFileGrowthWeight},
+		keyboard_click_weight=#{keyboardClickWeight},
+		mouse_click_weight=#{mouseClickWeight},
+		work_saturation_add_weight=#{workSaturationAddWeight},
+		work_saturation_sub_weight=#{workSaturationSubWeight},
+		email_send_times_weight=#{emailSendTimesWeight},
+		lync_comu_times_weight=#{lyncComuTimesWeight},
+		meeting_dura_weight=#{meetingDuraWeight},
+		call_phone_times_weight=#{callPhoneTimesWeight}
+		WHERE
+		id=#{id}
+	</update>
+	
+	
+<select id="getSerachDataSize" resultType="java.lang.Integer">
+ select count(*) from emp_quality_weight
+</select>
+
+<!-- <select id="list" resultMap="Result">
+ select a.id,b.department,a.employee_account,a.employee_name,a.job_content,a.start_time,a.end_time,a.kword_count
+ from emp_quality_weight a left join department_index b 
+ on a.department=b.id 
+ limit #{index},#{length}
+</select> -->
+	
+	<select id="selectData" resultType="com.pl.web.dto.EmpTartgetQuality">
+      SELECT
+	b.department_id AS "deptId",
+	b.mail_name AS "mailName",
+	b.cn_name AS "chinaName",
+	d.tagmc AS "tagMc",
+	d.tagname AS "tagName",
+	MAX(e.tag_value) AS "tagValue",
+	e.compute_date AS "computeDate"
+FROM
+	base_info AS b
+LEFT OUTER JOIN emp_target AS e ON (b.mail_name = e.mail_name)
+LEFT JOIN emp_index d ON (d.id = e.tag_id)
+WHERE
+	(
+		   e.tag_id = "0401"
+		OR e.tag_id = "0402"
+		OR e.tag_id = "0408"
+		OR e.tag_id = "0413"
+		OR e.tag_id = "0414"
+		OR e.tag_id = "0417"
+		OR e.tag_id = "0418"
+		OR e.tag_id = "0605"
+		OR e.tag_id = "1002"
+	)
+AND b.department_id IS NOT NULL
+
+AND e.`compute_date`=#{compute_date}
+
+<if test="mailName != null">
+AND e.`mail_name`=#{mailName}
+</if>
+ GROUP BY d.id , e.`mail_name` 
+order by b.mail_name 
+
+	</select>
+	
+	
+		<select id="selectDaByDept" resultType="com.pl.web.dto.EmpTartgetQuality">
+      SELECT
+	b.department_id AS "deptId",
+	b.mail_name AS "mailName",
+	b.cn_name AS "chinaName",
+	d.tagmc AS "tagMc",
+	d.tagname AS "tagName",
+	MAX(e.tag_value) AS "tagValue",
+	e.compute_date AS "computeDate"
+FROM
+	base_info AS b
+LEFT OUTER JOIN emp_target AS e ON (b.mail_name = e.mail_name)
+LEFT JOIN emp_index d ON (d.id = e.tag_id)
+WHERE
+	(
+		   e.tag_id = "0401"
+		OR e.tag_id = "0402"
+		OR e.tag_id = "0408"
+		OR e.tag_id = "0413"
+		OR e.tag_id = "0414"
+		OR e.tag_id = "0417"
+		OR e.tag_id = "0418"
+		OR e.tag_id = "0605"
+		OR e.tag_id = "1002"
+		OR e.tag_id = "1005"
+	)
+AND b.department_id IS NOT NULL
+ 	<if test="departmentId != null">
+	     AND e.`mail_name` IN 
+ (SELECT  b.`mail_name` FROM base_info b WHERE b.`department_id` =#{departmentId}) 
+	    
+   </if>
+ <if test="compute_date != null">
+    AND e.`compute_date`=#{compute_date}
+   </if>  
+<if test="mailName != null">
+AND e.`mail_name`=#{mailName}
+</if>
+ GROUP BY d.id , e.`mail_name` 
+order by b.mail_name 
+
+	</select>
+	
+	
+	<select id="selectSaturab" resultType="com.pl.web.dto.EmpQualitySaturability">
+	      SELECT b.`department_id`  AS "deptId", a.`mailname`  AS "mailName",
+	      AVG(a.saturability)  AS "saturabilityAdd" ,
+	      AVG(e.`saturability`)  AS "saturabilitySub" ,
+	      SUBSTR(e.`date`,1,7)  AS "computeDate"
+     FROM saturation_collection a ,saturation_exclusion e,base_info b
+   WHERE a.date >= #{startTime} AND  #{endTime}  >=a.date  
+   AND a.`mailname`=e.`mailname` AND a.`mailname`= b.`mail_name`
+  <if test="mailName != null">
+   AND a.`mailname`=#{mailName}
+   </if>
+   <if test="mailName == null">
+     GROUP BY a.`mailname` ,SUBSTR(e.`date`,1,7)
+	</if>
+	 order by a.mailname
+	</select>
+	
+	
+		<select id="selectSaturabByDept" resultType="com.pl.web.dto.EmpQualitySaturability">
+	      SELECT b.`department_id`  AS "deptId", a.`mailname`  AS "mailName",
+	      AVG(a.saturability)  AS "saturabilityAdd" ,
+	      AVG(e.`saturability`)  AS "saturabilitySub" ,
+	       SUBSTR(e.`date`,1,7)   AS "computeDate"
+     FROM saturation_collection a ,saturation_exclusion e,base_info b
+   WHERE  1=1   
+  <if test="startTime != null">
+   AND    a.date >= #{startTime}
+  </if>
+  
+  <if test="endTime != null">
+   AND  #{endTime}  >=a.date  
+  </if>
+   AND a.`mailname`=e.`mailname` AND a.`mailname`= b.`mail_name`
+   
+   <if test="departmentId != null">
+    AND b.`department_id` =#{departmentId}
+   </if>
+  <if test="mailName != null">
+   AND a.`mailname`=#{mailName}
+   </if>
+   <if test="mailName == null">
+   
+     GROUP BY a.`mailname` ,SUBSTR(e.`date`,1,7) 
+	</if>
+	 order by a.mailname
+	</select>
+	
+	
+	<select id="pageShow" resultType="com.pl.web.model.EmpQualityWeight">
+	
+	 SELECT  d.department,t.*  FROM emp_quality_weight  AS t , department_index  AS d
+  		WHERE   1=1  
+		<if test="departmentId != null">
+			AND	t.dept_id = #{departmentId} 
+		</if>
+		 AND t.dept_id=d.id
+	<!-- 	<if test="start_time != null and end_time != null">
+			and t.compute_date BETWEEN #{start_time} AND #{end_time}
+		</if>
+		<if test="start_time == null or end_time == null">
+			and t.compute_date = SUBSTR(CURDATE(),1,7)
+		</if>
+		ORDER BY t.compute_date DESC -->
+		limit #{index},#{length}
+	</select>
+	
+	<select id="resultCount" resultType="java.lang.Integer">
+		 select count(*) from emp_quality_weight AS t
+  		WHERE   1=1  
+  		<if test="departmentId != null">
+		   AND t.dept_id = #{departmentId}
+         </if>
+	</select>
+	
+	<select id="getById" resultType="com.pl.web.model.EmpQualityWeight">
+		select * from emp_quality_weight  where id = #{id}
+	</select>
+</mapper>

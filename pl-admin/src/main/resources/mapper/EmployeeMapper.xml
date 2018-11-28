@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pl.web.dao.EmployeeDao">
+ <resultMap type="Employee" id="EmployeeResult" >       
+        <result property="mail_name" column="mail_name" />
+         <result property="cn_name" column="cn_name" />
+          <result property="department_id" column="department_id" />
+           <result property="department" column="department" />
+ </resultMap>
+<select id="getEmps" parameterType="String" resultMap="EmployeeResult">
+select mail_name,cn_name,department_id,department from base_info where department_id=#{department_id}
+</select>
+</mapper>

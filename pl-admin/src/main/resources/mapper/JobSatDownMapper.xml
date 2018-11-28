@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.IJobSatDownDao">
+	<resultMap id="JobSatDownResult" type="JobSatDown">
+		<id column="mailname" property="mailname" jdbcType="VARCHAR" />
+		<id column="date" property="date" jdbcType="VARCHAR" />
+		<result column="saturability" property="saturability" jdbcType="VARCHAR" />
+	</resultMap>
+
+<!-- ...................A方法计算结果展示(8:30-17:30)......................... -->
+	<!-- 总记录数，用于分页查询 -->
+	<select id="getSatDownSize" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		saturation_exclusion_a a
+		INNER JOIN base_info b ON a.mailname = b.mail_name
+	</select>
+	<!-- 分页查询数据 -->
+	<select id="findAll" resultMap="JobSatDownResult" parameterType="Map">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		b.cn_name AS mailname,
+		a.date,
+		a.saturability
+		FROM
+		saturation_exclusion_a a
+		INNER JOIN base_info b ON a.mailname = b.mail_name
+		) c order by date desc limit #{index},#{length}
+	</select>
+
+	<!-- 查询详细信息(查询,用于Echars展示) -->
+	<select id="getJobDetails" resultType="JobSatDown">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		c.mailname,
+		c.date,
+		c.saturability
+		FROM
+		(
+		SELECT
+		b.cn_name AS mailname,
+		a.date,
+		a.saturability
+		FROM
+		saturation_exclusion_a a
+		INNER JOIN
+		base_info b ON a.mailname = b.mail_name
+		) c
+		) d
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and d.mailname=#{mailname,jdbcType=VARCHAR} 
+			</if>
+		</where>
+		order by date DESC
+	</select>
+	<!-- 分页查询详细信息 -->
+	<select id="getJobDetails1" resultType="JobSatDown">
+		SELECT
+		c.cn_name AS mailname,
+		d.date,
+		d.saturability
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_exclusion_a d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC limit #{index},#{length}
+	</select>
+	<!-- 分页查询详细信息,总记录数，用于分页 -->
+	<select id="getJobDetails1Size" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_exclusion_a d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<!-- 查询数据导出Excel -->
+	<select id="getJobDownCSV" resultType="JobSatDown">
+		SELECT
+		c.cn_name AS mailname,
+		d.date,
+		d.saturability
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_exclusion_a d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC 
+	</select>
+	
+<!-- ......................B方法计算结果展示(全天)............................. -->
+
+<!-- 总记录数，用于分页查询 -->
+	<select id="getSatDownSize_B" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		saturation_exclusion_b a
+		INNER JOIN base_info b ON a.mailname = b.mail_name
+	</select>
+	<!-- 分页查询数据 -->
+	<select id="findAll_B" resultMap="JobSatDownResult" parameterType="Map">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		b.cn_name AS mailname,
+		a.date,
+		a.saturability
+		FROM
+		saturation_exclusion_b a
+		INNER JOIN base_info b ON a.mailname = b.mail_name
+		) c order by date desc limit #{index},#{length}
+	</select>
+
+	<!-- 查询详细信息(查询,用于Echars展示) -->
+	<select id="getJobDetails_B" resultType="JobSatDown">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		c.mailname,
+		c.date,
+		c.saturability
+		FROM
+		(
+		SELECT
+		b.cn_name AS mailname,
+		a.date,
+		a.saturability
+		FROM
+		saturation_exclusion_b a
+		INNER JOIN
+		base_info b ON a.mailname = b.mail_name
+		) c
+		) d
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+
+			<if test="mailname != null and mailname !=''">
+
+			and d.mailname=#{mailname,jdbcType=VARCHAR} 
+			</if>
+		</where>
+		order by date asc
+	</select>
+	<!-- 分页查询详细信息 -->
+	<select id="getJobDetails1_B" resultType="JobSatDown">
+		SELECT
+		c.cn_name AS mailname,
+		d.date,
+		d.saturability
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN
+		base_info b ON a.department = b.department
+		) c
+		INNER JOIN
+		saturation_exclusion_b d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC limit #{index},#{length}
+	</select>
+	<!-- 分页查询详细信息,总记录数，用于分页 -->
+	<select id="getJobDetails1Size_B" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_exclusion_b d ON c.mail_name = d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<!-- 查询数据导出Excel文件 -->
+	<select id="getJobDown_BCSV" resultType="JobSatDown">
+		SELECT
+		c.cn_name AS mailname,
+		d.date,
+		d.saturability
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN
+		base_info b ON a.department = b.department
+		) c
+		INNER JOIN
+		saturation_exclusion_b d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC 
+	</select>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.EmpsKaoQinMapper" >
+  <resultMap id="EmpsKaoQinResultMap" type="EmpsKaoQin" >
+    <result column="per_attendance" property="perAttendance" jdbcType="DOUBLE" />
+    <result column="attendance_days" property="attendanceDays" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="mailnickname" property="mailnickname" jdbcType="LONGVARCHAR" />
+    <result column="cn_name" property="cnName" jdbcType="LONGVARCHAR" />
+    <result column="department" property="department" jdbcType="LONGVARCHAR" />
+  </resultMap>
+ 
+  <!-- 查询分页显示 -->
+	<select id="findAll" parameterType="Map" resultMap="EmpsKaoQinResultMap">
+		select * from kaoqinlv ORDER BY per_attendance DESC 
+		limit #{index},#{length};
+	</select>
+	<!-- 获取数量分页 -->
+	<select id="getAllDataSize"  resultType="java.lang.Integer" >
+		select count(*) from kaoqinlv;
+	</select>
+	<!-- 多个条件查询 -->
+	<select id="searchEmpKaoQin" resultMap="EmpsKaoQinResultMap">
+		SELECT a.* FROM kaoqinlv a
+		INNER JOIN department_index b 
+		ON a.department = b.department
+		<where>
+			<if test="department !=null and department !=''">
+				b.id = #{department}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and a.cn_name = #{mailname}
+			</if>
+			<if test="time != null and time !=''">
+				and a.date = #{time}
+			</if>
+		</where>
+		ORDER BY a.per_attendance DESC limit #{index},#{length};
+	</select>
+    <!-- 条件查询数量 -->  
+    <select id="getSearchSize"  resultType="java.lang.Integer">
+		SELECT count(*) FROM kaoqinlv a
+		INNER JOIN department_index b 
+		ON a.department = b.department
+		<where>
+			<if test="department !=null and department !=''">
+				b.id = #{department}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and a.cn_name = #{mailname}
+			</if>
+			<if test="time != null and time !=''">
+				and a.date = #{time}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询结果导出Excel文件 -->
+	<select id="getEmpsKaoQins2CSV" resultMap="EmpsKaoQinResultMap">
+		SELECT a.* FROM kaoqinlv a
+		INNER JOIN department_index b 
+		ON a.department = b.department
+		<where>
+			<if test="department !=null and department !=''">
+				b.id = #{department}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and a.cn_name = #{mailname}
+			</if>
+			<if test="time != null and time !=''">
+				and a.date = #{time}
+			</if>
+		</where>
+		ORDER BY a.per_attendance DESC ;
+	</select>
+</mapper>

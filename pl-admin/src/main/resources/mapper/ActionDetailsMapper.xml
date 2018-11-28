@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.IActionDetailsDao">
+	<resultMap id="ActionDetailsResult" type="ActionDetails">
+		<id column="mailname" property="mailname" jdbcType="VARCHAR" />
+		<id column="date" property="date" jdbcType="VARCHAR" />
+		<id column="type" property="type" jdbcType="VARCHAR" />
+		<result column="slot" property="slot" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 查询员工工作详细信息 -->
+	<select id="geDetails1" resultType="ActionDetails">
+		select * from action_detail
+		where mailname = #{mailname,jdbcType=VARCHAR}
+		and date =
+		#{date,jdbcType=VARCHAR}
+
+	</select>
+	<!--(中文名称)查询员工工作详细信息 -->
+	<select id="geDetails" resultType="ActionDetails">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		c.mailname,
+		c.date,
+		c.type,
+		c.slot
+		FROM
+		(
+		SELECT
+		b.cn_name AS mailname,
+		a.type,
+		a.date,
+		a.slot
+		FROM
+		action_detail a
+		INNER JOIN base_info b ON a.mailname = b.mail_name
+		) c
+		) d
+		WHERE d.mailname = #{mailname,jdbcType=VARCHAR}
+		AND d.date = #{date,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

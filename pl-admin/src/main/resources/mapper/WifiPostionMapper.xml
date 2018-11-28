@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pl.web.dao.WifiPostionMapper">
+  <resultMap id="WifiPositionResultMap" type="WifiPosition">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="x" jdbcType="INTEGER" property="x" />
+    <result column="y" jdbcType="INTEGER" property="y" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+  </resultMap>
+   <!--查询所有数据 -->
+    <select id="findAll" parameterType="Map" resultMap="WifiPositionResultMap">
+        select * from postion_mac limit #{index},#{length};
+    </select>
+    
+    <!--查询所有数据的记录数(用于分页) -->
+    <select id="getDataSize"  resultType="java.lang.Integer">
+        select count(*) from postion_mac; 
+    </select>
+    
+    <!-- 添加数据 -->
+    <insert id="addWifiPostion" parameterType="WifiPosition" useGeneratedKeys="true" keyProperty="id">
+        insert into postion_mac (number,x,y,place,mac) values(#{number},#{x},#{y},#{place},#{mac})
+    </insert>
+    
+    <!-- 更新数据-->
+    <update id="updateWifiPostion" parameterType="WifiPosition">
+        update  postion_mac
+            set number=#{number},
+            	x = #{x},
+            	y = #{y},
+            	place=#{place},
+               	mac=#{mac}
+               where id=#{id}
+    </update>
+    
+    <!-- 删除数据 -->
+    <delete id="deleteWifiPostion" parameterType="int">
+        delete from postion_mac where id = #{id}
+    </delete>
+	<!-- 通过Id查询 -->
+	<select id="getWifiPostionById" parameterType="int" resultMap="WifiPositionResultMap">
+		select * from postion_mac where id = #{id}
+	</select>
+	
+	<!-- 多种条件查询 -->
+	<select id="searchWifiPostion" resultMap="WifiPositionResultMap">
+		select * from postion_mac
+		<where>
+			<if test="number !=null and number !=''">
+				number = #{number}
+			</if>
+			<if test="place != null and place !=''">
+				and place = #{place}
+			</if>
+			<if test="mac != null and mac !=''">
+				and mac = #{mac}
+			</if>
+		</where>
+		limit #{index},#{length};
+	</select>
+	<!-- 条件查询记录数(用于分页) -->
+	<select id="searchDataSize" resultType="java.lang.Integer">
+		select count(*) from postion_mac
+		<where>
+			<if test="number !=null and number !=''">
+				number = #{number}
+			</if>
+			<if test="place != null and place !=''">
+				and place = #{place}
+			</if>
+			<if test="mac != null and mac !=''">
+				and mac = #{mac}
+			</if>
+		</where>
+	</select>
+</mapper>

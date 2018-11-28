@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.EmpAverSatDao">
+	<resultMap id="EmpAverSatResult" type="EmpAverSat">
+		<id column="mailname" property="mailname" jdbcType="VARCHAR" />
+		<id column="date" property="date" jdbcType="VARCHAR" />
+		<result column="saturabilityAdd" property="saturabilityAdd"
+			jdbcType="VARCHAR" />
+		<result column="saturabilityDown" property="saturabilityDown"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	
+<!--  .............. A方案(8:30-17:30)计算工作饱和度展示....................... -->
+	
+	<!-- 页面首页展示前七天的数据 -->
+	<select id="getEmpAverSats" resultType="EmpAverSat">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		a.mailname,
+		a.date,
+		a.saturability AS saturabilityAdd,
+		b.saturability AS saturabilityDown
+		FROM
+		saturation_collection_a a
+		INNER
+		JOIN saturation_collection_b b ON a.mailname = b.mailname
+		AND a.date = b.date
+		) c
+		<where>
+			<if test="startime !=null and startime !=''">
+				c.date &gt;= #{startime}
+			</if>
+
+			<if test="endtime != null and endtime !=''">
+				and c.date &lt;= #{endtime}
+			</if>
+
+			<if test="mailname != null and mailname !=''">
+
+				and c.mailname=#{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by c.date asc
+	</select>
+	<!-- 首页查询 -->
+	<!-- <select id="searchEmpAverSats111" resultType="EmpAverSat"> SELECT * 
+		FROM ( SELECT d.cn_name as mailname, a.date, a.saturability AS saturabilityAdd, 
+		b.saturability AS saturabilityDown FROM saturation_collection a INNER JOIN 
+		saturation_exclusion b ON a.mailname = b.mailname AND a.date = b.date INNER 
+		JOIN base_info d ON a.mailname = d.mail_name ) c <where> <if test="startime 
+		!=null and startime !=''"> c.date &gt;= #{startime} </if> <if test="endtime 
+		!= null and endtime !=''"> and c.date &lt;= #{endtime} </if> <if test="mailname 
+		!= null and mailname !=''"> and c.mailname=#{mailname,jdbcType=VARCHAR} </if> 
+		</where> order by c.date asc </select> -->
+	
+	<!-- 首页查询(部门,员工姓名,日期) -->
+	<select id="searchEmpAverSats" resultType="EmpAverSat">
+		SELECT
+		d.cn_name AS mailname,
+		c.date,
+		c.saturabilityAdd,
+		c.saturabilityDown
+		FROM
+		(
+		SELECT
+		a.mailname,
+		a.date,
+		a.saturability AS saturabilityAdd,
+		b.saturability AS saturabilityDown
+		FROM
+		saturation_collection_a a
+		INNER JOIN saturation_collection_b b ON a.mailname = b.mailname
+		AND a.date = b.date
+		) c
+		LEFT JOIN base_info d ON d.mail_name =c.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				c.date &gt;= #{startime}
+			</if>
+
+			<if test="endtime != null and endtime !=''">
+				and c.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+
+				and d.department_id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+
+				and d.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY c.date desc ;
+	</select>
+	
+	<!-- 首页查询(部门,员工姓名,日期) (废弃使用)-->
+	<select id="searchEmpAverSats111" resultType="EmpAverSat">
+		SELECT
+		f.cn_name AS mailname,
+		e.date,
+		e.saturabilityAdd,
+		e.saturabilityDown
+		FROM
+		(
+		SELECT
+		a.mailname,
+		a.date,
+		a.saturability AS saturabilityAdd,
+		b.saturability AS saturabilityDown
+		FROM
+		saturation_collection_a a
+		INNER JOIN saturation_exclusion_a b ON a.mailname = b.mailname
+		AND
+		a.date = b.date
+		) e
+		LEFT JOIN (
+		SELECT
+		c.id,
+		c.department,
+		d.mail_name,
+		d.cn_name
+		FROM
+		department_index c
+		INNER JOIN base_info d ON c.department = d.department
+		) f ON e.mailname = f.mail_name
+		<where>
+			<if test="startime !=null and startime !=''">
+				e.date &gt;= #{startime}
+			</if>
+
+			<if test="endtime != null and endtime !=''">
+				and e.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+
+				and f.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+
+				and f.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY e.date desc ;
+	</select>
+	
+	<!-- ......................B方案(全天)计算工作饱和度展示.................. -->
+	
+		<!-- 页面首页展示前七天的数据 -->
+	<select id="getEmpAverSats_B" resultType="EmpAverSat">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		a.mailname,
+		a.date,
+		a.saturability AS saturabilityAdd,
+		b.saturability AS saturabilityDown
+		FROM
+		saturation_collection_b a
+		INNER
+		JOIN saturation_exclusion_b b ON a.mailname = b.mailname
+		AND a.date = b.date
+		) c
+		<where>
+			<if test="startime !=null and startime !=''">
+				c.date &gt;= #{startime}
+			</if>
+
+			<if test="endtime != null and endtime !=''">
+				and c.date &lt;= #{endtime}
+			</if>
+
+			<if test="mailname != null and mailname !=''">
+
+				and c.mailname=#{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by c.date asc
+	</select>
+
+	<!-- 首页查询(部门,员工姓名,日期) -->
+	<select id="SearchEmpAverSats_B" resultType="EmpAverSat">
+		
+		SELECT
+		d.cn_name AS mailname,
+		c.date,
+		c.saturabilityAdd,
+		c.saturabilityDown
+		FROM
+		(
+		SELECT
+		a.mailname,
+		a.date,
+		a.saturability AS saturabilityAdd,
+		b.saturability AS saturabilityDown
+		FROM
+		saturation_collection_b a
+		INNER JOIN saturation_exclusion_b b ON a.mailname = b.mailname
+		AND a.date = b.date
+		) c
+		LEFT JOIN base_info d ON d.mail_name =c.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				c.date &gt;= #{startime}
+			</if>
+
+			<if test="endtime != null and endtime !=''">
+				and c.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+
+				and d.department_id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+
+				and d.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY c.date desc ;
+	</select>
+</mapper>

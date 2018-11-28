@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pl.web.dao.ILablesDao">
+	<resultMap id="LablesResult" type="Lables">
+		<result column="id" property="id" />
+		<result column="label_name" property="labelName" />
+		<result column="status" property="status" />
+	</resultMap>
+
+	<!-- 标签列表查询 -->
+	<select id="fiandAll" parameterType="Map" resultMap="LablesResult">
+		select *
+		from emp_lable limit #{index},#{length}
+	</select>
+	<!-- 查询标签 -->
+	<select id="selectLable" parameterType="Lables" resultMap="LablesResult">
+		select * from emp_lable where label_name=#{labelName}
+	</select>
+    <!-- 查询总记录数 -->
+    <select id="getLabelSize"  resultType="java.lang.Integer">
+		select count(*) from emp_lable 
+	</select>
+	<!-- 用户添加 -->
+	<insert id="add" parameterType="Lables" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into emp_lable (label_name,status) values(#{labelName},#{status})
+	</insert>
+
+	<!-- 用户修改 -->
+	<update id="updateLable" parameterType="Lables">
+		update emp_lable
+		set label_name=#{labelName},
+		status=#{status}
+		where id=#{id}
+	</update>
+
+	<!-- 用户删除 -->
+	<delete id="deleteLableById" parameterType="int">
+		delete from emp_lable where id = #{id}
+	</delete>
+	<!--通过Id查询 -->
+	<select id="getLablesById" parameterType="java.lang.String" resultType="Lables">
+		select * from emp_lable where id=#{id}
+	</select>
+
+</mapper>

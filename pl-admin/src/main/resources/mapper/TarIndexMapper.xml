@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.ITarIndexDao">
+	<resultMap id="TagsResult" type="Tar_index">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="tagname" property="tagname" jdbcType="VARCHAR" />
+		<result column="units" property="units" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 计算指标字典查询 -->
+	<select id="findAll" parameterType="INTEGER" resultMap="TagsResult">
+		select * from (SELECT t.id as id,t.tagname as tagname,i.units as units 
+from (select id, tagname from emp_index) as t 
+LEFT JOIN(SELECT DISTINCT units,tag_id FROM emp_target 
+where tag_id in (select DISTINCT id from emp_index)) as i on t.id=i.tag_id) as z where z.id not in(select tag_id from emp_lable_target where label_id=#{label_id})
+	</select>
+</mapper>

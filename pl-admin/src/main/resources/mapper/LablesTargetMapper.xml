@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.ILableTargetDao">
+	<resultMap id="LableTargetResult" type="Emp_Lable_target">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="label_id" property="label_id" jdbcType="INTEGER" />
+		<result column="tag_id" property="tag_id" jdbcType="VARCHAR" />
+		<result column="compare_operation" property="compare_operation" jdbcType="VARCHAR" />
+		<result column="target_value" property="target_value" jdbcType="VARCHAR" />
+		<result column="unit" property="unit" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 添加计算指标 -->
+	<insert id="add" parameterType="LabelTarget" useGeneratedKeys="true" keyProperty="id">
+		insert into emp_lable_target (label_id,tag_id,compare_operation,target_value,unit) values(#{label_id},#{tag_id},#{compare_operation},#{target_value},#{unit})
+	</insert>
+	<!-- 删除计算指标 -->
+	<delete id="deleteLableTargetById" parameterType="INTEGER">
+		delete from emp_lable_target where id = #{id}
+	</delete>
+	<!-- 根据标签ID查询此标签的所有已存在计算指标 -->
+	<select id="getLablesTargetById" parameterType="INTEGER" resultMap="LableTargetResult">
+		select e.id as id,e.label_id as label_id,i.tagname as tag_id,e.compare_operation as compare_operation,e.target_value as target_value,e.unit as unit from emp_lable_target e join emp_index i on e.tag_id=i.id where label_id=#{id}
+	</select>
+	<!-- 根据ID查询计算指标 -->
+	<select id="selectLableTargetById" parameterType="INTEGER" resultMap="LableTargetResult">
+		select * from emp_lable_target where id=#{id}
+	</select>
+	<!-- 更新计算指标 -->
+	<update id="updateLableTarget" parameterType="LabelTarget">
+		update emp_lable_target
+		set label_id=#{label_id},
+		tag_id=#{tag_id},
+		compare_operation=#{compare_operation},
+		target_value=#{target_value},
+		unit=#{unit}
+		where id=#{id}
+	</update>
+	
+</mapper>

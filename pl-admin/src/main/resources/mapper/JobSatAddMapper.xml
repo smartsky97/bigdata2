@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.IJobSatAddDao">
+	<resultMap id="JobSatAddResult" type="JobSatAdd">
+		<id column="mailname" property="mailname" jdbcType="VARCHAR" />
+		<id column="date" property="date" jdbcType="VARCHAR" />
+		<result column="saturability" property="saturability" jdbcType="VARCHAR" />
+	</resultMap>
+
+<!-- ................A方案计算结果展示(8:30-17:30).............. -->
+    <!-- 查询数据总记录数，用于分页 -->
+    <select id="getSatAddSize" resultType="java.lang.Integer" >
+		SELECT
+		count(*)
+		FROM
+		saturation_collection_a a
+		INNER JOIN base_info b ON a.mailname = b.mail_name
+	</select>
+	<!-- 分页查询所有数据 -->
+	<select id="findAll" resultMap="JobSatAddResult" parameterType="JobSatAdd">
+		SELECT
+		c.cn_name AS mailname,
+		d.date,
+		d.saturability
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_collection_a d ON c.mail_name =d.mailname
+		<where>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				AND date_format(d.date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				AND date_format(d.date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC
+	</select>
+	
+	<!-- 详细查询 -->
+	<select id="getJobDetails11" resultType="JobSatAdd">
+		select * from saturation_collection_a
+		<where>
+			<if test="startime !=null and startime !=''">
+				date &gt;= #{startime}
+			</if>
+
+			<if test="endtime != null and endtime !=''">
+				and date &lt;= #{endtime}
+			</if>
+
+			<if test="mailname != null and mailname !=''">
+
+				and mailname=#{mailname,jdbcType=VARCHAR} order by date asc
+			</if>
+		</where>
+	</select>
+	<!-- (中文名字)详细查询  用于画像(Echars展示)-->
+	<select id="getJobDetails" resultType="JobSatAdd">
+	
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		c.mailname,
+		c.date,
+		c.saturability
+		FROM
+		(
+		SELECT
+		b.cn_name AS mailname,
+		a.date,
+		a.saturability
+		FROM
+		saturation_collection_a a
+		INNER JOIN
+		base_info b ON a.mailname = b.mail_name
+		) c
+		) d
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+
+			<if test="mailname != null and mailname !=''">
+
+				and d.mailname=#{mailname,jdbcType=VARCHAR}
+			</if>
+			ORDER BY date DESC
+		</where>
+	</select>
+	<!-- (中文名字)详细查询总记录数  用于分页-->
+	<select id="getJobDetails1Size" resultType="java.lang.Integer">
+      	SELECT
+		count(*)
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_collection_a d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<!-- (中文名字)详细查询  用于列表分页-->
+	<select id="getJobDetails1" resultType="JobSatAdd">
+		SELECT
+		c.cn_name AS mailname,
+		d.date,
+		d.saturability
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_collection_a d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC limit #{index},#{length}
+	</select>
+	<!-- (中文名字)详细查询  用于列表分页-->
+	<select id="getJobSatCSV" resultType="JobSatAdd">
+		SELECT
+		c.cn_name AS mailname,
+		d.date,
+		d.saturability
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_collection_a d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC 
+	</select>
+	
+<!-- ......................B方案结果展示(全天).................................. -->
+	<!-- 查询数据总记录数，用于分页 -->
+    <select id="getSatAddSize_B" resultType="java.lang.Integer" >
+		SELECT
+		count(*)
+		FROM
+		saturation_collection_b a
+		INNER JOIN base_info b ON a.mailname = b.mail_name
+	</select>
+	<!-- 分页查询所有数据 -->
+	<select id="findAll_B" resultMap="JobSatAddResult" parameterType="Map">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		b.cn_name AS mailname,
+		a.date,
+		a.saturability
+		FROM
+		saturation_collection_b a
+		INNER JOIN base_info b ON a.mailname = b.mail_name
+		) c order by date desc limit #{index},#{length}
+	</select>
+
+	<select id="findAll_b" resultMap="JobSatAddResult" parameterType="Map">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		a.id,
+		b.cn_name AS mailname,
+		b.cn_name,
+		a.date,
+		a.saturability
+		FROM
+		saturation_collection_b a
+		INNER JOIN base_info b ON a.mailname = b.mail_name
+		) c
+		<where>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				AND date_format(a.date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				AND date_format(a.date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by date desc
+	</select>
+	
+	<!-- 详细查询 -->
+	<select id="getJobDetails11_B" resultType="JobSatAdd">
+		select * from saturation_collection_b
+		<where>
+			<if test="startime !=null and startime !=''">
+				date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and date &lt;= #{endtime}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and mailname=#{mailname,jdbcType=VARCHAR} order by date asc
+			</if>
+		</where>
+	</select>
+	<!-- (中文名字)详细查询  用于画像(Echars展示)-->
+	<select id="getJobDetails_B" resultType="JobSatAdd">
+	
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		c.mailname,
+		c.date,
+		c.saturability
+		FROM
+		(
+		SELECT
+		b.cn_name AS mailname,
+		a.date,
+		a.saturability
+		FROM
+		saturation_collection_b a
+		INNER JOIN
+		base_info b ON a.mailname = b.mail_name
+		) c
+		) d
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+
+			<if test="mailname != null and mailname !=''">
+
+				and d.mailname=#{mailname,jdbcType=VARCHAR}
+			</if>
+			ORDER BY date DESC
+		</where>
+	</select>
+	<!-- (中文名字)详细查询总记录数  用于分页-->
+	<select id="getJobDetails1Size_B" resultType="java.lang.Integer">
+      	SELECT
+		count(*)
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_collection_b d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<!-- (中文名字)详细查询  用于列表分页-->
+	<select id="getJobDetails1_B" resultType="JobSatAdd">
+		SELECT
+		c.cn_name AS mailname,
+		d.date,
+		d.saturability
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_collection_b d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC limit #{index},#{length}
+	</select>
+	<!-- 数据导出CSV -->
+	<select id="geJobSatAdd_B2CSV" resultType="JobSatAdd">
+		SELECT
+		c.cn_name AS mailname,
+		d.date,
+		d.saturability
+		FROM
+		(
+		SELECT
+		a.id,
+		a.department,
+		b.mail_name,
+		b.cn_name
+		FROM
+		department_index a
+		INNER JOIN base_info b ON a.department = b.department
+		) c
+		INNER JOIN saturation_collection_b d ON c.mail_name =d.mailname
+		<where>
+			<if test="startime !=null and startime !=''">
+				d.date &gt;= #{startime}
+			</if>
+			<if test="endtime != null and endtime !=''">
+				and d.date &lt;= #{endtime}
+			</if>
+			<if test="department != null and department !=''">
+				and c.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC 
+	</select>
+	
+</mapper>

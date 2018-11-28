@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pl.web.dao.IUserDao">
+    
+    <!-- 先定义一个Interface，UserMapper，然后Mapper文件的namespace指向的就是这个Interface， UserInterface里定义的方法和UserMapper.xml文件中的一样, 
+        然后代码里直接使用接口 -->
+        
+    <resultMap type="User" id="UserResult" >
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="pwd" column="pwd" />
+        <result property="level" column="level" />
+        <result property="role_name" column="roleName" />
+    </resultMap>
+    
+    <!--用户登录 -->
+    <select id="login" parameterType="User" resultMap="UserResult">
+        select * from users where name = #{name} and pwd = #{pwd}
+    </select>
+    
+    <!--查询所有用户 -->
+    <select id="fiandAll" parameterType="Map" resultMap="UserResult">
+        SELECT a.*,b.role_name
+        FROM users a
+        LEFT JOIN roles b ON a.`level` = b.`level`
+    </select>
+    
+    <!-- 用户添加 -->
+    <insert id="add" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into users (name,pwd) values(#{name},#{pwd})
+    </insert>
+    
+    <!-- 用户更新 -->
+    <update id="update" parameterType="User">
+        update  users
+            set name=#{name},
+               pwd=#{pwd}
+               where id=#{id}
+    </update>
+    
+    <!-- 用户删除 -->
+    <delete id="delete" parameterType="int">
+        delete from users where id = #{id}
+    </delete>
+    <!-- 用户插入 -->
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+		insert into user(name,pwd) values (#{name} ,#{pwd})
+	</insert>
+	<!-- 通过用户Id查询 -->
+	<select id="getUserByid" parameterType="java.lang.String" resultType="User">
+			select * from users where id=#{id}
+	</select>
+	 <!-- 用户权限 -->
+    <update id="updatePermission" >
+        update  users
+            set `level` =#{level}
+               where id=#{id}
+    </update>
+	
+</mapper>

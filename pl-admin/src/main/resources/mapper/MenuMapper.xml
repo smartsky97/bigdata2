@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.IMenuDao">
+	<resultMap id="MenuResult" type="Menu">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="shap" property="shap" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="INTEGER" />
+		<result column="attr" property="attr" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- name,shap,code -->
+	<select id="mainMenufindByUser" resultMap="MenuResult">
+	SELECT
+	c.`name`,
+	c.shap ,
+	c.`code`
+	FROM
+	users a
+	LEFT JOIN roles b ON a.`level` = b.`level`
+	LEFT JOIN menu c ON b.`level` = c.`level`
+	WHERE
+		a.`name` =#{username}
+	</select>
+	
+	<select id="menuSourceFindById" resultMap="MenuResult" >
+	SELECT
+	a.url,
+	a.attr
+	FROM
+	resource a
+	WHERE
+		a.`code` =#{id}
+	
+	</select>
+    
+	
+</mapper>

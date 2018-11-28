@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pl.web.dao.DepartmentDao">
+<resultMap type="Department" id="DeptResult">
+ <result property="id" column="id"/>
+ <result property="department" column="department"/>
+</resultMap>
+    
+<resultMap id="departResult" type="Department">
+    <id column="id" property="id"/>
+    <result column="department" property="department"/> 
+    <collection property="employeeList" ofType="Employee" select="selectBaseinfo" column="{department_id=id}"></collection>
+</resultMap>
+    
+<select id="getDepartments" resultMap="departResult">
+  select id,department from department_index
+</select>
+
+<select id="selectBaseinfo" parameterType="java.util.Map" resultType="Employee">
+    SELECT mail_name,cn_name from base_info
+    where department_id = #{department_id}
+</select>
+</mapper>

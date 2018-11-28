@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.JobDataBeansDao">
+	<resultMap id="JobDataResult" type="JobDataBeansSix">
+		<id column="mailname" property="mailname" jdbcType="VARCHAR" />
+		<id column="date" property="date" jdbcType="VARCHAR" />
+		<result column="value1" property="value1" jdbcType="VARCHAR" />
+		<result column="value2" property="value2" jdbcType="VARCHAR" />
+		<result column="value3" property="value3" jdbcType="VARCHAR" />
+		<result column="value4" property="value4" jdbcType="VARCHAR" />
+		<result column="value5" property="value5" jdbcType="VARCHAR" />
+		<result column="value6" property="value6" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 姓名,月份,迟到,早退,邮件,Lync通信,ip电话次数,非工作占比-->
+	<select id="ChiDaoTimeLength" resultType="JobDataBeansSix">
+	SELECT
+	d.cn_name AS mailname,	
+	d.statistics_date AS date,
+	d.late_times AS value1,
+	d.leave_times as value2,
+	d.email_times as value3,
+	d.lync_times as value4,
+	d.ipoffice_times as value5,
+	s.no_work as value6
+FROM
+	(
+		SELECT
+			b.cn_name,
+			b.mail_name,
+			c.email_times,
+			c.ipoffice_times,
+			c.late_times,
+			c.lync_times,
+			c.leave_times,
+			c.statistics_date
+		FROM
+			(
+				SELECT
+					a.cn_name,
+					a.mail_name
+				FROM
+					base_info a
+		<where>
+				<if test="department != null and department !=''">
+				 	a.department_id = #{department}
+				</if>
+				<if test="mailname !=null and mailname !=''">
+					and a.cn_name= #{mailname}
+				</if>
+		</where>
+			) b
+		LEFT JOIN work_statistic c ON b.mail_name = c.mail_name
+		AND c.statistics_date = #{date}
+	) d
+LEFT JOIN (
+	SELECT
+		e.mail_name,
+		AVG(e.noworklv) AS no_work,
+		SUBSTR(e.date, 1, 7) AS time1
+	FROM
+		pc_nowork e
+	GROUP BY
+		e.mail_name,
+		SUBSTR(e.date, 1, 7)
+) s ON d.mail_name = s.mail_name AND s.time1=#{date}
+GROUP BY d.mail_name
+	</select>
+	<!-- 迟到时长(单位/S),早退时长,考勤次数,Ip电话时长,鼠标点击量,键盘敲击量 -->
+	<select id="FileAppendTimes" resultType="JobDataBeansSix">
+		SELECT
+		i.cn_name as mailname,
+		t.`month` as date,
+		MAX(
+		CASE t.mark
+		WHEN 'chidaoyueducishu' THEN
+			t.slot
+		ELSE
+			0
+		END
+		) AS value1,
+		MAX(
+		CASE t.mark
+		WHEN 'zaotuiyueducishu' THEN
+			t.slot
+		ELSE
+			0
+		END
+		) AS value2,
+		MAX(
+		CASE t.mark
+		WHEN 'kaoqinyueducishu' THEN
+			t.slot
+		ELSE
+			0
+		END
+		) AS value3,
+		MAX(
+		CASE t.mark
+		WHEN 'ipofficeyuedushijian' THEN
+			t.slot
+		ELSE
+			0
+		END
+	) AS value4,
+	k.mouse_click_count AS value5,
+	k.key_press_count AS value6
+	FROM
+	`tardiness1` t
+	RIGHT JOIN base_info i ON i.mail_name = t.mailname and t.`month` =#{date}
+	LEFT JOIN keypress_info k ON k.mail_name = t.mailname
+	AND k.extract_date = #{date}
+	<where>
+			<if test="department != null and department !=''">
+				 i.department_id = #{department}
+			</if>
+			<if test="mailname !=null and mailname !=''">
+				 and i.cn_name= #{mailname}
+			</if>
+	</where>
+		GROUP BY
+		i.mail_name
+	</select>
+	
+	<!-- 考勤时长,考勤率,饱和度,会议时长,文件量 -->
+	<select id="NotWorkRatio" resultType="JobDataBeansSix">
+	SELECT
+	a.cn_name as mailname,
+	a.time as date,
+	a.`考勤时长` as value1,
+	a.`考勤率`  as value2,
+	b.saturability as value3,
+	c.meetting_time / 3600 as value4,
+	d.file_appends as value5,
+	"def" as value6
+	FROM
+	(
+		SELECT
+			i.cn_name,
+			i.mail_name,
+			SUBSTR(t.date, 1, 7) AS time,
+			AVG(
+				CASE
+				WHEN t.mark = 'kaoqinlv' THEN
+					t.attendance_rate
+				END
+			) AS 考勤率,
+			SUM(
+				CASE
+				WHEN t.mark = 'kaoqinshichang' THEN
+					t.attendance_rate
+				END
+			) / 3600 AS 考勤时长
+		FROM
+			`attendance_rate` t
+		RIGHT JOIN base_info i ON i.mail_name = t.mailname and SUBSTR(t.date, 1, 7)=#{date}
+		<where>
+			<if test="department != null and department !=''">
+				 i.department_id = #{department}
+			</if>
+			<if test="mailname !=null and mailname !=''">
+				 and i.cn_name= #{mailname}
+			</if>
+		</where>
+		GROUP BY
+			i.mail_name,
+			SUBSTR(t.date, 1, 7)
+	) a
+LEFT JOIN (
+	SELECT
+		mailname,
+		AVG(saturability) AS saturability,
+		SUBSTR(date, 1, 7) AS timeb
+	FROM
+		saturation_collection_a
+	GROUP BY
+		mailname,
+		SUBSTR(date, 1, 7)
+	) b ON b.mailname = a.mail_name
+AND b.timeb = #{date}
+LEFT JOIN (
+	SELECT
+		mail_name,
+		meetting_time,
+		statistic_date AS timec
+	FROM
+		work_saturability
+	GROUP BY	
+		mail_name,
+		statistic_date
+	) c ON c.mail_name = a.mail_name
+	AND c.timec =#{date}
+LEFT JOIN (
+	SELECT
+		employee_account,
+		file_appends,
+		execute_date AS timed
+	FROM
+		file_append
+	GROUP BY
+		employee_account,
+		execute_date
+	) d ON a.mail_name = d.employee_account
+	AND d.timed =#{date} ORDER BY a.mail_name
+	</select>
+
+<!-- 集团数据平均   -->
+
+<!-- 姓名,月份,迟到,早退,邮件,Lync通信,ip电话次数,非工作占比,(平均值)  -->
+
+<!-- 月度全集团评价指标值-->
+<select id="AverChiDaoTimeLengTh" resultType="JobDataBeansSix" >
+SELECT
+	'花样年(中国)集团(平均值)' as mailname,
+	d.statistics_date AS date,
+	d.late_times AS value1,
+	d.leave_times as value2,
+	d.email_times as value3,
+	d.lync_times as value4,
+	d.ipoffice_times as value5,
+	(SELECT AVG(e.noworklv) 
+	FROM pc_nowork e WHERE SUBSTR(e.date, 1, 7)=#{date})AS value6
+FROM
+	(
+		SELECT
+			c.mail_name,
+			avg(IFNULL(c.email_times,0)) email_times,
+ 			avg(IFNULL(c.ipoffice_times,0)) ipoffice_times,
+			avg(IFNULL(c.late_times,0)) late_times,
+			avg(IFNULL(c.lync_times,0)) lync_times,
+			avg(IFNULL(c.leave_times,0)) leave_times,
+			c.statistics_date
+		FROM
+			 work_statistic c
+		WHERE c.statistics_date =#{date}
+	) d
+</select>
+
+
+<!-- 迟到时长(单位/S),早退时长,考勤次数,Ip电话时长,鼠标点击量,键盘敲击量 ,(平均值)-->
+
+<!-- 月度全集团评价指标值 -->
+<select id="AverFileAppendTimes" resultType="JobDataBeansSix" >
+SELECT
+	'花样年(中国)集团(平均值)' as mailname,
+	AVG(
+		CASE
+		WHEN t.mark = 'chidaoyueducishu' THEN
+			t.slot
+		END
+	) AS value1,
+	AVG(
+		CASE
+		WHEN t.mark = 'zaotuiyueducishu' THEN
+			t.slot
+		END
+	) AS value2,
+	AVG(
+		CASE
+		WHEN t.mark = 'kaoqinyueducishu' THEN
+			t.slot
+		END
+	) AS value3,
+	AVG(
+		CASE
+		WHEN t.mark = 'ipofficeyuedushijian' THEN
+			t.slot
+		END
+	) AS value4,
+(SELECT AVG(k.mouse_click_count) 
+ FROM keypress_info k
+	WHERE k.extract_date =#{date}) as value5,
+(SELECT AVG(k.key_press_count) 
+ FROM keypress_info k
+	WHERE k.extract_date =#{date}) AS value6
+FROM
+	tardiness1 t
+WHERE  t.`month` =#{date}
+
+</select>
+
+
+<!-- 考勤时长,考勤率,饱和度,会议时长,文件量,(平均值) -->
+<!-- 全集团 -->
+<select id="AverNotWorkRatio" resultType="JobDataBeansSix" >
+SELECT
+	'花样年(中国)集团(平均值)' as mailname,
+	a.time as date,
+	a.`考勤时长` as value1,
+	a.`考勤率`  as value2,
+	(SELECT
+		AVG(saturability) AS saturability 
+	FROM
+		saturation_collection_a d
+	WHERE SUBSTR(d.date, 1, 7)=#{date}) AS value3,
+	(SELECT
+		avg(meetting_time) meetting_time
+	FROM
+		work_saturability c
+	WHERE c.statistic_date =#{date})/3600 AS value4,
+	(SELECT
+		avg(file_appends) file_appends
+	FROM
+		file_append e
+	WHERE e.execute_date =#{date}) AS value5,
+	"def" as value6
+	FROM
+	(
+		SELECT
+			i.cn_name,
+			i.mail_name,
+			SUBSTR(t.date, 1, 7) AS time,
+			AVG(
+				CASE
+				WHEN t.mark = 'kaoqinlv' THEN
+					t.attendance_rate
+				END
+			) AS 考勤率,
+			AVG(
+				CASE
+				WHEN t.mark = 'kaoqinshichang' THEN
+					t.attendance_rate
+				END
+			) / 3600 AS 考勤时长
+		FROM
+			`attendance_rate` t
+		RIGHT JOIN base_info i ON i.mail_name = t.mailname and SUBSTR(t.date, 1, 7)=#{date}
+	) a
+</select>
+
+</mapper>

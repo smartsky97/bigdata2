@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pl.web.dao.ITagsDao">
+	<resultMap id="TagsResult" type="Tags">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="VARCHAR" />
+		<result column="tagmc" property="tagmc" jdbcType="VARCHAR" />
+		<result column="tagname" property="tagname" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+    <!-- 查询总记录数，用于分页 -->
+    <select id="getTagsSize"  resultType="java.lang.Integer">
+		select count(*)
+		from emp_index
+	</select>
+	<!-- 标签查询 -->
+	<select id="fiandAll" parameterType="Map" resultMap="TagsResult">
+		select *
+		from emp_index limit #{index},#{length}
+	</select>
+	<!-- 通过tagname查询 -->
+	<select id="selectTag" parameterType="Tags" resultMap="TagsResult">
+		select *
+		from emp_index where tagname=#{tagname}
+	</select>
+	<!-- 标签添加 -->
+	<insert id="add" parameterType="Tags">
+		insert into emp_index
+		(id,pid,
+		tagmc,
+		tagname, status)
+		values
+		(#{id,jdbcType=VARCHAR},#{pid,jdbcType=VARCHAR},
+		#{tagmc,jdbcType=VARCHAR},
+		#{tagname,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 标签修改 -->
+	<update id="updateTag" parameterType="Tags">
+		update emp_index
+		set
+		pid=#{pid},
+		tagmc=#{tagmc},
+		tagname=#{tagname},
+		status=#{status}
+		where
+		id=#{id}
+	</update>
+	
+	<!-- 标签状态修改 -->
+	<update id="update" parameterType="Tags">
+		update emp_index
+		set
+		status=#{status}
+		where
+		id=#{id}
+	</update>
+	<!-- 修改标签状态 -->
+	<update id="updateTagStatus" parameterType="java.util.List">
+
+		<foreach collection="list" item="item" index="index" separator=";">
+		
+		update emp_index
+		
+		<set>
+			status=#{item.status}
+		</set>
+		  	where id=#{item.id}
+		
+		</foreach>
+
+	</update>
+
+	<!-- 指标删除 -->
+	<delete id="delete" parameterType="java.lang.String">
+		delete from emp_index where id= #{id}
+	</delete>
+	<!-- 通过Id查询 -->
+	<select id="getTagsById" parameterType="java.lang.String" resultMap="TagsResult">
+		select * from emp_index where id = #{id}
+	</select>
+	<!-- 指标展示 -->
+	<select id="show" resultType="com.pl.web.dto.EmpTargetResult">
+		SELECT
+		e.mail_name AS "empBasicInfo.mailName",
+		e.cn_name AS "empBasicInfo.cnName",
+		e.department AS "empBasicInfo.department",
+		e.mobile AS "empBasicInfo.mobile",
+		e.ldap_dn AS "empBasicInfo.ldapDn",
+		e.constellation AS "empBasicInfo.constellation",
+		e.domain_name AS "empBasicInfo.domainName",
+		e.department_id AS "empBasicInfo.departmentId",
+		e.family_members AS "empBasicInfo.familyMembers",
+		e.office_code AS "empBasicInfo.officeCode",
+		e.statistic_date AS "empBasicInfo.statisticDate",
+		e.income AS "empBasicInfo.income",
+		e.email AS "empBasicInfo.email",
+		e.title AS "empBasicInfo.title",
+		i.id AS "empTargetDynamic.tagId",
+		i.tagname AS "empTargetDynamic.tagName",
+		t.tag_value AS "empTargetDynamic.tagValue",
+		i1.id AS "empTargetDynamic.tagPid",
+		i1.tagname AS "empTargetDynamic.parentTagName",
+		t.tag_value "empTargetDynamic.tagValue",
+		t.units AS "empTargetDynamic.units",
+		t.compute_date AS "empTargetDynamic.computeDate"
+		FROM
+		base_info AS e
+		LEFT OUTER JOIN emp_target t ON e.mail_name = t.mail_name
+		LEFT JOIN emp_index i ON t.tag_id = i.id
+		JOIN emp_index i1 ON i.pid = i1.id
+		WHERE
+		e.department_id = #{departmentId}
+		and e.cn_name like #{cnName}
+		<if test="startTime != null and startTime !='' ">
+			and t.compute_date = #{startTime} 
+		</if>
+		<if test="startTime == null ">
+			and t.compute_date = SUBSTR(CURDATE(),1,7)
+		</if>
+
+	</select>
+	<select id="pageShow" resultType="com.pl.web.dto.EmpTargetResult">
+		SELECT
+		e.mail_name AS "empBasicInfo.mailName",
+		e.cn_name AS "empBasicInfo.cnName",
+		e.department AS "empBasicInfo.department",
+		e.mobile AS "empBasicInfo.mobile",
+		e.ldap_dn AS "empBasicInfo.ldapDn",
+		e.constellation AS "empBasicInfo.constellation",
+		e.domain_name AS "empBasicInfo.domainName",
+		e.department_id AS "empBasicInfo.departmentId",
+		e.family_members AS "empBasicInfo.familyMembers",
+		e.office_code AS "empBasicInfo.officeCode",
+		e.statistic_date AS "empBasicInfo.statisticDate",
+		e.income AS "empBasicInfo.income",
+		e.email AS "empBasicInfo.email",
+		e.title AS "empBasicInfo.title",
+		i.id AS "empTargetDynamic.tagId",
+		i.tagname AS "empTargetDynamic.tagName",
+		t.tag_value AS "empTargetDynamic.tagValue",
+		i1.id AS "empTargetDynamic.tagPid",
+		i1.tagname AS "empTargetDynamic.parentTagName",
+		t.tag_value "empTargetDynamic.tagValue",
+		t.units AS "empTargetDynamic.units",
+		t.compute_date AS "empTargetDynamic.computeDate"
+		FROM
+		base_info AS e
+		LEFT OUTER JOIN emp_target t ON e.mail_name = t.mail_name
+		LEFT JOIN emp_index i ON t.tag_id = i.id
+		JOIN emp_index i1 ON i.pid = i1.id
+		WHERE
+		e.department_id = #{departmentId}
+		and e.cn_name like #{cnName}
+		<if test="startTime != null and startTime !='' ">
+			and t.compute_date = #{startTime} 
+		</if>
+		<if test="startTime == null ">
+			and t.compute_date = SUBSTR(CURDATE(),1,7)
+		</if>
+		ORDER BY t.compute_date DESC
+		limit #{index},#{length}
+	</select>
+	<select id="resultCount" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		base_info AS e
+		LEFT OUTER JOIN emp_target t ON e.mail_name = t.mail_name
+		LEFT JOIN emp_index i ON t.tag_id = i.id
+		JOIN emp_index i1 ON i.pid = i1.id
+		WHERE
+		e.department_id = #{departmentId}
+		and e.cn_name like #{cnName}
+		<if test="startTime != null and startTime !='' ">
+			and t.compute_date = #{startTime}
+		</if>
+		<if test="startTime == null ">
+			and t.compute_date = SUBSTR(CURDATE(),1,7)
+		</if>
+	</select>
+</mapper>
