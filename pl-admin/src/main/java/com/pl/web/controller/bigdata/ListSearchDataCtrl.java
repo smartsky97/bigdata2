@@ -1,6 +1,7 @@
 package com.pl.web.controller.bigdata;
 
-import com.pl.web.model.JobTime;
+import com.pl.framework.web.base.BaseController;
+import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.SerachData;
 import com.pl.web.service.impl.SearchDataServiceImpl;
 import com.pl.web.util.Pager;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,18 +17,20 @@ import java.util.List;
 
 
 @Controller
-public class ListSearchDataCtrl {
+@RequestMapping("bigdata/searchdata")
+public class ListSearchDataCtrl extends BaseController {
 	@Autowired
     private SearchDataServiceImpl searchDataServiceImpl;
 	@RequestMapping("listSerachDataCtrl")
-	public String list(ModelMap mm,HttpServletRequest request,HttpServletResponse response){
+    @ResponseBody
+	public TableDataInfo list(ModelMap mm, HttpServletRequest request, HttpServletResponse response){
 		
-		List<JobTime> job=searchDataServiceImpl.sum("2016-09-01", "2016-09-31");
+		/*List<JobTime> job=searchDataServiceImpl.sum("2016-09-01", "2016-09-31");
 		System.out.println("--SerachData--" +job );
 		
 		for (int i = 0; i < job.size(); i++) {
 			System.out.println(job.get(i));
-		}
+		}*/
 		
 		int pageSize = 0;
 		int totalRecord = searchDataServiceImpl.getSerachDataSize();
@@ -42,9 +46,17 @@ public class ListSearchDataCtrl {
 		
 		System.out.println("--list--" +list );
 
-		mm.put("page", page);
-		mm.put("list", list);
-		mm.put("pageNum", pageNum);
-		return "searchdata/list";
+//		mm.put("page", page);
+//		mm.put("list", list);
+//		mm.put("pageNum", pageNum);
+//		return "searchdata/list";
+        TableDataInfo tableDataInfo = getDataTable(list);
+        tableDataInfo.setTotal(list.size());
+        return tableDataInfo;
 	}
+
+	@RequestMapping("serachDataCtrl")
+	public String SerachDataCtrl() {
+	    return "bigdata/jobData/serachDataCtrl";
+    }
 }

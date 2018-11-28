@@ -154,6 +154,12 @@ public class JobDataBeanCtrl extends BaseController {
 		request.setCharacterEncoding("utf-8");
 		String date = request.getParameter("date");
 		System.out.println("date--"+date);
+        if (StringUtils.isEmpty(date)) {
+            List<JobDataAll> jobDataAlls =new ArrayList<JobDataAll>();
+            TableDataInfo tableDataInfo = getDataTable(jobDataAlls);
+            tableDataInfo.setTotal(0);
+            return tableDataInfo;
+        }
 	    List<JobDataAll> jobDataAlls =new ArrayList<JobDataAll>();
 	    List<JobDataBeansSix> chidao =jobDataBeanServiceIMP.AverChiDaoTimeLength(date);
 	    List<JobDataBeansSix> fileAppend =jobDataBeanServiceIMP.AverFileAppendTimes(date);
