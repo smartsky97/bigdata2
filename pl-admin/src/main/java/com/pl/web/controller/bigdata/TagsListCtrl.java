@@ -3,15 +3,18 @@ package com.pl.web.controller.bigdata;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pl.framework.web.base.BaseController;
+import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.Tags;
+import com.pl.web.service.impl.DepartmentServiceIMP;
 import com.pl.web.service.impl.TagsServiceIMP;
-import com.pl.web.util.Pager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,36 +29,32 @@ import java.util.Map;
  *
  */
 @Controller
-public class TagsListCtrl {
+public class TagsListCtrl extends BaseController {
+    //部门选择
+    @Autowired
+    private DepartmentServiceIMP departmentServiceIMP;
 	
 	private static Logger logger = LoggerFactory.getLogger(TagsListCtrl.class);
 	//标签Service实现类注入.
 	@Autowired
 	private TagsServiceIMP tagsServiceIMP;
 	//前段标签列表点击与后台交互.
-	@RequestMapping("tagsCtrl")
-	public String list(ModelMap mm,HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-		//当前默认为第一页
-		int currentPage = 0;
-		int totalRecord = tagsServiceIMP.getTagsSize();
-		mm.put("totalRecord", totalRecord);
-		String pageNum = request.getParameter("pageNum");
-		int pageSize = Pager.DEFAULT_PAGESIZE;
-				//如果前台传入pageNum参数，则设置pageNum为当前第几页
-		if(pageNum!=null&&!"".equals(pageNum.trim())){
-			currentPage = Integer.parseInt(pageNum);
-		}else{
-			currentPage = Pager.DEFAULT_PAGENUM;
-		}
-		Pager pager = new Pager(currentPage, pageSize, totalRecord);
-		int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
-		List<Tags> tags = tagsServiceIMP.list(fromIndex,pageSize);
-		mm.put("page", pager);
-		mm.put("list", tags);
-		mm.put("pageNum", pageNum);
-		return "tags/list";
+	@RequestMapping("bigdata/staff/tagsCtrllist")
+    @ResponseBody
+	public TableDataInfo list(ModelMap mm, HttpServletRequest request,
+                              HttpServletResponse response) throws Exception{
+        startPage();
+		List<Tags> tags = tagsServiceIMP.list();
+        TableDataInfo tableDataInfo = getDataTable(tags);
+        return tableDataInfo;
 	}
+
+    @RequestMapping("bigdata/staff/tagsCtrl")
+    public String tagsCtrl(ModelMap mm) {
+//        mm.put("depts",departmentServiceIMP.getDepartments());
+        return "bigdata/staff/tagsCtrl";
+    }
+
 	//更新标签状态(设置启用或者不启用).
 	@RequestMapping("editForm")
 	public String updateStatus(Tags tags, ModelMap mm, HttpServletRequest request,
@@ -78,33 +77,27 @@ public class TagsListCtrl {
 				listTags.add(tags2);
 			}
 			boolean result=this.tagsServiceIMP.updateStatus(listTags);
-			return list(mm,request,response);
+//			return list(mm,request,response);
+        return null;
 	}
 	
 	//更新标签状态.
-	@RequestMapping("updateTagStatus")
-	public String Tagstatus(ModelMap mm,HttpServletRequest request){
-		//当前默认为第一页
-		int currentPage = 0;
-		int totalRecord = tagsServiceIMP.getTagsSize();
-		mm.put("totalRecord", totalRecord);
-		String pageNum = request.getParameter("pageNum");
-		int pageSize = Pager.DEFAULT_PAGESIZE;
-						//如果前台传入pageNum参数，则设置pageNum为当前第几页
-		if(pageNum!=null&&!"".equals(pageNum.trim())){
-				currentPage = Integer.parseInt(pageNum);
-		}else{
-				currentPage = Pager.DEFAULT_PAGENUM;
-		}
-		Pager pager = new Pager(currentPage, pageSize, totalRecord);
-		int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
-		List<Tags> tags = tagsServiceIMP.list(fromIndex,pageSize);
-		mm.put("page", pager);
-		mm.put("list", tags);
-		mm.put("pageNum", pageNum);
-		return "tags/MyJsp";
+	@RequestMapping("bigdata/staff/updateTagStatus")
+    @ResponseBody
+	public TableDataInfo Tagstatus(){
+        startPage();
+		List<Tags> tags = tagsServiceIMP.list();
+        TableDataInfo tableDataInfo = getDataTable(tags);
+        return tableDataInfo;
 		
 	}
+
+    @RequestMapping("bigdata/staff/tarset")
+    public String monthjob(ModelMap mm) {
+//        mm.put("depts",departmentServiceIMP.getDepartments());
+        return "bigdata/staff/tagsSet";
+    }
+
 	//删除标签.
 	@RequestMapping("delTags")
 	public String delete(Tags tags, ModelMap mm, HttpServletRequest request,
@@ -114,7 +107,8 @@ public class TagsListCtrl {
 		if (result) {
 			System.out.println("删除成功");
 		}
-		return list(mm,request,response);
+//		return list(mm,request,response);
+		return null;
 	}
 	//增加标签.
 	@RequestMapping("addTags")
@@ -124,8 +118,10 @@ public class TagsListCtrl {
 		if (result) {
 			System.out.println("添加成功");
 		}
-		return list(mm,request,response);
+//		return list(mm,request,response);
+        return null;
 	}
+
 	//更新标签
 	@RequestMapping("updateTags")
 	public String update(Tags tags, ModelMap mm,HttpServletRequest request,
@@ -134,7 +130,8 @@ public class TagsListCtrl {
 		if (result) {
 			System.out.println("更新成功");
 		}
-		return list(mm,request,response);
+//		return list(mm,request,response);
+        return null;
 	}
 	//更新时由id查询出的结果然后更新该内容.
 	@RequestMapping("updateTagsUI")

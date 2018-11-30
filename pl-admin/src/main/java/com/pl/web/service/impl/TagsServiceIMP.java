@@ -1,6 +1,6 @@
 package com.pl.web.service.impl;
 
-import com.pl.web.dao.ITagsDao;
+import com.pl.web.dao.ITagsMapper;
 import com.pl.web.dto.EmpTargetResult;
 import com.pl.web.model.Tags;
 import com.pl.web.service.ITagsService;
@@ -20,7 +20,7 @@ public class TagsServiceIMP implements ITagsService {
 	 * dao层注入
 	 */
 	@Autowired
-	private ITagsDao iTagsDao;
+	private ITagsMapper iTagsMapper;
 	
 	/*
 	 * 查询标签
@@ -28,7 +28,7 @@ public class TagsServiceIMP implements ITagsService {
 	@Override
 	public Tags selectTag(Tags tags) {
 		// TODO Auto-generated method stub
-		return this.iTagsDao.selectTag(tags);
+		return this.iTagsMapper.selectTag(tags);
 	}
 	/*
 	 * 插入标签
@@ -36,13 +36,13 @@ public class TagsServiceIMP implements ITagsService {
 	@Override
 	public int insertTag(Tags tags) {
 		// TODO Auto-generated method stub
-		return this.iTagsDao.add(tags);
+		return this.iTagsMapper.add(tags);
 	}
 
 	@Override
-	public List<Tags> list(int fromIndex,int pageSize) {
+	public List<Tags> list() {
 		// TODO Auto-generated method stub
-		return iTagsDao.fiandAll(fromIndex,pageSize) ;
+		return iTagsMapper.fiandAll() ;
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public class TagsServiceIMP implements ITagsService {
 	 * 删除标签
 	 */
 	public boolean del(String id) {
-		int count=this.iTagsDao.delete(id);
+		int count=this.iTagsMapper.delete(id);
 		if(count>0){
 			return true;
 		}else{
@@ -78,7 +78,7 @@ public class TagsServiceIMP implements ITagsService {
 	 * 更新标签
 	 */
 	public boolean update1(Tags tags) {
-		int count=this.iTagsDao.updateTag(tags);
+		int count=this.iTagsMapper.updateTag(tags);
 		if(count>0){
 			return true;
 		}else{
@@ -89,7 +89,7 @@ public class TagsServiceIMP implements ITagsService {
 	 * 更新标签状态
 	 */
 	public boolean updateStatus(List<Tags> list) {
-		int count=this.iTagsDao.updateTagStatus(list);
+		int count=this.iTagsMapper.updateTagStatus(list);
 		if(count>0){
 			return true;
 		}else{
@@ -100,7 +100,7 @@ public class TagsServiceIMP implements ITagsService {
 	 * 新增标签
 	 */
 	public boolean addTags(Tags tags) {
-		int count=this.iTagsDao.add(tags);
+		int count=this.iTagsMapper.add(tags);
 		if(count>0){
 			return true;
 		}else{
@@ -112,7 +112,7 @@ public class TagsServiceIMP implements ITagsService {
 	 */
 	public Tags getTagsById(String id) {
 		// TODO Auto-generated method stub
-		return this.iTagsDao.getTagsById(id);
+		return this.iTagsMapper.getTagsById(id);
 	}
 	/*
 	 * 标签展示
@@ -120,27 +120,27 @@ public class TagsServiceIMP implements ITagsService {
 	@Override
 	public List<EmpTargetResult> show(String departmentId, String cnName,
 									  String startTime) {
-		return iTagsDao.show(departmentId, cnName, startTime);
+		return iTagsMapper.show(departmentId, cnName, startTime);
 	}
 
 	@Override
 	public List<EmpTargetResult> pageShow(String departmentId, String cnName, String startime,
 			Integer index, Integer length) {
-		return iTagsDao.pageShow(departmentId, cnName, startime, index, length);
+		return iTagsMapper.pageShow(departmentId, cnName, startime, index, length);
 	}
 
 	@Override
 	public int resultCount(String departmentId, String cnName, String startTime) {
-		return iTagsDao.resultCount(departmentId, cnName, startTime);
+		return iTagsMapper.resultCount(departmentId, cnName, startTime);
 	}
 	@Override
 	public int getTagsSize() {
 		// TODO Auto-generated method stub
-		return this.iTagsDao.getTagsSize();
+		return this.iTagsMapper.getTagsSize();
 	}
 	@Override
 	public int update(Tags tags) {
-		int count = this.iTagsDao.update(tags);
+		int count = this.iTagsMapper.update(tags);
 		if (count > 0) {
 			return 1;
 		} else {

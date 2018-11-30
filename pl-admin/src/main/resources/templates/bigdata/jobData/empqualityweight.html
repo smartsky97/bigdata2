@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse" style="padding-bottom: 0px;">
+				<form id="formId">
+					<div class="select-list">
+                        <div class="col-sm-11">
+                            <ul>
+                                <div class="col-sm-12">
+                                    <li class="col-sm-3">
+                                        部门：
+                                        <select name="department" id="department" class="m-b">
+                                            <option>全部</option>
+                                        </select>
+                                    </li>
+                                    <a class="btn btn-primary btn-rounded btn-sm" id="search" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                </div>
+                            </ul>
+                        </div>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+                <div class="box-header box_bg">
+                    <h3 class="box-title col-md-12" style="padding: 8px 0;">员工量权重列表</h3>
+                </div>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:jobdataall:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:jobdataall:remove')}]];
+        var prefix = ctx + "bigdata/jobData";
+        //二级下拉列表
+        var listproject = [[${depts}]];
+        $(function() {
+            var projectlist = [];
+            projectlist.push("<option value=''>全部</option>");
+            for (var i=0;i<listproject.length;i++) {
+                projectlist.push("<option value='"+listproject[i].id+"'>"+listproject[i].department+"</option>");
+            }
+            $("#department").html(projectlist.join(""));
+
+            var options = {
+                url: prefix + "/listQualiWeig",
+				exportUrl: prefix + "/export",
+                modalName: "集团指标数据",
+                search: false,
+                showSearch: false,
+                showExport: false,
+                showRefresh: false,
+                sortStable: false,
+                showColumns: false,
+                showToggle: false,
+                columns: [
+				{
+					field : 'department',
+					title : '部门'
+				},
+				{
+					field : 'keyWordWeight',
+					title : '关键字权重'
+				},
+				{
+					field : 'examineScoreWeight',
+					title : '考核得分权重'
+				},
+				{
+					field : 'monthFileGrowthWeight',
+					title : '月度文件增长量权重'
+				},
+                {
+                    field : 'keyboardClickWeight',
+                    title : '键盘敲击量权重'
+                },
+                {
+                    field : 'workSaturationAddWeight',
+                    title : '工作饱和度(加法权重)'
+                },
+                {
+                    field : 'workSaturationSubWeight',
+                    title : '工作饱和度(减法权重)'
+                },
+                {
+                    field : 'emailSendTimesWeight',
+                    title : '邮箱发送次数权重'
+                }]
+            };
+            $.table.init(options);
+            $("#search").click(function () {
+                search();
+            });
+            $("#downLoad").click(function () {
+                downLoad();
+            });
+        });
+    </script>
+</body>
+</html>

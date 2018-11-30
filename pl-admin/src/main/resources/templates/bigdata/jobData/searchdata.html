@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+                <div class="box-header box_bg">
+                    <h3 class="box-title col-md-12" style="padding: 8px 0;">月度目标列表</h3>
+                </div>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:jobdataall:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:jobdataall:remove')}]];
+        var prefix = ctx + "bigdata/searchdata";
+        $(function() {
+
+            var options = {
+                url: prefix + "/listSerachDataCtrl",
+				exportUrl: prefix + "/export",
+                modalName: "集团指标数据",
+                search: false,
+                showSearch: false,
+                showExport: false,
+                showRefresh: false,
+                sortStable: true,
+                showColumns: false,
+                showToggle: false,
+                columns: [
+				{
+					field : 'id',
+					title : 'ID编号'
+				},
+				{
+					field : 'employee_account',
+					title : '员工帐号'
+				},
+				{
+					field : 'employee_name',
+					title : '员工姓名'
+				},
+				{
+					field : 'job_content',
+					title : '工作内容'
+				},
+				{
+					field : 'start_time',
+					title : '开始时间'
+				},
+				{
+					field : 'kword_count',
+					title : '时间段(秒)'
+				}]
+            };
+            $.table.init(options);
+            $("#search").click(function () {
+                search();
+            });
+            $("#downLoad").click(function () {
+                downLoad();
+            });
+        });
+
+        function search() {
+            if (!$("#date").val()) {
+                alert("请选择时间");
+                return;
+            }
+            $.table.search();
+        }
+        function downLoad() {
+            if (!$("#date").val()) {
+                alert("请选择时间");
+                return;
+            }
+            $.modal.loading("正在导出数据，请稍后...");
+            $.post(prefix + "/export", $("#formId").serializeArray(), function (result) {
+                if (result.code == web_status.SUCCESS) {
+                    window.location.href = ctx + "common/download?fileName=" + result.msg + "&delete=" + true
+                } else {
+                    $.modal.alertError(result.msg)
+                }
+                $.modal.closeLoading()
+            })
+        }
+    </script>
+</body>
+</html>

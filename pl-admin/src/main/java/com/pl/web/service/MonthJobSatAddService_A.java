@@ -18,7 +18,7 @@ public interface MonthJobSatAddService_A {
 	/*
 	 * 分页查询员工饱和
 	 */
-	public List<Month_saturation_collection_a> Month_list(int fromIndex, int pageSize);
+	public List<Month_saturation_collection_a> Month_list();
 	/*
 	 * 由名字,开始时间,结束时间 查询.用于Echars展示
 	 */

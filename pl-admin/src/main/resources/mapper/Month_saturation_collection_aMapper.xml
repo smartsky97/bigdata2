@@ -27,7 +27,7 @@
 		FROM
 		month_saturation_collection_a a
 		INNER JOIN base_info b ON a.mailname = b.mail_name
-		) c order by date desc limit #{index},#{length}
+		) c order by date desc
 	</select>
 	
 	<!-- (中文名字)详细查询  用于画像(Echars展示)-->

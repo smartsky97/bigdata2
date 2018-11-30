@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse" style="padding-bottom: 0px;">
+				<form id="formId">
+					<div class="select-list">
+                        <div class="col-sm-11">
+                            <ul>
+                                <div class="col-sm-12">
+                                    <li class="col-sm-3">
+                                        部门：
+                                        <select name="department" id="department" class="m-b">
+                                            <option>全部</option>
+                                        </select>
+                                    </li>
+                                    <li class="col-sm-3" style="margin: 0;">
+                                        日期：<input type="text"　autocomplete="off" id="date" class="date" placeholder="时间" name="date">
+                                    </li>
+                                    <a class="btn btn-primary btn-rounded btn-sm" id="search" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                </div>
+                            </ul>
+                        </div>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+                <div class="box-header box_bg">
+                    <h3 class="box-title col-md-12" style="padding: 8px 0;">工作量权重结果列表</h3>
+                </div>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:jobdataall:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:jobdataall:remove')}]];
+        var prefix = ctx + "bigdata/quality";
+        //二级下拉列表
+        var listproject = [[${depts}]];
+        $(function() {
+            var projectlist = [];
+            projectlist.push("<option value=''>全部</option>");
+            for (var i=0;i<listproject.length;i++) {
+                projectlist.push("<option value='"+listproject[i].id+"'>"+listproject[i].department+"</option>");
+            }
+            $("#department").html(projectlist.join(""));
+
+            var options = {
+                url: prefix + "/qualityResult",
+				exportUrl: prefix + "/export",
+                modalName: "集团指标数据",
+                search: false,
+                showSearch: false,
+                showExport: false,
+                showRefresh: false,
+                sortStable: false,
+                showColumns: false,
+                showToggle: false,
+                columns: [
+				{
+					field : 'cnName',
+					title : '姓名'
+				},
+				{
+					field : 'department',
+					title : '部门'
+				},
+				{
+					field : 'qualityResult',
+					title : '员工质量分数'
+				},
+				{
+					field : 'computeDate',
+					title : '日期'
+				}]
+            };
+            $.table.init(options);
+            $("#search").click(function () {
+                search();
+            });
+            $("#downLoad").click(function () {
+                downLoad();
+            });
+        });
+    </script>
+</body>
+</html>

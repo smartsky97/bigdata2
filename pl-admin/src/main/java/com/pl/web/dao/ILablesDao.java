@@ -1,9 +1,8 @@
 package com.pl.web.dao;
 
-import java.util.List;
-
 import com.pl.web.model.Lables;
-import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 指标管理Dao层接口.
@@ -30,7 +29,7 @@ public interface ILablesDao {
 	/*
 	 * 查询所有指标
 	 */
-	public List<Lables> fiandAll(@Param("index") int fromIndex, @Param("length") int length);
+	public List<Lables> fiandAll();
 	/*
 	 * 通过Id查询标签
 	 */

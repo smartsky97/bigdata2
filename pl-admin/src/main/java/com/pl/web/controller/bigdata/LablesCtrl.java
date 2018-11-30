@@ -1,14 +1,16 @@
 package com.pl.web.controller.bigdata;
 
+import com.pl.framework.web.base.BaseController;
+import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.Emp_Lable_target;
 import com.pl.web.model.Lables;
 import com.pl.web.service.impl.LablesServiceIMP;
 import com.pl.web.service.impl.LablesTargetServiceIMP;
-import com.pl.web.util.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +22,7 @@ import java.util.List;
  *
  */
 @Controller
-public class LablesCtrl {
+public class LablesCtrl extends BaseController {
 	//Service实现层注入
 	@Autowired
 	private LablesServiceIMP lablesServiceIMP;
@@ -29,28 +31,21 @@ public class LablesCtrl {
 	private LablesTargetServiceIMP lablesTargetServiceIMP;
 	
 	//主界面指标列表和后天交互
-	@RequestMapping("lableCtrl")
-	public String list(ModelMap mm,HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-		int currentPage = 0;
-		int totalRecord = lablesServiceIMP.getLabelSize();
-		mm.put("totalRecord", totalRecord);
-		String pageNum = request.getParameter("pageNum");
-		int pageSize = Pager.DEFAULT_PAGESIZE;
-		//如果前台传入pageNum参数，则设置pageNum为当前第几页
-		if(pageNum!=null&&!"".equals(pageNum.trim())){
-			currentPage = Integer.parseInt(pageNum);
-		}else{
-			currentPage = Pager.DEFAULT_PAGENUM;
-		}
-		Pager pager = new Pager(currentPage, pageSize, totalRecord);
-		int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
-		List<Lables> labels = lablesServiceIMP.list(fromIndex,pageSize);
-		mm.put("page", pager);
-		mm.put("list", labels);
-		mm.put("pageNum", pageNum);
-		return "lable/list";
+	@RequestMapping("bigdata/staff/lableCtrl")
+    @ResponseBody
+	public TableDataInfo list(ModelMap mm, HttpServletRequest request,
+                              HttpServletResponse response) throws Exception{
+        startPage();
+		List<Lables> labels = lablesServiceIMP.list();
+        TableDataInfo tableDataInfo = getDataTable(labels);
+        return tableDataInfo;
 	}
+
+	@RequestMapping("bigdata/staff/labletag")
+	public String monthjob(ModelMap mm) {
+		return "bigdata/staff/labletag";
+	}
+
 	//删除指标
 	@RequestMapping("delLables")
 	public String delete(Lables lables,ModelMap mm,HttpServletRequest request,
@@ -61,7 +56,8 @@ public class LablesCtrl {
 		 if(result){
 	        	System.out.println("删除成功");
 	        }
-		return list(mm,request,response);
+//		return list(mm,request,response);
+        return "bigdata/staff/labletag";
 	}
 	//添加指标
 	@RequestMapping("addLables")
@@ -71,7 +67,8 @@ public class LablesCtrl {
 		if(result){
 			System.out.println("添加成功");
 		}
-		return list(mm,request,response);
+//		return list(mm,request,response);
+        return "bigdata/staff/labletag";
 	}
 	//更新指标
 	@RequestMapping("updateLables")
@@ -81,7 +78,8 @@ public class LablesCtrl {
 		if(result){
 			System.out.println("更新成功");
 		}
-		return list(mm,request,response);
+//		return list(mm,request,response);
+        return "bigdata/staff/labletag";
 	}
 	//更新之前的由id查询,再更新.
 	@RequestMapping("updateLablesUI") 

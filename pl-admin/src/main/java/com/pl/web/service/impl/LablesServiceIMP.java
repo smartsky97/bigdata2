@@ -56,9 +56,9 @@ public class LablesServiceIMP implements ILablesService {
 	 * 查询指标列表
 	 */
 	@Override
-	public List<Lables> list(int fromIndex, int pageSize) {
+	public List<Lables> list() {
 		// TODO Auto-generated method stub
-		return iLablesDao.fiandAll(fromIndex,pageSize);
+		return iLablesDao.fiandAll();
 	}
 	/*
 	 * 删除指标

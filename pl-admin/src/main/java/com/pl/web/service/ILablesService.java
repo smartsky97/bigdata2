@@ -29,6 +29,6 @@ public interface ILablesService {
     /*
      * 查询指标列表
      */
-    List<Lables> list(int fromIndex, int pageSize);
+    List<Lables> list();
     public int getLabelSize();
 }

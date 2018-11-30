@@ -11,7 +11,7 @@ public interface Month_saturation_collection_aMapper {
 	 * A方案计算饱和度(8:30-17:30)
 	 */
     // 分页查询工作饱和度列表
-	public List<Month_saturation_collection_a> findAll(@Param("index") int fromIndex, @Param("length") int pageSize);
+	public List<Month_saturation_collection_a> findAll();
 	
 	/*
 	 *通过,姓名,开始日期,结束日期,详细查询(Echars展示)

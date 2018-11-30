@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pl.web.dao.ITagsDao">
+<mapper namespace="com.pl.web.dao.ITagsMapper">
 	<resultMap id="TagsResult" type="Tags">
 		<result column="id" property="id" jdbcType="VARCHAR" />
 		<result column="pid" property="pid" jdbcType="VARCHAR" />
@@ -16,7 +16,7 @@
 	<!-- 标签查询 -->
 	<select id="fiandAll" parameterType="Map" resultMap="TagsResult">
 		select *
-		from emp_index limit #{index},#{length}
+		from emp_index
 	</select>
 	<!-- 通过tagname查询 -->
 	<select id="selectTag" parameterType="Tags" resultMap="TagsResult">

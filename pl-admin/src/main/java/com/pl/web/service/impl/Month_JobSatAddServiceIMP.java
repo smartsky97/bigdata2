@@ -30,10 +30,9 @@ public class Month_JobSatAddServiceIMP implements MonthJobSatAddService_A {
 	}
 
 	@Override
-	public List<Month_saturation_collection_a> Month_list(int fromIndex,
-                                                          int pageSize) {
+	public List<Month_saturation_collection_a> Month_list() {
 		
-		return this.month_saturation_collection_aMapper.findAll(fromIndex, pageSize);
+		return this.month_saturation_collection_aMapper.findAll();
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.pl.web.controller.bigdata;
 
 
 import com.alibaba.fastjson.JSONArray;
+import com.pl.framework.web.base.BaseController;
+import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.Employee;
 import com.pl.web.model.Month_saturation_collection_a;
 import com.pl.web.service.impl.DepartmentServiceIMP;
@@ -26,7 +28,7 @@ import java.util.List;
  *
  */
 @Controller
-public class MonthSatAdd_aCtrl {
+public class MonthSatAdd_aCtrl extends BaseController {
 	private static Logger log = LoggerFactory.getLogger(MonthSatAdd_aCtrl.class);
 	@Autowired
 	private Month_JobSatAddServiceIMP month_JobSatAddServiceIMP;
@@ -38,30 +40,21 @@ public class MonthSatAdd_aCtrl {
 	private EmployeeServiceIMP employeeServiceIMP;
 	
 	//目录点击员工饱和度(加法)交互后台
-	@RequestMapping("MonthjobSatAddListCtrl")
-	public String MonthSatAdd_a_list(ModelMap mm,HttpServletRequest request,
-				HttpServletResponse response) throws Exception {
-			//当前默认为第一页
-			int currentPage = 0;
-			int totalRecord = month_JobSatAddServiceIMP.getMonthSatAddSize();
-			mm.put("totalRecord", totalRecord);
-			String pageNum = request.getParameter("pageNum");
-			int pageSize = Pager.DEFAULT_PAGESIZE;
-			//如果前台传入pageNum参数，则设置pageNum为当前第几页
-			if(pageNum!=null&&!"".equals(pageNum.trim())){
-					currentPage = Integer.parseInt(pageNum);
-			}else{
-					currentPage = Pager.DEFAULT_PAGENUM;
-			}
-			Pager pager = new Pager(currentPage, pageSize, totalRecord);
-			int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
-			List<Month_saturation_collection_a> MonthJobSatAdds_a = month_JobSatAddServiceIMP.Month_list(fromIndex, pageSize);
-			mm.put("page", pager);
-			mm.put("list", MonthJobSatAdds_a);
-			mm.put("pageNum", pageNum);
-			mm.put("depts",departmentServiceIMP.getDepartments());
-			return "MonthJobSta/listAdd";
-		}
+	@RequestMapping("bigdata/month/MonthjobSatAddListCtrl")
+    @ResponseBody
+    public TableDataInfo MonthSatAdd_a_list() throws Exception {
+        startPage();
+        List<Month_saturation_collection_a> MonthJobSatAdds_a = month_JobSatAddServiceIMP.Month_list();
+        TableDataInfo tableDataInfo = getDataTable(MonthJobSatAdds_a);
+        return tableDataInfo;
+    }
+
+    @RequestMapping("bigdata/month/monthjob")
+    public String monthjob(ModelMap mm) {
+        mm.put("depts",departmentServiceIMP.getDepartments());
+        return "bigdata/month/monthjob";
+    }
+
 		/*
 		 * 列表查询_员工饱和度(加法)
 		 */

@@ -36,7 +36,7 @@ public interface ITagsService {
 	/*
 	 * 分页查询标签列表
 	 */
-	List<Tags> list(int fromIndex, int pageSize);
+	List<Tags> list();
 	/*
 	 * 更新标签
 	 */

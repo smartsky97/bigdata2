@@ -10,7 +10,7 @@
 	<!-- 标签列表查询 -->
 	<select id="fiandAll" parameterType="Map" resultMap="LablesResult">
 		select *
-		from emp_lable limit #{index},#{length}
+		from emp_lable
 	</select>
 	<!-- 查询标签 -->
 	<select id="selectLable" parameterType="Lables" resultMap="LablesResult">
