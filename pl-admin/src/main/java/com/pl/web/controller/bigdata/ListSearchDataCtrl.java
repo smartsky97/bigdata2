@@ -4,7 +4,6 @@ import com.pl.framework.web.base.BaseController;
 import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.SerachData;
 import com.pl.web.service.impl.SearchDataServiceImpl;
-import com.pl.web.util.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,39 +23,14 @@ public class ListSearchDataCtrl extends BaseController {
 	@RequestMapping("listSerachDataCtrl")
     @ResponseBody
 	public TableDataInfo list(ModelMap mm, HttpServletRequest request, HttpServletResponse response){
-		
-		/*List<JobTime> job=searchDataServiceImpl.sum("2016-09-01", "2016-09-31");
-		System.out.println("--SerachData--" +job );
-		
-		for (int i = 0; i < job.size(); i++) {
-			System.out.println(job.get(i));
-		}*/
-		
-		int pageSize = 0;
-		int totalRecord = searchDataServiceImpl.getSerachDataSize();
-		int currentPage = Pager.DEFAULT_PAGENUM;
-		String pageNum = request.getParameter("pageNum");
-		if(""!=pageNum&&pageNum!=null){
-		    currentPage = Integer.parseInt(pageNum);
-		}
-		pageSize = Pager.DEFAULT_PAGESIZE;
-		Pager page = new Pager(currentPage,pageSize,totalRecord);
-		int fromIndex = (page.getCurrentPage()-1)*page.getPageSize();
-		List<SerachData> list = searchDataServiceImpl.list(fromIndex,pageSize);
-		
-		System.out.println("--list--" +list );
-
-//		mm.put("page", page);
-//		mm.put("list", list);
-//		mm.put("pageNum", pageNum);
-//		return "searchdata/list";
+		startPage();
+		List<SerachData> list = searchDataServiceImpl.list();
         TableDataInfo tableDataInfo = getDataTable(list);
-        tableDataInfo.setTotal(list.size());
         return tableDataInfo;
 	}
 
 	@RequestMapping("serachDataCtrl")
 	public String SerachDataCtrl() {
-	    return "bigdata/jobData/serachDataCtrl";
+	    return "bigdata/jobData/searchdata";
     }
 }

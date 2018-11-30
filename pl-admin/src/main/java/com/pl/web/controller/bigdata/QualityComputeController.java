@@ -1,5 +1,7 @@
 package com.pl.web.controller.bigdata;
 
+import com.pl.framework.web.base.BaseController;
+import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.dto.EmpQualitySaturability;
 import com.pl.web.dto.EmpTartgetQuality;
 import com.pl.web.model.Department;
@@ -10,18 +12,15 @@ import com.pl.web.service.IEmpQualityResultService;
 import com.pl.web.service.IEmpQualityWeightService;
 import com.pl.web.service.impl.DepartmentServiceIMP;
 import com.pl.web.service.impl.SearchDataServiceImpl;
-import com.pl.web.util.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,7 @@ import java.util.Map;
  *
  */
 @Controller
-public class QualityComputeController {
+public class QualityComputeController extends BaseController {
 	@Autowired
     private DepartmentServiceIMP departmentServiceIMP;
 	
@@ -127,16 +126,9 @@ public class QualityComputeController {
 		return "redirect:listQualiWeig.do";
 	}
 	
-	@RequestMapping("listQualiWeig.do")
-	public ModelAndView list(ModelMap mm,@RequestParam() Map<String, String> map, HttpServletRequest request,HttpServletResponse response){
-		int pageSize = 0;
-	
-		int currentPage = Pager.DEFAULT_PAGENUM;
-		String pageNum = request.getParameter("pageNum");
-		
-		if("".equals(pageNum)||null == pageNum ||"0".equals(pageNum)){
-			pageNum="1";
-		 }
+	@RequestMapping("bigdata/jobData/listQualiWeig")
+    @ResponseBody
+	public TableDataInfo list(HttpServletRequest request){
 		String deptId = request.getParameter("department_id");
 		if ("".equals(deptId)) {
 			deptId=null;
@@ -144,7 +136,6 @@ public class QualityComputeController {
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
 		
-		System.out.println( deptId+ "--pageNum--" +pageNum  );
 		if (null ==startTime ) {
 			startTime="20160901";
 		}
@@ -152,28 +143,19 @@ public class QualityComputeController {
 		if (null ==endTime ) {
 			endTime="20160931";
 		}
-		
-		int totalRecord = empQualityWeightService.resultCount(deptId, startTime, endTime);
-		
-		System.out.println("--totalRecord--" +totalRecord);
-		
-		currentPage = Integer.parseInt(pageNum);
-		pageSize = Pager.DEFAULT_PAGESIZE;
-		Pager page = new Pager(currentPage,pageSize,totalRecord);
-		int fromIndex = (page.getCurrentPage()-1)*page.getPageSize();
-		List<Department> depts = departmentServiceIMP.getDepartments();
-
-		List<EmpQualityWeight> list = empQualityWeightService.pageShow(deptId, startTime, endTime, fromIndex,pageSize);
+        startPage();
+		List<EmpQualityWeight> list = empQualityWeightService.pageShow(deptId, startTime, endTime);
 		
 		System.out.println("---EmpQualityWeight---list --" +list);
-		mm.put("depts", depts);
-		mm.put("deptId", deptId);
-		mm.put("page", page);
-		mm.put("list", list);
-		mm.put("pageNum", pageNum);
-        return new ModelAndView("quality/list",model);  
+        TableDataInfo tableDataInfo = getDataTable(list);
+        return tableDataInfo;
 	}
-	
+
+	@RequestMapping("bigdata/jobData/empqualityweight")
+	public String SerachDataCtrl(ModelMap mm) {
+		mm.put("depts",departmentServiceIMP.getDepartments());
+		return "bigdata/jobData/empqualityweight";
+	}
 	
 	@RequestMapping("qualityList.do")
 	public String qualityWeightList(EmpQualityWeight empQualityWeight,Model model,HttpServletRequest request) {

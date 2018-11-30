@@ -20,6 +20,7 @@ public class EmpQualityWeight {
 	 */
 	private Integer id;
 	private Integer deptId;
+	private String department;
 	/**
 	 * 关键字权重,(关键字:权重)
 	 */
@@ -226,4 +227,12 @@ public class EmpQualityWeight {
 	public void setMouseClickWeight(Double mouseClickWeight) {
 		this.mouseClickWeight = mouseClickWeight;
 	}
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
 }

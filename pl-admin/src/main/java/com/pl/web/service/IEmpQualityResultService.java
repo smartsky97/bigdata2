@@ -1,10 +1,10 @@
 package com.pl.web.service;
 
-import java.util.List;
-
 import com.pl.web.model.EmpQualityResult;
 import com.pl.web.model.QualityResultPage;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 public interface IEmpQualityResultService {
@@ -18,8 +18,7 @@ public interface IEmpQualityResultService {
 	 * 查询工作量表的分页数据
 	 * @return
 	 */
-	List<QualityResultPage> select(@Param("computeDate") String computeDate, @Param("department_id") String department_id, @Param("index") Integer index,
-								   @Param("length") Integer length);
+	List<QualityResultPage> select(@Param("computeDate") String computeDate, @Param("department_id") String department_id);
 	
 	/**
 	 * 查询工作量表的所有数据
@@ -32,6 +31,5 @@ public interface IEmpQualityResultService {
 	 */
 	int updateResult(EmpQualityResult empQualityResult);
 	
-	int resultCount(@Param("computeDate") String computeDate, @Param("department_id") String department_id, @Param("index") Integer index,
-                    @Param("length") Integer length);
+	int resultCount(@Param("computeDate") String computeDate, @Param("department_id") String department_id);
 }

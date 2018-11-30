@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  select a.id,b.department,a.employee_account,a.employee_name,
  a.job_content,a.start_time,a.end_time
  from index_search_data a left join department_index b 
- on a.department=b.id  limit #{index},#{length}
+ on a.department=b.id
 </select>
   
 <select id="sumte" resultType="com.pl.web.model.JobTime">

@@ -17,8 +17,8 @@ public class SearchDataServiceImpl implements SearchDataService {
 	public int getSerachDataSize(){
 		return searchDataMapper.getSerachDataSize();
 	}
-	public List<SerachData> list(int fromIndex, int pageSize) {
-		return searchDataMapper.list(fromIndex,pageSize);
+	public List<SerachData> list() {
+		return searchDataMapper.list();
 	}
 	
 	public List<JobTime> sum(String startTime, String endTime) {

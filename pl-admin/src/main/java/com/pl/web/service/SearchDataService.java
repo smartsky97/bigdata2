@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface SearchDataService {
 	public int getSerachDataSize();
-	public List<SerachData> list(int fromIndex, int pageSize);
+	public List<SerachData> list();
 	public List<JobTime> sum(String startTime, String endTime);
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pl.web.dao.EmpQualityResultDAO">
+<mapper namespace="com.pl.web.dao.IEmpQualityResultMapper">
 	<insert id="insert" parameterType="com.pl.web.model.EmpQualityResult" useGeneratedKeys="true">
 	    DELETE FROM emp_quality_result  WHERE mail_name=#{mailName}  AND compute_date=#{computeDate};
 		replace into emp_quality_result(mail_name,quality_result,compute_date) 
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
     
     <select id="select" resultType="com.pl.web.model.QualityResultPage">
-    SELECT   e.`id`  AS "id" , b.`cn_name`,b.`department`,e.`mail_name`,e.`quality_result`,e.`compute_date` 
+    SELECT   e.`id`  AS "id" , b.`cn_name` cnName,b.`department`,e.`mail_name`,e.`quality_result` qualityResult,e.`compute_date` computeDate
      FROM emp_quality_result e LEFT JOIN base_info b ON b.`mail_name`=e.`mail_name`
 		   WHERE 1=1   
 		   <if test="computeDate  != null ">
@@ -39,7 +39,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		       WHERE department_id=#{department_id})
 		    </if>   
 		  ORDER BY e.`compute_date` DESC 
-		   limit #{index},#{length}
 	</select>
 	
 	<update id="updateResult" parameterType="com.pl.web.model.EmpQualityResult">

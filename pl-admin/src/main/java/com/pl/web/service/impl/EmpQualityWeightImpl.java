@@ -1,6 +1,6 @@
 package com.pl.web.service.impl;
 
-import com.pl.web.dao.IEmpQualityWeightDAO;
+import com.pl.web.dao.IEmpQualityWeightMapper;
 import com.pl.web.dto.EmpQualitySaturability;
 import com.pl.web.dto.EmpTartgetQuality;
 import com.pl.web.model.EmpQualityWeight;
@@ -15,7 +15,7 @@ import java.util.List;
 public class EmpQualityWeightImpl implements IEmpQualityWeightService {
 	
 	@Autowired
-	private IEmpQualityWeightDAO empQualityWeightDAO;
+	private IEmpQualityWeightMapper empQualityWeightDAO;
 	
 	@Override
 	public int insert(EmpQualityWeight empQualityWeight) {
@@ -48,10 +48,9 @@ public class EmpQualityWeightImpl implements IEmpQualityWeightService {
 	}
 
 	@Override
-	public List<EmpQualityWeight> pageShow(String departmentId, String startime, String endTime,
-			Integer index, Integer length) {
+	public List<EmpQualityWeight> pageShow(String departmentId, String startime, String endTime) {
 		// TODO Auto-generated method stub
-		return empQualityWeightDAO.pageShow(departmentId,startime, endTime, index, length);
+		return empQualityWeightDAO.pageShow(departmentId,startime, endTime);
 	}
 
 	@Override

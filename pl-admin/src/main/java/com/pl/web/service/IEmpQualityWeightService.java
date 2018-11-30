@@ -1,11 +1,11 @@
 package com.pl.web.service;
 
-import java.util.List;
-
 import com.pl.web.dto.EmpQualitySaturability;
 import com.pl.web.dto.EmpTartgetQuality;
 import com.pl.web.model.EmpQualityWeight;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 public interface IEmpQualityWeightService {
@@ -45,7 +45,7 @@ public interface IEmpQualityWeightService {
 	
 	
 	public List<EmpQualityWeight> pageShow(@Param("dept_id") String dept_id, @Param("startTime") String startime,
-                                           @Param("endTime") String endTime, @Param("index") Integer index, @Param("length") Integer length);
+                                           @Param("endTime") String endTime);
 	
 	public int resultCount(@Param("departmentId") String departmentId, @Param("startTime") String starTime,
                            @Param("endTime") String endTime);
