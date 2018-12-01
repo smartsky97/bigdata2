@@ -1,0 +1,123 @@
+@charset "utf-8";
+/* CSS Document */
+a{text-decoration:none}
+a{blr:expression(this.onFocus=this.blur());}
+a:focus{outline:none;-webkit-tap-highlight-color:rgba(255,0,0,0);}
+a,button,input{-webkit-tap-highlight-color:rgba(255,0,0,0);}
+*{padding: 0;margin: 0;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */-webkit-box-sizing:border-box; /* Safari */}
+h1,h2,h3,h4,h5,h6{font-weight:normal; padding:0px; margin:0px;}
+img{border:none;}
+ul,li{list-style:none;}
+p{padding:0; margin:0;}
+i{font-style:normal;}
+body{padding:0; margin:0;font-family: "Microsoft YaHei" !important; padding-top:80px; min-width:1000px; }
+input,button,textarea{font-family: "Microsoft YaHei";}
+body.bg{ background-image:url(../images/bg.jpg); min-height:100%; background-size:100% 100%; background-repeat:no-repeat; padding:0;}
+
+/***ftop开始****/
+.ftop{ position:fixed; left:0; top:0; width:100%; min-width:1000px; height:80px; padding:12px 15px; box-shadow:0 3px 8px #ccc; background-color:#f0f0f0;/* background-color:#323232;*/ z-index:555;}
+.ftop .logoa{ display:block; height:56px; line-height:56px; font-size:18px; color:#333; float:left; overflow:hidden;}
+.ftop .logoa img{ display:block; float:left; height:56px; padding:8px 0; margin-right:15px;}
+.ftop .logoa span{ display:block; float:left; line-height:40px; margin-top:16px; font-size:16px;/*color:#fff;*/}
+.ftop .people{ float:right; position:relative; margin:8px 0;}
+.ftop .people .name{ display:block; overflow:hidden; padding-right:20px; background-position:right center; background-repeat:no-repeat; overflow:hidden; height:40px; line-height:40px; font-size:14px; color:#333; /*color:#fff;*/}
+.ftop .people .name img{ display:block; float:left; width:40px; height:40px; float:left; border-radius:50%; overflow:hidden; margin-right:8px;}
+.ftop .people .name span{ display:block; float:left;}
+.ftop .people .hide{ position:absolute; left:0; top:50px; border:1px solid #dbdbdb; border-radius:4px; background-color:#fff; width:100%; padding:6px 10px; text-align:center; font-size:14px; line-height:34px; display:none;} 
+.ftop .people .hide a{ display:block; border-bottom:1px dashed #ddd; color:#555;}
+.ftop .people .hide a:hover{ color:#1cc777;}
+.ftop .people .hide a:last-child{ border:none;}
+.ftop .people .hide .dw{ position:absolute; left:0; top:-11px; width:100%; height:11px; }
+.ftop .people .hide img{ display:block; width:18px; height:11px; margin:0 auto;}
+.ftop .people:hover .name{ background-image:url(../images/renwu_15.png);/* background-image:url(../images/renwu_152.png);*/}
+.ftop .people:hover .hide{ display:block;}
+.ftop .mess{ display:block; float:right; margin:0 5%; font-size:14px; line-height:56px; color:#444; padding:0 20px; background-image:url(../images/renwu_12.png); /*background-image:url(../images/renwu_122.png);*/ background-position:left center; background-repeat:no-repeat; position:relative; /*color:#fff;*/}
+.ftop .mess sup{ border-radius:50%; background-color:red; width:16px; height:16px; line-height:16px;/* position:absolute; right:0; top:0;*/ color:#fff; font-size:12px; text-align:center; display:inline-block; margin:0px 0 0 4px;}
+.ftop .sou{ border:1px solid #ddd; border-radius:6px; overflow:hidden; float:right; overflow:hidden; height:40px; line-height:38px; background-color:#fff; margin:8px 0; width:242px; }
+.ftop .sou input{ display:block; width:200px; height:38px; border:none; float:left; font-size:14px; line-height:38px; color:#666; text-indent:5px;}
+.ftop .sou a{ display:block; width:38px; height:38px; float:left;}
+.ftop .sou a img{ display:block; width:38px; height:38px; padding:9px;}
+/***ftop开始****/
+
+/***fside开始***/
+.fside{ position:fixed; left:0; top:80px; z-index:556; width:220px; height:100%; background-color:#444; /*background-color:#383838;*/}
+.fside .link{}
+.fside .link a{ display:block; height:50px; line-height:50px; padding-left:45px; padding-left:77px; background-position:45px center; background-repeat:no-repeat; font-size:14px; color:#b2b2b2; cursor:pointer; position:relative; background-size:20px auto;}
+.fside .link a sup{ background-color:red; display:inline-block; width:10px; height:10px; border-radius:50%; position:absolute; left:60px; top:14px;}
+.fside .link a.bg1{ background-image:url(../images/renwu_37.png);}
+.fside .link a.bg2{ background-image:url(../images/renwu_33.png);}
+.fside .link a.bg3{ background-image:url(../images/renwu_27.png);}
+.fside .link a.bg4{ background-image:url(../images/renwu_41.png);}
+.fside .link a.bg5{ background-image:url(../images/renwu_45.png);}
+.fside .link a.bg6{ background-image:url(../images/biaog.png);}
+.fside .link a.bg1:hover{ background-image:url(../images/renwu2_37.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg2:hover{ background-image:url(../images/renwu2_33.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg3:hover{ background-image:url(../images/renwu2_27.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg4:hover{ background-image:url(../images/renwu2_41.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg5:hover{ background-image:url(../images/renwu2_45.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg6:hover{ background-image:url(../images/biaog2.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg1.current{ background-image:url(../images/renwu2_37.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg2.current{ background-image:url(../images/renwu2_33.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg3.current{ background-image:url(../images/renwu2_27.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg4.current{ background-image:url(../images/renwu2_41.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg5.current{ background-image:url(../images/renwu2_45.png); color:#fff; background-color:#4d4d4d;}
+.fside .link a.bg6.current{ background-image:url(../images/biaog2.png); color:#fff; background-color:#4d4d4d;}
+/***fside开始***/
+
+/***mainpart开始***/
+.mainpart{ width:100%; padding:0; background-color:#fff;}
+.mainpart h2{ border-bottom:1px solid #ddd; font-size:24px; line-height:44px; background-size:auto 30px; padding-bottom:6px; margin-bottom:20px; color:#4c4c4c; padding-left:38px; background-image:url(../images/renwu_31.png); background-position:left center; background-repeat:no-repeat; letter-spacing:2px;}
+/***mainpart结束***/
+
+@media(max-width:1300px){
+.mainpart{ width:100%; padding:30px 40px 0 40px; background-color:#fff;}
+}
+
+
+/*****yema开始***/
+.pagebox{ padding:30px 0; text-align:center; overflow: hidden;}
+.pagebox .page{ overflow:hidden;}
+.pagebox .pagea{ display:inline-block; min-width:14px; text-align:center; padding:0 5px; height:24px; line-height:24px; font-size:12px; text-align:center; color:#444; border:1px solid #ddd; background-color:#fff; cursor:pointer; margin:0; }
+.pagebox .pagea.current{ background-color:#1cc777; color:#fff; border:1px solid #1cc777;}
+.pagebox .pagea:hover{ background-color:#1cc777; color:#fff; border:1px solid #1cc777;}
+.pagebox .pagea.prev{ font-size:12px;}
+.pagebox .pagea.next{ font-size:12px;}
+/*****yema开始***/
+
+
+/***弹窗***/
+#bg{ position:fixed; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4); z-index:8899; display:none;}
+.popwrite{ position:fixed; left:50%; top:50%; width:300px; height:140px; margin-left:-150px; margin-top:-70px; background-color:#fff; padding:15px; border-radius:4px; font-size:14px; line-height:30px; color:#555; z-index:8900; display:none;}
+.popwrite .tp{}
+.popwrite .lp{ border-bottom:1px solid #ddd; margin:3px 0 6px 0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.popwrite .ap{}
+.popwrite .ap a{ display:inline-block; color:#1cc777; margin-right:20px; font-size:14px; line-height:3px; cursor:pointer;}
+.popwrite .ap a:hover{ text-decoration:underline;}
+.popcs{ position:fixed; width:500px; padding:20px 30px; background-color:#fff; z-index:8900; left:50%; top:50%; margin-left:-250px; margin-top:-300px; display:none; border-radius:8px; overflow:hidden; }
+.popcs .cs{ }
+.popcs .cs .bna{ overflow:hidden;margin:18px auto 0 auto; width:360px;}
+.popcs .cs .bna a{ display:block; float:left; margin:0 30px; width:120px; height:32px; text-align:center; border-radius:4px; overflow:hidden; line-height:32px; font-size:14px; color:#fff; background-color:#1cc777; cursor:pointer;}
+.popcs .cs .bna a.qx{ background-color:#eee; color:#555;}
+.popcs #root{ overflow-y:auto; max-height:510px;}
+.popcs #root{margin:10px;width:400px; margin:0 auto;}
+.popcs #root li{line-height:32px; font-size:15px; color:#333;}
+.popcs #root .rem{padding-left:16px;}
+.popcs #root .add{background:url(http://www.6a8a.com/images/treeico.gif) -4px -31px no-repeat;}
+.popcs #root .ren{background:url(http://www.6a8a.com/images/treeico.gif) -4px -7px no-repeat;}
+.popcs #root li a{color:#666666;padding-left:5px;outline:none;blr:expression(this.onFocus=this.blur());}
+.popcs #root li input{vertical-align:middle;margin-left:5px; line-height:32px;}
+.popcs #root .two{padding-left:15px;display:none;}
+
+/***弹窗***/
+.field-wrap select,.field-wrap input{width:188px;height: 35px;padding-left: 10px;margin-left: 9px;}
+.build dd input{padding-left: 10px !important;}
+
+
+
+
+
+
+
+
+
+

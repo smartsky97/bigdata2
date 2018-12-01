@@ -1,0 +1,629 @@
+@charset "utf-8";
+/* CSS Document */
+
+/***登录***/
+.login{ width:800px; margin:100px auto;}
+.login .logoa{ display:block; max-width:100%; margin:0 auto;}
+.login .logoa img{ display:block; margin:0 auto;}
+.login .fillbox{ margin:88px auto; padding:20px 0; border:1px solid #ddd; background-image:url(../images/logo_07.png);}
+.login .fillbox h2{ font-size:24px; line-height:40px; color:#444; text-align:center; margin-bottom:20px;}
+.login .fillbox .fill{ width:384px; margin:0 auto;}
+.login .fill input[type=text]{ display:block; width:100%; border:1px solid #ddd; margin-bottom:15px; text-indent:8px; font-size:14px; color:#666; line-height:42px; background-color:#fff; border-radius:4px;}
+.login .fill input[type=password]{ display:block; width:100%; border:1px solid #ddd; margin-bottom:15px; text-indent:8px; font-size:14px; color:#666; line-height:42px; background-color:#fff; border-radius:4px;}
+.login .fill p{ font-size:14px; line-height:34px; color:#666; overflow:hidden; margin-bottom:15px;}
+.login .fill p span{ display:block; float:left;}
+.login .fill p span input{ display:block; float:left; margin:10px 3px 10px 0; cursor:pointer;}
+.login .fill p a{ display:block; float:right; color:#666;}
+.login .fill p a:hover{ text-decoration:underline; color:#5792e3;}
+.login .fill .comea{ display:block; width:100%; height:44px; line-height:44px; background-color:#ffae00; border-radius:4px; font-size:16px; color:#fff; text-align:center; margin-bottom:15px;}
+.login .fill h3{ font-size:14px; line-height:44px; color:#666; text-align:center;}
+.login .fill h3 a{ font-size:14px; line-height:44px; color:#5792e3; cursor:pointer; }
+.login .fill h3 a:hover{ text-decoration:underline;}
+.login .fill h4{ font-size:14px; line-height:34px; color:#666; text-align:center; margin-bottom:15px;}
+.login .fill h4 a{ font-size:14px; line-height:34px; color:#5792e3; cursor:pointer; }
+.login .fill h4 a:hover{ text-decoration:underline;}
+.login .copy{ font-size:14px; line-height:30px; color:#333; text-align:center;}
+/***登录***/
+
+/**注册**/
+.register .fillbox{ margin:59px auto; padding:20px 0; border:1px solid #ddd; background-image:url(../images/logo_07.png);}
+/**注册**/
+
+/**忘记密码**/
+.reset .fillbox{ margin:135px auto; padding:20px 0; border:1px solid #ddd; background-image:url(../images/logo_07.png);}
+/**忘记密码**/
+
+
+/***我的任务开始***/
+.task{}
+.task .lk{ margin-bottom:20px; overflow:hidden;}
+.task .lk a{ display:block; float:left; color:#444; font-size:14px; line-height:32px; color:#444; padding:0 20px; margin-right:10px; cursor:pointer;}
+.task .lk a.current{ background-color:#375ca5; border-radius:5px; overflow:hidden; color:#fff;}
+.task .tlist{}
+.task .tlist .list{ display:none;}
+.task .tlist .sg{ margin-bottom:10px;}
+.task .sg h3{ font-size:20px; line-height:40px; color:#666; font-family:"Arial"; }
+.task .sg .one{ padding:9px 0; border-bottom:1px dashed #ddd;}
+.task .sg .one .zt{ float:left; width:32px; height:40px; padding:6px 2px; position:relative;}
+.task .sg .one .zt .zimg{ display:block; width:28px; height:28px; padding:4px; cursor:pointer;}
+.task .sg .one .zt .hide{ position:absolute; left:0; top:50px; border:1px solid #dbdbdb; border-radius:8px; background-color:#fff; width:100px; padding:6px 0px; text-align:center; font-size:14px; line-height:34px; display:none; z-index:455;} 
+.task .sg .one .zt .hide a{ display:block; color:#555; padding:0 10px; overflow:hidden; line-height:30px; cursor:pointer;}
+.task .sg .one .zt .hide a img{ display:block; width:22px; height:22px; margin:6px 5px 6px 0; float:left;}
+.task .sg .one .zt .hide a span{ display:block; float:left;}
+.task .sg .one .zt .hide a:hover{ background-color:#f0f0f0;}
+.task .sg .one .zt .hide .dw{ position:absolute; left:0; top:-11px; width:100%; height:11px; }
+.task .sg .one .zt .hide .dw img{ display:block; width:18px; height:11px; margin-left:16px;}
+.task .sg .one .na{ display:block; width:40px; height:40px; border-radius:50%; overflow:hidden; margin:0 8px; float:left;}
+.task .sg .one .xm{ display:block; width:60%; float:left; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:15px; line-height:40px; color:#666; cursor:pointer;}
+.task .sg .one .xm:hover{ color:#1cc777;}
+.task .sg .one .tips{float:right; font-size:12px; width:52px; text-align:center; line-height:22px; height:22px; margin:9px 0; background-color:#1cc777; padding:0 8px; color:#fff; margin-left:10px;}
+.task .sg .one  p{ font-size:13px; line-height:40px; color:#666; float:right;}
+/***我的任务开始***/
+
+/***个人资料***/
+.data{ position:relative;}
+.data .bianji{ display:block; position:absolute; right:0; top:-60px; height:32px; line-height:32px; font-size:14px; color:#fff; text-align:center; width:80px; border-radius:4px; overflow:hidden; z-index:22; background-color:#1cc777; cursor:pointer;}
+.data p{ font-size:14px; line-height:48px; color:#555; overflow:hidden;}
+.data p span{ display:block; width:50%; float:left; padding-right:10px; }
+.data .tian{ padding-bottom:150px;}
+.data .tian dl{ margin-bottom:14px; }
+.data .tian dl dt{ display:block; width:100px; float:left; margin-right:10px; font-size:14px; line-height:32px; color:#555;}
+.data .tian dl dd{ width:520px; float:left;}
+.data .tian dl dd input[type=text]{ display:block; height:32px; line-height:30px; border:1px solid #ddd; width:100%; padding:0 4px; font-size:14px; color:#777;}
+.data .tian dl dd select{ display:block; height:32px; line-height:30px; border:1px solid #ddd; width:100%; padding:0 4px; font-size:14px; color:#777; font-family: "Microsoft YaHei";}
+.data .tian dl dd label{ display:block; float:left; margin-right:20px; font-size:14px; line-height:32px; color:#555;}
+.data .tian dl dd label input{ display:inline-block; width:15px; line-height:32px; border:none;}
+.data .tian a{ display:block; width:110px; height:32px; line-height:32px; font-size:14px; text-align:center; background-color:#1cc777; border-radius:5px; overflow:hidden; color:#fff; margin-top:30px;}
+/***个人资料***/
+
+/***修改密码***/
+.revise{}
+.revise p{ font-size:14px; line-height:34px; color:#555; overflow:hidden; margin-bottom:18px;}
+.revise p span{ display:block; float:left; width:80px; text-align:right; margin-right:10px;}
+.revise p input{ display:block; line-height:32px; font-size:14px; padding:0 4px; font-size:14px; color:#666; border:1px solid #ddd; float:left; border-radius:4px; overflow:hidden; width:220px;}
+.revise a.save{ display:block; width:100px; height:34px; line-height:34px; font-size:14px; color:#fff; border-radius:4px; overflow:hidden; text-align:center; background-color:#1cc777; cursor:pointer; margin-left:90px;}
+/***修改密码***/
+
+/***消息***/
+.message{ }
+.message .lk{ margin-bottom:20px; overflow:hidden;}
+.message .lk a{ display:block; float:left; color:#444; font-size:14px; line-height:32px; color:#444; padding:0 20px; margin-right:10px; cursor:pointer;}
+.message .lk a.current{ background-color:#1cc777; border-radius:5px; overflow:hidden; color:#fff;}
+.message .mlist{}
+.message .mlist .list{ display:none; }
+.message .list .sg{ padding:12px 3px; border-bottom:1px solid #ddd; overflow:hidden;}
+.message .sg:hover{ background-color:#f7f7f7;}
+.message .sg .imga{ display:block; width:40px; margin:3px 0; height:40px; border-radius:50%; float:left;}
+.message .sg .imga img{ display:block; width:40px; height:40px; border-radius:50%;}
+.message .sg .text{ width:90%; float:left; margin-left:10px;}
+.message .sg p{ font-size:14px; line-height:26px; color:#666; letter-spacing:1px;}
+.message .sg p a{ font-size:14px; line-height:26px; color:#2889a8;}
+.message .sg p span{ display:inline-block; padding:0 4px;}
+.message .sg p span strong{ display:inline-block; padding:0 3px; color:#444;}
+.message .sg h6{ font-size:12px; line-height:20px; color:#888; }
+/***消息***/
+
+/***动态***/
+.news{ padding-bottom:360px;}
+.news .lk{ border-bottom:1px solid #ddd; overflow:hidden; margin-bottom:20px;}
+.news .lk a{ display:block; border-bottom:2px solid #fff; color:#444; line-height:30px; float:left; margin-right:15px; padding:0 10px;}
+.news .lk a.current{ border-bottom:2px solid #1cc777; color:#1cc777; }
+.news .sg{ position:relative; padding:10px 0 6px 70px; border-bottom:1px dashed #ddd; }
+.news .sg .imga{ display:block; width:60px; height:60px; border-radius:50%; overflow:hidden; position:absolute; left:0; top:10px;}
+.news .sg .imga img{ display:block; width:60px; height:60px; border-radius:50%;}
+.news .sg .text{ font-size:14px; line-height:26px; color:#666;}
+.news .text h3{ font-size:14px; line-height:26px; color:#666;}
+.news .text h3 .xm{ color:#111; padding-right:5px; cursor:pointer;}
+.news .text h3 .xm:hover{ color:#1cc777; text-decoration:underline; }
+.news .text h3 .nm{ color:#111; padding:0 3px;}
+.news .text .bh{ overflow:hidden;}
+.news .text h6{ font-size:12px; line-height:24px; color:#888; float:left;}
+.news .text .bh a{ float:right; padding-left:25px; background-image:url(../images/dongtai_14.png); background-position:left center; background-repeat:no-repeat; font-size:14px; line-height:24px; color:#666; cursor:pointer;}
+.news .hides{ margin-top:10px; display:none; position:relative; overflow:visible !important; background-color:#fff;}
+.news .hides textarea{ display:block; border:1px solid #ddd; border-radius:6px; overflow:hidden; padding:0 2px; line-height:24px; color:#666; font-size:14px; height:80px; width:100%;}
+.news .hides .do{ /*overflow:hidden;*/ width:100%; margin-top:10px;}
+.news .hides .do .file{ display:block; float:left; padding-left:25px; background-image:url(../images/dongtai_03.png); background-position:left center; background-repeat:no-repeat; line-height:30px; font-size:14px; color:#666; margin-right:10px; cursor:pointer; position:relative;}
+.news .hides .do .file input{ display:block; position:absolute; left:0; top:0; z-index:22; opacity:0; filter:alpha(opacity=0); background-color:#777; width:100%; height:100%; cursor:pointer;}
+.news .hides .do .tx{ display:block; float:left; padding-left:25px; background-image:url(../images/dongtai_05.png); background-position:left center; background-repeat:no-repeat; line-height:30px; font-size:14px; color:#666; cursor:pointer;}
+.news .hides .bn{ display:block; float:right; width:70px; height:30px; line-height:30px; font-size:13px; text-align:center; margin-left:10px; border-radius:5px; cursor:pointer;}
+.news .hides .bn.yes{ background-color:#1cc777; color:#fff;}
+.news .hides .bn.no{ background-color:#e6e6e6; color:#555;}
+.news .hides .hst{ position:absolute; left:10px; top:30px; z-index:444; border:1px solid #ddd; width:300px; background-color:#eeeeee; display:none;}
+.news .hides .hst input{ display:block; height:30px; line-height:28px; font-size:14px; color:#555; padding:0 3px; border:1px solid #ddd; margin:10px auto; width:90%;}
+.news .hides .hst .st{ height:300px; overflow-y:scroll; background-color:#fff;}
+.news .hides .hst .st a{ display:block; overflow:hidden; padding:5px 5px; cursor:pointer;}
+.news .hides .hst .st a:hover{ background-color:#f7f7f7;}
+.news .hides .hst .st a img{ display:block; width:36px; height:36px; margin:2px; border-radius:50%; overflow:hidden; float:left;}
+.news .hides .hst .st a span{ font-size:12px; line-height:20px; color:#666; float:right; width:225px;}
+.news .hides .hst .st a span i{ display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.news .hides .hst .st a span b{ font-weight:normal; display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.news .hides .hst .close{ display:block; width:60px; height:28px; line-height:28px; font-size:12px; text-align:center; border:1px solid #ddd; color:#555; background-color:#fff; margin:10px auto; cursor:pointer;}
+.news .hides.write{ display:block; margin-bottom:20px;}
+/***动态***/
+
+
+/***项目****/
+.project{ position:relative;}
+.project .lk{ margin-bottom:20px; overflow:hidden;}
+.project .lk a{ display:block; float:left; color:#444; font-size:14px; line-height:32px; color:#444; padding:0 20px; margin-right:10px; cursor:pointer;}
+.project .lk a.current{ background-color:#1cc777; border-radius:5px; overflow:hidden; color:#fff;}
+.project .lk2{ border-bottom:1px solid #ddd; overflow:hidden; margin-bottom:20px;}
+.project .lk2 a{ display:block; border-bottom:2px solid #fff; color:#444; font-size:14px; line-height:32px; float:left; margin-right:15px; padding:0 10px;}
+.project .lk2 a.current{ border-bottom:2px solid #1cc777; color:#1cc777; }
+.project .lk3{ overflow:hidden; margin-bottom:20px; border-top:1px solid #ddd; padding-top:15px;}
+.project .lk3 a{ display:block; color:#666; font-size:12px; line-height:24px; height:24px; border-radius:12px; overflow:hidden; float:left; margin-right:15px; padding:0 10px; background-color:#f0f0f0;}
+.project .lk3 a.current{ background-color:#1cc777; color:#fff; }
+.project .lk3 a:hover{ background-color:#1cc777; color:#fff; }
+.project ul{ overflow:hidden;}
+.project ul li{ width:20%; float:left; padding:4px; width:250px; }
+.project ul li .lt{ width:100%; border:1px solid #ddd; border-radius:12px; text-align:center; font-size:14px; line-height:26px; padding:15px; color:#555;}
+.project ul li .imga{ display:block; width:40px; height:40px; border-radius:50%; overflow:hidden; margin:0px auto;}
+.project ul li .imga img{ display:block; width:40px; height:40px; border-radius:50%;}
+.project ul li .namea{ display:block; height:52px; width:210px; color:#555; margin:10px auto; line-height:26px; overflow:hidden;}
+.project ul li .namea.line{ line-height:52px;}
+.project ul li .namea span{ display:block; overflow:hidden; max-height:52px;}
+.project ul li .namea:hover{ color:#1cc777 ; text-decoration:underline;}
+.project ul li h4{ font-size:14px; line-height:30px; padding-top:5px; overflow:hidden; color:#666; border-top:1px solid #ddd;}
+.project ul li h4 span{ float:left; display:block;}
+.project ul li h4 span i{ color:red;}
+.project ul li h4 a{ display:block; padding-left:22px; float:right; background-position:left center; background-repeat:no-repeat; font-size:14px; line-height:30px; color:#555; background-size:20px auto; margin-left:10px;}
+.project ul li h4 a.ry{ background-image:url(../images/xiangmu_07.png);}
+.project ul li h4 a.pl{ background-image:url(../images/xiangmu_10.png);}
+.project .add{ display:block; width:100px; height:32px; line-height:32px; font-size:14px; color:#fff; text-align:center; border-radius:5px; overflow:hidden; background-color:#1cc777; position:absolute; right:0; top:0; cursor:pointer;}
+/***项目****/
+
+/*@media(max-width:1650px){
+.project ul li{ width:25%; float:left; padding:14px }
+}
+@media(max-width:1650px){
+.project ul li{ width:25%; float:left; padding:5px }
+.project ul li .lt{ padding:15px 8px; }
+
+}
+
+@media(max-width:1200px){
+.project ul li{ width:25%; float:left; padding:3px }
+.project ul li .lt{ padding:10px 8px; }
+
+}*/
+
+/***新建项目***/
+.left-input{margin-left: 9px;}
+.build{}
+.build dl{ margin-bottom:20px; position:relative;}
+.build dl dt{float:left; font-size:14px; line-height:36px; color:#555;margin-right: 20px;width:70px;text-align: right;}
+.build dl dd{ float:left; width:500px; position:relative;}
+.build dl dd input{ display:block; width:350px; height:36px; line-height:34px; color:#666; font-size:14px; padding:0 4px; border:1px solid #ddd;}
+.build dl dd textarea{ display:block; width:100%; height:70px; line-height:34px; color:#666; font-size:14px; padding:0 4px; border:1px solid #ddd;}
+.build .btnbox{ overflow:hidden; margin-top:50px; margin-left:100px;}
+.build .btnbox a{ display:block; width:110px; height:36px; line-height:36px; font-size:14px; color:#fff; text-align:center; border-radius:4px; overflow:hidden; float:left; margin-right:30px; cursor:pointer; background-color:#357ca5;}
+.build .btnbox a.cancle{ background-color:#dbdbdb; color:#555;}
+.build dl dd.send{ position:relative;}
+.build dl dd.send .senda{ display:block; width:40px; height:34px; background-image:url(../images/np_07.png); background-position:center center; background-repeat:no-repeat; cursor:pointer; position:absolute; left:1px; top:1px;}
+.build dl dd.send .senda input{ display:block; width:100%; height:100%; position:absolute; left:0 ;top:0; cursor:pointer; z-index:55; opacity:0; filter:alpha(opacity=0);}
+.build .hst{ position:absolute; left:10px; top:26px; z-index:444; border:1px solid #ddd; width:300px; background-color:#eee; display:none;}
+.build .hst input{ display:block; height:30px; line-height:28px; font-size:14px; color:#555; padding:0 3px; border:1px solid #ddd; margin:10px auto; width:90%;}
+.build .hst .st{ height:300px; overflow-y:scroll; background-color:#fff;}
+.build .hst .st a{ display:block; overflow:hidden; padding:5px 5px; cursor:pointer;}
+.build .hst .st a:hover{ background-color:#f7f7f7;}
+.build .hst .st a img{ display:block; width:36px; height:36px; margin:2px; border-radius:50%; overflow:hidden; float:left;}
+.build .hst .st a span{ font-size:12px; line-height:20px; color:#666; float:right; width:225px;}
+.build .hst .st a span i{ display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.build .hst .st a span b{ font-weight:normal; display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.build .hst .close{ display:block; width:60px; height:28px; line-height:28px; font-size:12px; text-align:center; border:1px solid #ddd; color:#555; background-color:#fff; margin:10px auto; cursor:pointer;}
+.build dl dd .imgbox{ overflow:hidden; width:100%; height:36px; line-height:34px; color:#666; font-size:14px; border:1px solid #ddd;}
+.build dl dd .imgbox .empty{ float:left; margin:2px; height:30px; padding:1px; border-radius:50%; }
+.build dl dd .imgbox .empty:hover{ cursor:pointer;}
+.build dl dd .imgbox .jia{ display:block; width:28px; height:28px; padding:3px 0; float:left; cursor:pointer;}
+.build dl dd .imgbox .jia img{ display:block; width:28px; height:28px; border-radius:50%;}
+.build select{height: 36px;border:1px solid #ddd;width: 350px;padding-left: 8px;}
+/***新建项目***/
+
+
+/***任务详情***/
+.taskxq{ padding-bottom:100px;}
+.taskxq .bian{ height:50px; background-color:#f5f5f5; padding:0 8px; font-size:14px; line-height:50px; color:#444; margin-bottom:20px;}
+.taskxq .bian .zt{ float:left; position:relative; }
+.taskxq .bian .zt p{ overflow:hidden; float:left; height:50px; padding:0 10px; cursor:pointer; }
+.taskxq .bian .zt p img{ display:block; float:left; width:20px; height:20px; margin:15px 5px;}
+.taskxq .bian .zt p span{ float:left; width:60px;}
+.taskxq .bian .zt .hide{ position:absolute; left:0; top:50px; border:1px solid #dbdbdb; border-radius:8px; background-color:#fff; width:100px; padding:6px 0px; text-align:center; font-size:14px; line-height:34px; z-index:455; display:none;} 
+.taskxq .bian .zt .hide a{ display:block; color:#555; padding:0 10px; overflow:hidden; line-height:30px; cursor:pointer;}
+.taskxq .bian .zt .hide a img{ display:block; width:22px; height:22px; margin:6px 5px 6px 0; float:left;}
+.taskxq .bian .zt .hide a span{ display:block; float:left;}
+.taskxq .bian .zt .hide a:hover{ background-color:#f0f0f0;}
+.taskxq .bian .zt .hide .dw{ position:absolute; left:0; top:-11px; width:100%; height:11px; }
+.taskxq .bian .zt .hide .dw img{ display:block; width:18px; height:11px; margin-left:16px;}
+.taskxq .bian>a{ display:block; float:left; margin:0 10px; height:50px; cursor:pointer;}
+.taskxq .bian>a img{ display:block; width:24px; height:24px; margin:13px 5px;}
+.taskxq .jieshao{ background-color:#f5f5f5; padding:20px 28px; font-size:14px; line-height:30px; color:#555; margin-bottom:20px;}
+.taskxq .jieshao h3{ font-size:16px; line-height:36px; color:#333;}
+.taskxq .set{ font-size:14px; line-height:32px; color:#555;}
+.taskxq .set .time{ margin:5px 0;}
+.taskxq .set .time span{ display:block; float:left; padding-left:32px; background-image:url(../images/taskxq_10.png); background-position:left center; background-repeat:no-repeat; overflow:hidden;}
+.taskxq .set .time span i{ display:block; float:left; height:32px;}
+.taskxq .set .time span input{ display:block; float:left; cursor:pointer; height:32px; line-height:32px; font-size:13px; color:#666; border:none; min-width:320px; margin-left:20px; padding-right:26px; background-position:right center; background-repeat:no-repeat; background-size:22px 22px;}
+.taskxq .set .time:hover span input{ background-image:url(../images/projectxq_3202.png);}
+.taskxq .set .time a{ display:block; float:left; margin:0 30px; color:#fff; cursor:pointer;}
+.taskxq .set .time:hover a{ color:#1cc777;}
+.taskxq .set .time b{ display:block; float:left; margin:0 30px; font-weight:normal;}
+.taskxq .set .time b i{ color:red; display:inline-block; padding:0 3px; }
+.taskxq .set ul{}
+.taskxq .set ul li{ float:left; width:50%; padding-right:20px; font-size:14px; line-height:34px; color:#555; margin:5px 0; position:relative;}
+.taskxq .set ul li>span{ display:block; padding-left:34px; background-position:left center; background-repeat:no-repeat; float:left;}
+.taskxq .set ul li>span.bg1{ background-image:url(../images/taskxq_13.png);}
+.taskxq .set ul li>span.bg2{ background-image:url(../images/taskxq_15.png);}
+.taskxq .set ul li>span.bg3{ background-image:url(../images/taskxq_20.png);}
+.taskxq .set ul li>a{ display:block; float:left; margin-left:20px;}
+.taskxq .set ul li>a.za{ display:block; color:#fff; cursor:pointer; }
+.taskxq .set ul li:hover a.za{ color:#1cc777;}
+.taskxq .set ul li .hst{ position:absolute; left:100px; top:32px; z-index:444; border:1px solid #ddd; width:300px; background-color:#eee; display:none;}
+.taskxq .set ul li .hst input{ display:block; height:30px; line-height:28px; font-size:14px; color:#555; padding:0 3px; border:1px solid #ddd; margin:10px auto; width:90%;}
+.taskxq .set ul li .hst .st{ height:300px; overflow-y:scroll; background-color:#fff;}
+.taskxq .set ul li .hst .st a{ display:block; overflow:hidden; padding:5px 5px; cursor:pointer;}
+.taskxq .set ul li .hst .st a:hover{ background-color:#f7f7f7;}
+.taskxq .set ul li .hst .st a img{ display:block; width:36px; height:36px; margin:2px; border-radius:50%; overflow:hidden; float:left;}
+.taskxq .set ul li .hst .st a span{ font-size:12px; line-height:20px; color:#666; float:right; width:225px;}
+.taskxq .set ul li .hst .st a span i{ display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.taskxq .set ul li .hst .st a span b{ font-weight:normal; display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.taskxq .set ul li .hst .close{ display:block; width:60px; height:28px; line-height:28px; font-size:12px; text-align:center; border:1px solid #ddd; color:#555; background-color:#fff; margin:10px auto; cursor:pointer;}
+.taskxq .set .resolve{ display:block; width:110px; height:36px; line-height:36px; background-color:#1cc777; color:#fff; font-size:14px; text-align:center; border-radius:5px; overflow:hidden; margin:15px 0; cursor:pointer;}
+.taskxq .break{ margin:20px 0; display:none;}
+.taskxq .break h4{ padding:5px 15px 5px 45px; background-image:url(../images/taskxq_24.png); background-position:15px center; background-repeat:no-repeat; font-size:14px; line-height:40px; color:#444; background-color:#f5f5f5; margin-bottom:15px; }
+.taskxq .break .fill{ border:1px solid #ddd;}
+.taskxq .break .yi{ border-bottom:1px solid #ddd; padding:8px 0; line-height:30px; font-size:14px; color:#555;}
+.taskxq .break .yi>input{ display:block; width:73%; padding:0 4px; height:30px; line-height:30px; color:#555; border:none; float:left; padding-left:38px; background-image:url(../images/taskxq_33.png); background-position:8px center; background-repeat:no-repeat;}
+.taskxq .break .yi .tm{ float:right; border-left:1px solid #ddd; padding:0 6px; margin-left:20px;}
+.taskxq .break .yi .tm img{ display:block; width:25px; height:25px; margin:2px 0;}
+.taskxq .break .yi .ren{ position:relative; float:right; }
+.taskxq .break .yi .ren .ra{ display:block; line-height:32px; font-size:14px; color:#555; padding-left:30px; background-image:url(../images/taskxq_28.png); background-position:left center; background-repeat:no-repeat;}
+.taskxq .break .yi .ren .ra span{ display:inline-block; line-height:32px; font-size:14px; color:#555;}
+.taskxq .break .yi .hst{ position:absolute; right:0px; top:26px; z-index:444; border:1px solid #ddd; width:300px; background-color:#eee; display:none;}
+.taskxq .break .yi .hst input{ display:block; height:30px; line-height:28px; font-size:14px; color:#555; padding:0 3px; border:1px solid #ddd; margin:10px auto; width:90%;}
+.taskxq .break .yi .hst .st{ height:300px; overflow-y:scroll; background-color:#fff;}
+.taskxq .break .yi .hst .st a{ display:block; overflow:hidden; padding:5px 5px; cursor:pointer;}
+.taskxq .break .yi .hst .st a:hover{ background-color:#f7f7f7;}
+.taskxq .break .yi .hst .st a img{ display:block; width:36px; height:36px; margin:2px; border-radius:50%; overflow:hidden; float:left;}
+.taskxq .break .yi .hst .st a span{ font-size:12px; line-height:20px; color:#666; float:right; width:225px;}
+.taskxq .break .yi .hst .st a span i{ display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.taskxq .break .yi .hst .st a span b{ font-weight:normal; display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.taskxq .break .yi .hst .close{ display:block; width:60px; height:28px; line-height:28px; font-size:12px; text-align:center; border:1px solid #ddd; color:#555; background-color:#fff; margin:10px auto; cursor:pointer;}
+.taskxq .break textarea{ display:block; border:none; outline:none; width:100%; height:126px; padding:3px 10px; font-size:14px; line-height:30px; color:#555;}
+.taskxq .break .add{ border-bottom:1px solid #ddd; padding:8px 0; height:46px; line-height:30px; font-size:14px; color:#555; padding-left:35px; background-image:url(../images/taskxq_38.png); background-position:5px center; background-repeat:no-repeat; }
+.taskxq .break .add span{ font-size:14px; display:block; float:left; line-height:30px; color:#888;}
+.taskxq .break .bh{ overflow:hidden; margin-top:10px;}
+.taskxq .break .bh .file{ display:block; float:left; padding-left:25px; background-image:url(../images/dongtai_03.png); background-position:left center; background-repeat:no-repeat; line-height:32px; font-size:14px; color:#666; margin-right:10px; cursor:pointer; position:relative;}
+.taskxq .break .bh .file input{ display:block; position:absolute; left:0; top:0; z-index:22; opacity:0; filter:alpha(opacity=0); background-color:#777; width:100%; height:100%; cursor:pointer;}
+.taskxq .break .bh .ba{ display:block; width:110px; height:32px; line-height:32px; font-size:14px; color:#fff; text-align:center; border-radius:5px; overflow:hidden; float:right; background-color:#1cc777;}
+
+.taskxq .tong{ margin-top:10px; position:relative; }
+.taskxq .tong.mt{ margin-top:40px;}
+.taskxq .tong h4{ padding:5px 15px 5px 50px; background-image:url(../images/taskxq_41.png); background-position:15px center; background-repeat:no-repeat; font-size:14px; line-height:40px; color:#444; background-color:#f5f5f5; margin-bottom:15px; }
+.taskxq .tong textarea{ display:block; border:1px solid #ddd; border-radius:6px; overflow:hidden; padding:0 2px; line-height:24px; color:#666; font-size:14px; height:80px; width:100%;}
+.taskxq .tong .do{ overflow:hidden; width:100%; margin-top:10px;}
+.taskxq .tong .do .file{ display:block; float:left; padding-left:25px; background-image:url(../images/dongtai_03.png); background-position:left center; background-repeat:no-repeat; line-height:30px; font-size:14px; color:#666; margin-right:10px; cursor:pointer; position:relative;}
+.taskxq .tong .do .file input{ display:block; position:absolute; left:0; top:0; z-index:22; opacity:0; filter:alpha(opacity=0); background-color:#777; width:100%; height:100%; cursor:pointer;}
+.taskxq .tong .do .tx{ display:block; float:left; padding-left:25px; background-image:url(../images/dongtai_05.png); background-position:left center; background-repeat:no-repeat; line-height:30px; font-size:14px; color:#666; cursor:pointer;}
+.taskxq .tong .bn{ display:block; float:right; width:70px; height:30px; line-height:30px; font-size:13px; text-align:center; margin-left:10px; border-radius:5px; cursor:pointer;}
+.taskxq .tong .bn.yes{ background-color:#1cc777; color:#fff;}
+.taskxq .tong .bn.no{ background-color:#e6e6e6; color:#555;}
+.taskxq .tong .hst{ position:absolute; left:10px; top:85px; z-index:444; border:1px solid #ddd; width:300px; background-color:#eee; display:none;}
+.taskxq .tong .hst input{ display:block; height:30px; line-height:28px; font-size:14px; color:#555; padding:0 3px; border:1px solid #ddd; margin:10px auto; width:90%;}
+.taskxq .tong .hst .st{ height:300px; overflow-y:scroll; background-color:#fff;}
+.taskxq .tong .hst .st a{ display:block; overflow:hidden; padding:5px 5px; cursor:pointer;}
+.taskxq .tong .hst .st a:hover{ background-color:#f7f7f7;}
+.taskxq .tong .hst .st a img{ display:block; width:36px; height:36px; margin:2px; border-radius:50%; overflow:hidden; float:left;}
+.taskxq .tong .hst .st a span{ font-size:12px; line-height:20px; color:#666; float:right; width:225px;}
+.taskxq .tong .hst .st a span i{ display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.taskxq .tong .hst .st a span b{ font-weight:normal; display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.taskxq .tong .hst .close{ display:block; width:60px; height:28px; line-height:28px; font-size:12px; text-align:center; border:1px solid #ddd; color:#555; background-color:#fff; margin:10px auto; cursor:pointer;}
+/****/
+
+/***任务详情***/
+
+/***项目详情***/
+.casexq{ position:relative;}
+.casexq h3{ font-size:16px; line-height:60px; color:#555; padding-left:80px; background-image:url(../images/projectxq_03.png); background-position:left center; background-repeat:no-repeat; }
+.casexq .dwcz{ width:120px; height:34px; position:absolute; right:0; top:0;}
+.casexq .dwcz .cz{ text-align:center; display:block; width:120px; height:34px; line-height:34px; font-size:14px; color:#fff; border-radius:5px; overflow:hidden; background-color:#1cc777; cursor:pointer;}
+.casexq .dwcz .cz span{ display:inline-block; line-height:34px; padding-right:19px; background-position:right center; background-repeat:no-repeat; background-image:url(../images/projectxq_06.png);}
+.casexq .dwcz .cz span.current{ background-image:url(../images/projectxq_09.png);}
+.casexq .dwcz .drop{ position:absolute; left:0; top:34px; width:120px; padding-top:8px; z-index:44; display:none;}
+.casexq .dwcz .drop span{ display:block;}
+.casexq .dwcz .drop img{ display:block; width:14px; height:11px; margin:0 auto;}
+.casexq .dwcz .drop p{ background-color:#e6e6e6; padding:4px 0; border-radius:5px; overflow:hidden;}
+.casexq .dwcz .drop a{ display:block; width:100%; height:30px; cursor:pointer; line-height:30px; font-size:13px; color:#555; text-align:center;}
+.casexq .dwcz:hover .drop{ display:block;}
+.casexq .canshu{ margin:10px 0;}
+.casexq .canshu .can{ width:80%; float:left; padding-right:20px; font-size:14px; line-height:36px; color:#555;}
+.casexq .canshu .can .ly{ padding:2px 0; position:relative; }
+.casexq .canshu .can .ly>span{ display:block; float:left; padding-left:30px; background-position:left center; background-repeat:no-repeat; font-size:14px; line-height:36px; color:#555; width:120px;}
+.casexq .canshu .can .ly>span.bg1{ background-image:url(../images/projectxq_23.png);}
+.casexq .canshu .can .ly>span.bg2{ background-image:url(../images/projectxq_32.png);}
+.casexq .canshu .can .ly>span.bg3{ background-image:url(../images/projectxq_36.png);}
+.casexq .canshu .can .ly>input{ display:block; float:left; cursor:pointer; height:36px; line-height:36px; font-size:13px; color:#666; border:none; min-width:320px; padding-right:26px; background-position:right center; background-repeat:no-repeat; background-size:22px 22px;}
+.casexq .canshu .can .ly:hover>input{ background-image:url(../images/projectxq_3202.png);}
+.casexq .canshu .can .ly>i{ display:block; min-width:70px; float:left; margin-right:20px;}
+.casexq .canshu .can .ly .dj{ float:left; overflow:hidden; }
+.casexq .canshu .can .ly .ada{ display:block; padding-left:33px; background-image:url(../images/np_11.png); background-position:left center; background-repeat:no-repeat; color:#999; font-size:12px; cursor:pointer; float:left;}
+.casexq .canshu .can .ly .dj p{ float:left; overflow:hidden;}
+.casexq .canshu .can .ly .dj span{ display:block; margin:8px 6px; font-size:12px; height:20px; line-height:20px; color:#fff; text-align:center; padding:0 12px; border-radius:10px; overflow:hidden; background-color:#1cc777; float:left; position:relative;}
+.casexq .canshu .can .ly .dj span i{ display:block; display:none; width:14px; position:absolute; right:3px; top:3px; height:14px; border-radius:7px; background-color:#fff; cursor:pointer; color:#1cc777; line-height:14px; font-size:14px;}
+.casexq .canshu .can .ly .dj span:hover{ padding-left:5px; padding-right:19px;}
+.casexq .canshu .can .ly .dj span:hover i{ display:block;}
+
+
+.casexq .canshu .can .ly .zja{ display:block; float:left; color:#fff; cursor:pointer;}
+.casexq .canshu .can .ly:hover .zja{ color:#1cc777;}
+.casexq .canshu .can .ly .xga{ display:block; float:left; color:#fff; cursor:pointer;}
+.casexq .canshu .can .ly:hover .xga{ color:#1cc777;}
+.casexq .canshu .can .ly .hst{ position:absolute; left:154px; top:34px; z-index:444; border:1px solid #ddd; width:300px; background-color:#eee; display:none;}
+.casexq .canshu .can .ly .hst input{ display:block; height:30px; line-height:28px; font-size:14px; color:#555; padding:0 3px; border:1px solid #ddd; margin:10px auto; width:90%;}
+.casexq .canshu .can .ly .hst .st{ height:300px; overflow-y:scroll; background-color:#fff;}
+.casexq .canshu .can .ly .hst .st a{ display:block; overflow:hidden; padding:5px 5px; cursor:pointer;}
+.casexq .canshu .can .ly .hst .st a:hover{ background-color:#f7f7f7;}
+.casexq .canshu .can .ly .hst .st a img{ display:block; width:36px; height:36px; margin:2px; border-radius:50%; overflow:hidden; float:left;}
+.casexq .canshu .can .ly .hst .st a span{ font-size:12px; line-height:20px; color:#666; float:right; width:225px;}
+.casexq .canshu .can .ly .hst .st a span i{ display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.casexq .canshu .can .ly .hst .st a span b{ font-weight:normal; display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.casexq .canshu .can .ly .hst .close{ display:block; width:60px; height:28px; line-height:28px; font-size:12px; text-align:center; border:1px solid #ddd; color:#555; background-color:#fff; margin:10px auto; cursor:pointer;}
+
+.casexq .canshu .shu{ width:10%; float:left; font-size:14px; line-height:40px; color:#555;}
+.casexq .canshu .shu a{ display:block; padding-left:34px; background-position:left center; background-repeat:no-repeat; cursor:pointer; }
+.casexq .canshu .shu a.bg1{ background-image:url(../images/projectxq_29.png);}
+.casexq .canshu .shu a.bg2{ background-image:url(../images/projectxq_37.png);}
+.casexq .canshu .shu a.bg1:hover{ background-image:url(../images/projectxq_2902.png); color:#1cc777;}
+.casexq .canshu .shu a.bg2:hover{ background-image:url(../images/projectxq_3702.png); color:#1cc777;}
+.casexq .link{ border-bottom:1px solid #ddd; overflow:hidden; margin:20px 0 30px 0;}
+.casexq .link a{ display:block; float:left; padding:0 22px; border-bottom:2px solid #fff; font-size:15px; line-height:36px; color:#444;}
+.casexq .link a.current{ color:#1cc777; border-bottom:2px solid #1cc777; }
+
+
+.casexq .ly .tip{ position:absolute; left:120px; top:40px; width:400px; background-color:#fff; box-shadow:0 0 4px #aaa; padding:14px 15px; z-index:55; display:none; }
+.casexq .ly .tip .zeng{ overflow:hidden; border-bottom:1px solid #ddd; padding-bottom:6px;}
+.casexq .ly .tip .zeng input{ display:block; float:left; width:300px; border:none; height:26px; line-height:26px; font-size:12px; color:#666;}
+.casexq .ly .tip .zeng a{ display:block; width:60px; background-color:#dae1e6; height:26px; line-height:26px; font-size:12px; color:#888; text-align:center; float:right;}
+.casexq .ly .tip .ji{ margin-top:14px; }
+.casexq .ly .tip .ji span{ display:block; margin:0 4px; font-size:12px; height:20px; line-height:20px; color:#fff; text-align:center; padding:0 12px; border-radius:10px; overflow:hidden; background-color:#1cc777; float:left; position:relative; cursor:pointer;}
+.casexq .ly .tip .ji span i{ display:block; display:none; width:14px; position:absolute; right:3px; top:3px; height:14px; border-radius:7px; background-color:#fff; cursor:pointer; color:#1cc777; line-height:14px; font-size:14px;}
+.casexq .ly .tip .ji span:hover{ box-shadow:0 1px 2px #bbb;}
+
+
+/***文件***/
+.casexq .files{}
+.files .sg{ position:relative; padding:12px 0 13px 70px; border-bottom:1px solid #ddd;}
+.files .sg .pica{ position:absolute; left:0px; top:16px; width:56px; height:56px; overflow:hidden;}
+.files .sg .pica img{ display:block; width:56px; height:56px;}
+.files .sg .text{ font-size:14px; line-height:32px; color:#555;}
+.files .sg .text p{ font-size:16px; line-height:32px;}
+.files .sg h4{ display:block; overflow:hidden; line-height:24px; }
+.files .sg h4 .na{ display:block; float:left; font-size:14px; color:#1cc777;}
+.files .sg h4 span{ display:block; float:left;}
+.files .sg h4 i{ display:block; float:left; margin:0 20px;}
+.files .sg h4 .da{ display:block; float:right; margin-left:20px; color:#1cc777; cursor:pointer;}
+.files .sg h4 .va{ display:block; float:right; margin-left:20px; color:#1cc777; cursor:pointer;}
+/***文件***/
+
+/**任务**/
+.duty{}
+.duty .nba{ text-align:center; display:block; width:120px; height:34px; line-height:34px; font-size:14px; color:#fff; border-radius:5px; overflow:hidden; background-color:#1cc777; cursor:pointer; }
+.duty .dlist{ margin-top:20px;}
+.duty .dlist .sg{ padding:8px 5px; line-height:32px; font-size:14px; color:#444; overflow:hidden; border-bottom:1px dashed #ddd;}
+.duty .dlist .sg .ta{ display:block; float:left; overflow:hidden; height:32px;}
+.duty .dlist .sg .ta img{ display:block; width:22px; height:22px; margin:5px; float:left;}
+.duty .dlist .sg .ta span{ display:block; width:54px; font-size:12px; line-height:22px; margin:5px 0; color:#555; float:left;}
+.duty .dlist .sg .na{ display:block; margin-right:15px; color:#555; float:left; max-width:520px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.duty .dlist .sg .pa{ display:block; padding-left:25px; background-image:url(../images/dongtai_14.png); background-position:left center; background-repeat:no-repeat; float:left;}
+.duty .dlist .sg .sa{ display:block; float:right; margin-left:20px;}
+.duty .dlist .sg .ya{ display:block; float:right; margin-left:20px; display:block; width:60px; text-align:right;}
+.duty .dlist .sg .na:hover{ color:#1cc777; text-decoration:underline;}
+/**任务**/
+@media(max-width:1300px){
+.duty .dlist .sg .na{ max-width:400px;}
+}
+
+/**统计**/
+.tongji{}
+.tongji h4{ line-height:36px; font-size:16px; color:#666;}
+.tongji ul{ overflow:hidden; margin:30px auto; width:600px;}
+.tongji ul li{ width:200px; float:left; text-align:center; padding:30px 0;}
+.tongji ul li h4{ margin-bottom:25px;}
+.tongji ul li strong{ font-size:24px; color:#333; font-family:"Arial";}
+.tongji ul li b{ font-size:24px; color:#ec3131; font-family:"Arial";}
+.tongji ul li.bl{ border-left:1px solid #ddd; border-right:1px solid #ddd;}
+.tongji .mber{ overflow:hidden;}
+.tongji .sg{ margin:20px 0; overflow:hidden; height:40px; line-height:40px;}
+.tongji .sg a{ display:block; float:left; width:110px; overflow:hidden;}
+.tongji .sg a img{ display:block; width:40px; height:40px; float:left; border-radius:50%; float:left; margin-right:10px;}
+.tongji .sg a span{ display:block; width:60px; float:left; font-size:14px; color:#555;}
+.tongji .sg .jin{ width:60%; margin-left:5%; height:40px; background-color:#fff; float:left; overflow:hidden;}
+.tongji .sg .jin span{ display:block; height:40px; float:left; background-color:#50dd9b; width:80%; }
+.tongji .sg .jin i{ display:block; height:40px; float:left; background-color:#f75b5b; width:20%; }
+.tongji .sg .jin .w1{ width:10%;}
+.tongji .sg .jin .w2{ width:20%;}
+.tongji .sg .jin .w3{ width:30%;}
+.tongji .sg .jin .w4{ width:40%;}
+.tongji .sg .jin .w5{ width:50%;}
+.tongji .sg .jin .w6{ width:60%;}
+.tongji .sg .jin .w7{ width:70%;}
+.tongji .sg .jin .w8{ width:80%;}
+.tongji .sg .jin .w9{ width:90%;}
+.tongji .sg .jin .w10{ width:100%;}
+.tongji .sg p{ float:right; font-size:14px; color:#444; text-align:center; width:10%; font-size:20px; font-family:"Arial";}
+/**统计**/
+
+/***项目成员***/
+.team{ padding-bottom:400px;}
+.team h3{ font-size:20px; line-height:40px; color:#555; border-bottom:1px solid #ddd; margin-bottom:15px;}
+.team h3 span{ font-size:14px; line-height:40px; padding-left:20px;}
+.team h3 span i{ color:#1cc777; padding:0 2px;}
+.team .one{ overflow:hidden; margin:35px 0;}
+.team .one .imga{ display:block; overflow:hidden; height:54px; float:left; margin-right:10px;}
+.team .one .imga img{ display:block; width:54px; height:54px; border-radius:50%; overflow:hidden; float:left;}
+.team .one .imga span{ display:block; width:140px; height:48px; margin:3px 15px; font-size:14px; line-height:24px; color:#444; float:left;}
+.team .one .imga span i{ display:block;}
+.team .two{ margin:35px 0;}
+.team .two .add{ float:left; height:54px; margin-right:50px; position:relative; }
+.team .two .add .ad{ cursor:pointer;}
+.team .two .add .ad img{ display:block; width:48px; height:48px; margin:3px; border-radius:50%; overflow:hidden;}
+.team .two .add .hst{ position:absolute; left:0px; top:51px; z-index:444; border:1px solid #ddd; width:300px; background-color:#eee; display:none;}
+.team .two .add .hst input{ display:block; height:30px; line-height:28px; font-size:14px; color:#555; padding:0 3px; border:1px solid #ddd; margin:10px auto; width:90%;}
+.team .two .add .hst .st{ height:300px; overflow-y:scroll; background-color:#fff;}
+.team .two .add .hst .st a{ display:block; overflow:hidden; padding:5px 5px; cursor:pointer;}
+.team .two .add .hst .st a:hover{ background-color:#f7f7f7;}
+.team .two .add .hst .st a img{ display:block; width:36px; height:36px; margin:2px; border-radius:50%; overflow:hidden; float:left;}
+.team .two .add .hst .st a span{ font-size:12px; line-height:20px; color:#666; float:right; width:225px;}
+.team .two .add .hst .st a span i{ display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.team .two .add .hst .st a span b{ font-weight:normal; display:block; height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.team .two .add .hst .close{ display:block; width:60px; height:28px; line-height:28px; font-size:12px; text-align:center; border:1px solid #ddd; color:#555; background-color:#fff; margin:10px auto; cursor:pointer;}
+.team .two .imga{ display:block; overflow:hidden; height:54px; float:left; margin-right:10px;}
+.team .two .imga img{ display:block; width:54px; height:54px; border-radius:50%; overflow:hidden; float:left;}
+.team .two .imga span{ display:block; width:90px; height:48px; margin:3px 15px; font-size:14px; line-height:24px; color:#444; float:left;}
+.team .two .imga span i{ display:block;}
+
+/***项目成员***/
+
+/***操作记录***/
+.handle{ padding-bottom:100px;}
+.handle .hand{ background-image:url(../images/czbg_03.png); background-position:13px top; background-repeat:repeat-y;}
+.handle .hand .sg{ overflow:hidden; position:relative; margin-bottom:2px; font-size:13px; line-height:28px; color:#777; font-family:"宋体"; padding-left:26px;}
+.handle .hand .sg>img{ display:block; width:8px; height:8px; position:absolute; left:10px; top:10px;}
+.handle .hand .sg .pp{ display:none;}
+.handle .hand .sg span{ float:left; margin-left:10px; overflow:hidden; width:140px; font-size:12px; font-family:"Microsoft YaHei";}
+.handle .hand .sg span i{ display:inline-block; width:100px; }
+.handle .hand .sg p{ width:80%;}
+.handle .hand .sg p strong{ color:#646464;}
+.handle .hand .sg:last-child .dg{ display:none;}
+.handle .hand .sg:last-child .pp{ width:22px; height:22px; left:2px; top:0; display:block;}
+/***操作记录***/
+
+/***项目详情***/
+
+
+/***统计报表***/
+.form{ position:relative;}
+.form .lk{ margin-bottom:20px; overflow:hidden;}
+.form .lk a{ display:block; float:left; color:#444; font-size:14px; line-height:32px; color:#444; padding:0 20px; margin-right:10px; cursor:pointer;}
+.form .lk a.current{ background-color:#1cc777; border-radius:5px; overflow:hidden; color:#fff;}
+.form .interval{ position:absolute; right:0; top:0; height:36px; line-height:36px; font-size:14px; color:#555; overflow:hidden;}
+.form .interval p{ float:left; overflow:hidden; margin-right:20px;}
+.form .interval p span{ display:block; float:left; height:36px; margin-right:10px;}
+.form .interval p input{ display:block; width:120px; font-size:14px; padding:0 3px; border:1px solid #ddd; border-radius:4px; overflow:hidden; line-height:34px; font-size:12px; color:#555; float:left; height:36px;}
+.form .interval a{text-align:center; display:block; width:60px; height:34px; line-height:34px; font-size:14px; color:#fff; border-radius:5px; overflow:hidden; background-color:#1cc777; cursor:pointer; float:left;}
+/***统计报表***/
+
+/***日程详情***/
+.detail{ position:relative;}
+.detail .text{ font-size:14px; color:#555;}
+.detail .text p{ line-height:40px; padding:20px 0;}
+.detail .text textarea{ display:block; width:100%; padding:3px; font-size:14px; line-height:26px; color:#555; height:84px; border:1px solid #ddd; border-radius:3px;}
+.detail .dbtn{ position:absolute; right:0; top:0; overflow:hidden;}
+.detail .dbtn a{text-align:center; display:block; width:60px; height:34px; line-height:34px; font-size:14px; color:#fff; border-radius:5px; overflow:hidden; background-color:#1cc777; cursor:pointer; float:left; margin-right:20px;}
+.detail .btn{ overflow:hidden; margin:20px auto;}
+.detail .btn a{ display:block; width:100px; height:34px; line-height:34px; font-size:14px; color:#fff; text-align:center; border-radius:4px; overflow:hidden; float:left; margin-right:30px; cursor:pointer; background-color:#1cc777;}
+.detail .btn a.cancle{ background-color:#dbdbdb; color:#555;}
+.detail .list{}
+.detail .sg{ padding:20px 0; border-bottom:1px solid #ddd; position:relative; padding-left:55px;}
+.detail .sg .dwimg{ display:block; width:40px; height:40px; border-radius:50%; position:absolute; left:0px; top:30px; overflow:hidden;}
+.detail .sg .dwimg img{ display:block; width:40px; height:40px; border-radius:50%;}
+.detail .sg .word{ font-size:14px; line-height:30px; color:#555;}
+.detail .sg .word h3{ overflow:hidden; color:#666; font-size:14px; line-height:30px;}
+.detail .sg .word h3 a{ display:block; font-size:15px; color:#111; float:left; cursor:pointer; margin-right:10px;}
+.detail .sg .word h3 span{ display:block; float:left;}
+.detail .sg .icon{ position:absolute; right:0; top:20px; border-radius:4px; padding-right:10px;}
+.detail .sg .icon>a{ display:block; float:left; width:20px; height:20px; float:left; margin-right:7px; cursor:pointer;}
+.detail .sg .icon>a img{ display:block; width:16px; height:16px; margin:2px;}
+.detail .sg .icon p{ background-image:url(../images/zuo_10.jpg); width:54px; height:72px; padding:20px 5px 8px 5px; text-align:center; position:absolute; right:1px; top:20px; display:none; z-index:55;}
+.detail .sg .icon a{ display:block; font-size:12px; line-height:20px; color:#555; cursor:pointer; text-align:center; }
+.detail .sg .icon a:hover{ color:#1cc777;}
+
+/***日程详情***/
+
+@media(max-width:1300px){
+.form .interval{ position:static; margin:15px 0;}
+}
+
+/***备注***/
+.beizhu{ overflow:hidden; margin:15px 0;}
+.beizhu p{ float:left; overflow:hidden; height:32px; padding:6px 10px; background-color:#f0f0f0; }
+.beizhu p span{ display:block; float:left; margin-right:15px; font-size:12px; line-height:20px; color:#555;}
+.beizhu p span i{ display:block; float:left; width:40px; height:10px; margin:5px 0; line-height:20px; margin-right:4px;}
+.beizhu p span i.c1{ background-color:#ec4444; background-color:#fceaea;}
+.beizhu p span i.c2{ background-color:#1cc777; background-color:#e8fff4;}
+.beizhu p span i.c3{ background-color:white;}
+/***备注***/
+
+/***个人项目查看***/
+.filter{ font-size:14px; line-height:32px; color:#555;}
+.filter .ter{ overflow:hidden; margin-bottom:20px;}
+.filter label{ display:block; float:right; margin-right:30px; overflow:hidden;}
+.filter label span{ display:block; float:left;}
+.filter label select{ display:block; min-width:100px; height:32px; line-height:30px; border:1px solid #ddd; font-size:14px; color:#666; float:left; font-family: "Microsoft YaHei"; cursor:pointer; margin-right:10px;}
+.filter label input{ display:block; width:120px; height:32px; line-height:30px; border:1px solid #ddd; font-size:14px; color:#666; float:left; font-family: "Microsoft YaHei"; cursor:pointer; text-indent:4px;}
+.filter .ter a.chs{ display:block; width:120px; height:32px; line-height:32px; float:right; background-color:#1cc777; color:#fff; font-size:14px; text-align:center; cursor:pointer;}
+.filter .ter p{ float:left; overflow:hidden; height:32px; padding:6px 10px; background-color:#f0f0f0; }
+.filter .ter p span{ display:block; float:left; margin-right:15px; font-size:12px; line-height:20px; color:#555;}
+.filter .ter p span i{ display:block; float:left; width:40px; height:10px; margin:5px 0; line-height:20px; margin-right:4px;}
+.filter .ter p span i.c1{ background-color:#ec4444; background-color:#fceaea;}
+.filter .ter p span i.c2{ background-color:#1cc777; background-color:#e8fff4;}
+.filter .ter p span i.c3{ background-color:white;}
+.filter .rili{ position:relative; width:100%;}
+.filter .rili h3{ font-size:13px; line-height:36px; color:#777; text-align:right; /*font-weight:bold; */margin-bottom:20px;}
+.filter .rili .btna{ position:absolute; left:0; top:7px; overflow:hidden; width:62px; height:22px;}
+.filter .rili .btna a{ display:block; float:left; cursor:pointer; width:31px; height:22px;}
+.filter .rili .btna a img{ display:block; width:31px; height:22px;}
+.filter .rili table{ text-align:center; width:100%;}
+.filter .rili table th{ font-weight:normal; line-height:39px; font-size:14px; color:#444; text-align:center;}
+.filter .rili table th span{ font-size:12px; line-height:39px; display:inline-block; padding-left:3px;}
+.filter .rili table .no{ border:none; text-align:center;}
+.filter .rili table td{ font-size:14px; line-height:20px; text-align:left; border:1px solid #ddd; color:#777; padding:8px 12px; }
+.filter .rili table td span{ display:block; height:22px; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer;}
+.filter .rili table td div{ display:block; height:22px; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.filter .rili table td.red{ background-color:#fceaea !important;}
+.filter .rili table td.green{ background-color:#e8fff4 !important;}
+.filter .rili table td:hover{ background-color:#f9f9f9;}
+/***个人项目查看***/
+
+
+/***个人统计***/
+.geren .rili{ position:relative; width:100%;}
+.geren .rili h3{ font-size:13px; line-height:36px; color:#777; text-align:right; /*font-weight:bold; */margin-bottom:20px;}
+.geren .rili .btna{overflow:hidden; overflow:hidden; position:relative; height:30px; margin-bottom:20px;}
+.geren .rili .btna a{ display:block; float:left; cursor:pointer; width:60px; height:30px; color:#fff; text-align:center; background-color:#1cc777; float:left; line-height:30px; font-size:12px;}
+.geren .rili .btna a.next{ float:right;}
+.geren .rili .btna p{ overflow:hidden; width:200px; position:absolute; left:50%; margin-left:-100px; top:0;}
+.geren .rili .btna p select{ width:100px; height:30px; border:1px solid #ddd; line-height:28px; font-size:14px; color:#555;}
+.geren .rili table{ text-align:center; width:100%;}
+.geren .rili table th{ font-weight:normal; line-height:39px; font-size:14px; color:#444; text-align:center;}
+.geren .rili table th span{ font-size:12px; line-height:39px; display:inline-block; padding-left:3px;}
+.geren .rili table .no{ border:none; text-align:center;}
+.geren .rili table td{ font-size:14px; line-height:20px; text-align:left; border:1px solid #ddd; color:#777; padding:8px 12px; }
+.geren .rili table td i{ display:block; height:22px; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:right;}
+.geren .rili table td span{ display:block; height:22px; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer;}
+.geren .rili table td div{ display:block; height:22px; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.geren .rili table td.red{ background-color:#fceaea !important;}
+.geren .rili table td.green{ background-color:#e8fff4 !important;}
+.geren .rili table td:hover{ background-color:#f9f9f9;}
+/***个人统计***/
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

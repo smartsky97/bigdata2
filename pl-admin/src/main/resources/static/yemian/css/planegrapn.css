@@ -1,0 +1,27 @@
+@charset "utf-8";
+body{margin:0;padding:0;font-size:12px;line-height:22px;font-family:Microsoft YaHei,YaHei,tahoma,arial,"Hiragino Sans GB";background: #f5f5f5;}
+@media screen and (min-width:1601px) and (max-width:2500px){body{font-family:"Microsoft Yahei",tahoma,arial,"Hiragino Sans GB";}}
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,p{margin:0;padding:0;}
+input,select,textarea{font-size:12px;line-height:16px;}img{border:0;}ul,li{list-style-type:none;}
+a{color:#353535;text-decoration:none;}
+.tc{text-align:center;}.tl{text-align:left;}.tr{text-align:right;}
+.dis{display:block;}.undis{display:none;}
+.fl{float:left;}.fr{float:right;}.cl{clear:both;}.fb{font-weight:bold;}.fnb{font-weight:200;margin-left:-1px;}
+input[type="text"]:focus,input[type="password"]:focus,textarea:focus{outline:none;}
+.w100{width:100%; height:auto;}
+.w1200{width:1200px; height:auto; margin:0 auto;}
+.mt{margin-top:10px;}
+input{outline:none;border: 0;background: #fff;}
+button{border:0;outline:none;font-family:"Microsoft YaHei";}
+.clearFix:after{clear:both;display:block;visibility:hidden;height:0;line-height:0;content:'';}
+
+/* 内容 开始 */
+.planegrapnWrap{border:5px solid black;margin-bottom: 20px;border:1px solid red;}
+.planegrapnOne{background: url('../img/planegrapn1.png') no-repeat;height: 900px;background-size:1200px 900px;}
+.planegrapnTwo{background: url('../img/planegrapn2f.png') no-repeat;height: 1400px;background-size:1200px 1400px;}
+.planegrapnThree{background: url('../img/planegrapn3f.png') no-repeat;height: 1000px;background-size:1200px 1000px;}
+.planegrapnFour{background: url('../img/planegrapn4f.png') no-repeat;height: 1000px;background-size:1200px 1000px;}
+.planegrapnFive{background: url('../img/planegrapn5f.png') no-repeat;height: 1000px;background-size:1200px 1000px;}
+.planegrapnNegative{background: url('../img/planegrapn-1.png') no-repeat;height: 1000px;background-size:1200px 1000px;}
+.floorName{text-align: center;font-size: 20px;margin-bottom: 10px;font-weight: bold;}
+/* 内容 结束 */

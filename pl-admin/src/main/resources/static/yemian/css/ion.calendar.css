@@ -1,0 +1,54 @@
+/* Ion.Calendar
+// Version 2.0.1, build: 91
+// © 2013 Denis Ineshin | IonDen.com
+//
+// Project page:    http://ionden.com/a/plugins/ion.calendar/
+// GitHub page:     https://github.com/IonDen/ion.calendar
+//
+// Released under MIT licence:
+// http://ionden.com/a/plugins/licence-en.html
+// ===================================================================================================================*/
+
+/* ic = ion.calendar prefix */
+.ic__container,
+.ic__week-head,
+.ic__week-head td,
+.ic__days,
+.ic__days td,
+.ic__header,
+.ic__prev,
+.ic__next,
+.ic__datepicker { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; font-size: 10px; line-height: 13px; cursor: default; text-shadow: none !important;}
+.ic__container {position: relative; background: #fff;}
+.ic__container table { width: 100%; border: 0; border-collapse: collapse !important; border-spacing: 0 !important;}
+.ic__header { position: relative; /*background: #555;*/ height: 35px;text-align:center; margin:30px 0 15px 0;;}
+.ic__prev, .ic__next { position: absolute; top: 0; width: 7%; height: 35px; background-color: #1cc777; cursor: pointer;}
+.ic__prev:hover, .ic__next:hover { /*background-color: #666;*/ }
+.ic__prev div, .ic__next div { position: absolute; width: 0; height: 0; overflow: hidden; border: 5px solid transparent; }
+.ic__prev { left: 0;}
+.ic__prev div { top: 13px; left: 50%; margin-left: -7px; border-right-color: #fff;}
+.ic__next { right: 0; }
+.ic__next div {top: 13px; right: 50%; margin-right: -7px; border-left-color: #fff;}
+.ic__month {float:right; width:50%; text-align:left; font-size:14px; }
+.ic__year {float:left; width:50%; text-align:right; font-size:14px;}
+.ic__header select { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; border:1px solid #ddd; height:34px; width:80px;
+/* display:inline-block; font:14px Arial, Helvetica, sans-serif; height:34px; padding:0 12px; border:bone; border: solid 1px #eee; appearance:none;-moz-appearance:none;-webkit-appearance:none;-o-appearance:none;-ms-appearance:none; cursor:pointer; font-size:14px; line-height:38px; color:#555;*/}
+.ic__header select:focus {/* outline: none; */}
+.ic__week-head td { width: 14%; vertical-align: top; text-align: center; padding:10px 10px; border: 1px solid #ebebeb; color: #b5b5b5; font-size:15px; line-height:46px; color:#444; text-transform: uppercase;}
+.ic__days { margin-top: -1px;}
+.ic__days td { width: 14%; vertical-align: top; text-align: center; padding:10px 10px;border: 1px solid #ebebeb; color: #757575; font-size:12px; line-height:24px; text-transform: uppercase;}
+.ic__days .ic__day { background: #fff; cursor: pointer; text-align:right;}
+.ic__days .ic__day .event{ text-align:left; height:96px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.ic__days .ic__day .event .vnt{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; height:24px;}
+.ic__days .ic__day .event .vnt span{ display:block; float:left; width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.ic__days .ic__day .event a{ color:#1cc777; display:block; float:left; margin-right:2px;}
+.ic__days .ic__day:hover { background: #f9f9f9;}
+.ic__days .ic__day-empty { }
+.ic__days .ic__day_state_current { /*background: #e8fff4;*/ /*color: #222;*/ background: #f9f9f9;}
+.ic__days .ic__day_state_selected { /*background: #e8fff4;*/ /*color: #222;*/}
+.ic__datepicker { position: absolute; top: -9999px; left: -9999px; width: 250px; padding: 10px; border-radius: 10px; background: #333;z-index: 9999;}
+
+tr:nth-child(1) .ic__day:nth-child(5){ background-color:#ec4444 !important; background-color:#fceaea !important;}
+tr:nth-child(3) .ic__day:nth-child(1){ background-color:#1cc777 !important; background-color:#e8fff4 !important;}
+tr:nth-child(2) .ic__day:nth-child(3){ background-color:#ec4444 !important; background-color:#fceaea !important;}
+tr:nth-child(4) .ic__day:nth-child(4){ background-color:#1cc777 !important; background-color:#e8fff4 !important;}
