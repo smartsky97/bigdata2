@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+                        <div class="col-sm-11">
+                            <ul>
+                                <div class="col-sm-12">
+                                    <li class="col-sm-3">
+                                        域账号：
+                                        <input name="username">
+                                    </li>
+                                    <li class="col-sm-3">
+                                        中文名：
+                                        <input name="cnName">
+                                    </li>
+                                    <li class="col-sm-3">
+                                        地点：
+                                        <input name="position">
+                                    </li>
+                                </div>
+                                <div class="col-sm-12">
+                                    <li class="col-sm-3">
+                                        探针：
+                                        <input name="cnname">
+                                    </li>
+                                    <li class="select-time" style="margin: 0;">
+                                        <li class="col-sm-3">
+                                            起始时间：<input type="text" style="padding-left:10px;"　autocomplete="off" id="startTime" class="startTime" placeholder="开始时间" name="startime"/>
+                                        </li>
+                                        <li class="col-sm-3">
+                                            结束时间：<input type="text" style="padding-left:10px;" id="endTime"　autocomplete="off" class="endTime" placeholder="结束时间" name="endtime"/>
+                                        </li>
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="col-sm-1 pull-right">
+                            <a class="btn btn-primary btn-rounded btn-sm page-btn" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm page-btn" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </div>
+					</div>
+				</form>
+			</div>
+
+            <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+                <div class="box-header box_bg">
+                    <h3 class="box-title col-md-12" style="padding: 8px 0;">员工WIFI定位信息</h3>
+                </div>
+            </div>
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:jobsatadd:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:jobsatadd:remove')}]];
+        var prefix = ctx + "bigdata/wifi";
+        console.info([[${depts}]]);
+        $(function() {
+            var options = {
+                url: prefix + "/searchWifiData",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "员工饱和度",
+                search: false,
+                showSearch: false,
+                showExport: false,
+                showRefresh: false,
+                sortStable: true,
+                showColumns: false,
+                showToggle: false,
+                columns: [
+				{
+					field : 'macCode',
+					title : '探针编号'
+				},
+				{
+					field : 'positionName',
+					title : '位置名称'
+				},
+				{
+					field : 'userName',
+					title : '员工姓名'
+				},
+                {
+                    field : 'avgSig',
+                    title : '信号强度'
+                },
+                {
+                    field : 'startTime',
+                    title : '开始时间'
+                },
+                {
+                    field : 'endTime',
+                    title : '结束时间'
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
