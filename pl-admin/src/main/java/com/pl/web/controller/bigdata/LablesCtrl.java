@@ -42,7 +42,7 @@ public class LablesCtrl extends BaseController {
 	}
 
 	@RequestMapping("bigdata/staff/labletag")
-	public String monthjob(ModelMap mm) {
+	public String labletag(ModelMap mm) {
 		return "bigdata/staff/labletag";
 	}
 

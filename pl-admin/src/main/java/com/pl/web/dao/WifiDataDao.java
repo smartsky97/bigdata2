@@ -1,9 +1,9 @@
 package com.pl.web.dao;
 
-import java.util.List;
-
 import com.pl.web.model.WifiData;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 public interface WifiDataDao {
@@ -27,6 +27,7 @@ public interface WifiDataDao {
 	/*
 	 * 带有分页的查询
 	 */
-	public List<WifiData> searchWifiData(@Param("macCode") String macCode, @Param("positionName") String positionName, @Param("userName") String userName, @Param("cnName") String cnName, @Param("startTime") String startTime, @Param("endTime") String endTime,
-                                         @Param("index") int fromIndex, @Param("length") int pageSize);
+	public List<WifiData> searchWifiData(@Param("macCode") String macCode, @Param("positionName") String positionName,
+										 @Param("userName") String userName, @Param("cnName") String cnName,
+										 @Param("startTime") String startTime, @Param("endTime") String endTime);
 }

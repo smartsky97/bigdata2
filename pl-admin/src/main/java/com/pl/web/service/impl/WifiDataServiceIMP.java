@@ -58,10 +58,9 @@ public class WifiDataServiceIMP implements WifiDataService {
 	 */
 	@Override
 	public List<WifiData> searchWifiData(String macCode, String positionName,
-			String userName,String cnName,String startTime, String endTime, int fromIndex,
-			int pageSize) {
+			String userName,String cnName,String startTime, String endTime) {
 		
-		return this.wifiDataDao.searchWifiData(macCode, positionName, userName,cnName,startTime, endTime, fromIndex, pageSize);
+		return this.wifiDataDao.searchWifiData(macCode, positionName, userName,cnName,startTime, endTime);
 	}
 
 }

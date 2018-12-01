@@ -1,9 +1,10 @@
 package com.pl.web.controller.bigdata;
 
 import com.alibaba.fastjson.JSONArray;
+import com.pl.framework.web.base.BaseController;
+import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.WifiData;
 import com.pl.web.service.impl.WifiDataServiceIMP;
-import com.pl.web.util.Pager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-public class WifiDataCtrl {
+public class WifiDataCtrl extends BaseController {
 	/*
 	 * 日志收集
 	 */
@@ -57,9 +58,10 @@ public class WifiDataCtrl {
 	/*
 	 * 查询wifi定位数据(以表格展示)
 	 */
-	@RequestMapping("searchWifiData")
-	public String searchWifiData(ModelMap mm, WifiData wifiData,
-			HttpServletRequest request) throws Exception {
+	@RequestMapping("bigdata/wifi/searchWifiData")
+    @ResponseBody
+	public TableDataInfo searchWifiData(WifiData wifiData,
+                                        HttpServletRequest request) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String macCode = request.getParameter("number");
 		System.out.println("-----------" + macCode);
@@ -72,30 +74,15 @@ public class WifiDataCtrl {
 		System.out.println("------" + startTime);
 		String endTime = request.getParameter("endtime");
 		System.out.println("-------" + endTime);
-		int currentPage = 0;
-		int totalRecord = this.wifiDataServiceIMP.searchWifiDataSize(macCode, positionName, userName,cnName,startTime, endTime);
-		mm.put("totalRecord", totalRecord);
-		String pageNum = request.getParameter("pageNum");
-		int pageSize = Pager.DEFAULT_PAGESIZE;
-		//如果前台传入pageNum参数，则设置pageNum为当前第几页
-		if(pageNum!=null&&!"".equals(pageNum.trim())){
-				currentPage = Integer.parseInt(pageNum);
-		}else{
-				currentPage = Pager.DEFAULT_PAGENUM;
-		}
-		Pager pager = new Pager(currentPage, pageSize, totalRecord);
-		int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
-		List<WifiData> wifiDatas = this.wifiDataServiceIMP.searchWifiData(macCode, positionName, userName,cnName,startTime, endTime, fromIndex, pageSize);
-		mm.put("startime", startTime);
-		mm.put("endtime", endTime);
-		mm.put("number", macCode);
-		mm.put("username", userName);
-		mm.put("cnname", cnName);
-		mm.put("position", positionName);
-		mm.put("page", pager);
-		mm.put("list", wifiDatas);
-		mm.put("pageNum", pageNum);
-		return "wifi/listSearch";
+        startPage();
+		List<WifiData> wifiDatas = this.wifiDataServiceIMP.searchWifiData(macCode, positionName, userName,cnName,startTime, endTime);
+        TableDataInfo tableDataInfo = getDataTable(wifiDatas);
+        return tableDataInfo;
+	}
+
+	@RequestMapping("bigdata/wifi/wifidata")
+	public String wifidata(ModelMap mm) {
+		return "bigdata/wifidata/wifidata";
 	}
 
 	/*

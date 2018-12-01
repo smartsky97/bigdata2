@@ -34,6 +34,5 @@ public interface WifiDataService {
 	/*
 	 * 带有分页的查询
 	 */
-	public List<WifiData> searchWifiData(String macCode, String positionName, String userName, String cnName, String startTime, String endTime,
-                                         int fromIndex, int pageSize);
+	public List<WifiData> searchWifiData(String macCode, String positionName, String userName, String cnName, String startTime, String endTime);
 }

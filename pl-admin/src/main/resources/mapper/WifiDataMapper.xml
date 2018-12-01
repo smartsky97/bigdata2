@@ -16,7 +16,7 @@
 		
 		SELECT
 		c.number,
-		c.place as position_name,
+		c.place as positionName,
 		b.cn_name as user_name,
 		a.avg_sig,
 		a.start_time,
@@ -45,7 +45,7 @@
 				and a.end_time &lt;= #{endTime}
 			</if>
 		</where>
-		order by a.start_time DESC limit #{index},#{length};
+		order by a.start_time DESC
 	</select>
 	<!-- 查询结果记录数,用于分页 -->
 	<select id="searchWifiDataSize" resultType="java.lang.Integer">
