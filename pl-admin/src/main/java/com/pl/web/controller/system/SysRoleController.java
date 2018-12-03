@@ -1,25 +1,23 @@
 package com.pl.web.controller.system;
 
-import java.util.List;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import com.pl.common.annotation.Log;
 import com.pl.common.base.AjaxResult;
 import com.pl.common.enums.BusinessType;
 import com.pl.common.utils.ExcelUtil;
 import com.pl.framework.util.ShiroUtils;
+import com.pl.framework.web.base.BaseController;
 import com.pl.framework.web.page.TableDataInfo;
 import com.pl.system.domain.SysRole;
 import com.pl.system.service.ISysRoleService;
-import com.pl.framework.web.base.BaseController;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 角色信息
@@ -84,8 +82,16 @@ public class SysRoleController extends BaseController
     {
         role.setCreateBy(ShiroUtils.getLoginName());
         ShiroUtils.clearCachedAuthorizationInfo();
-        return toAjax(roleService.insertRole(role));
-
+        if (!StringUtils.isEmpty(role.getSourceId()) && role.getSourceId().contains(",")) {
+            String[] sourceids = role.getSourceId().split(",");
+            for(int i = 0;i<sourceids.length;i++) {
+                role.setSourceId(sourceids[i]);
+                roleService.insertRole(role);
+            }
+        } else {
+            return toAjax(roleService.insertRole(role));
+        }
+        return null;
     }
 
     /**

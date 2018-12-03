@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.pl.framework.web.base.BaseController;
 import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.Employee;
+import com.pl.web.model.JobSatAdd;
 import com.pl.web.model.Month_saturation_collection_a;
 import com.pl.web.service.impl.DepartmentServiceIMP;
 import com.pl.web.service.impl.EmployeeServiceIMP;
@@ -42,9 +43,9 @@ public class MonthSatAdd_aCtrl extends BaseController {
 	//目录点击员工饱和度(加法)交互后台
 	@RequestMapping("bigdata/month/MonthjobSatAddListCtrl")
     @ResponseBody
-    public TableDataInfo MonthSatAdd_a_list() throws Exception {
+    public TableDataInfo MonthSatAdd_a_list(JobSatAdd jobSatAdd) throws Exception {
         startPage();
-        List<Month_saturation_collection_a> MonthJobSatAdds_a = month_JobSatAddServiceIMP.Month_list();
+        List<Month_saturation_collection_a> MonthJobSatAdds_a = month_JobSatAddServiceIMP.Month_list(jobSatAdd);
         TableDataInfo tableDataInfo = getDataTable(MonthJobSatAdds_a);
         return tableDataInfo;
     }

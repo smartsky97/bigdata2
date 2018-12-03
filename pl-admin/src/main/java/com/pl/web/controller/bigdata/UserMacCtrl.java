@@ -1,5 +1,7 @@
 package com.pl.web.controller.bigdata;
 
+import com.pl.framework.web.base.BaseController;
+import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.UserMac;
 import com.pl.web.service.impl.UserMacServiceIMP;
 import com.pl.web.util.Pager;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.List;
  *
  */
 @Controller
-public class UserMacCtrl {
+public class UserMacCtrl extends BaseController {
 	/*
 	 * 日志收集
 	 */
@@ -31,27 +34,20 @@ public class UserMacCtrl {
 	/*
 	 * 数据列表
 	 */
-	@RequestMapping("userMacList")
-	public String UserMacList (ModelMap mm,HttpServletRequest request)throws Exception{
-		int currentPage = 0;
-		int totalRecord =this.userMacServiceIMP.getAllDataSize();
-		mm.put("totalRecord", totalRecord);
-		String pageNum = request.getParameter("pageNum");
-		int pageSize = Pager.DEFAULT_PAGESIZE;
-		//如果前台传入pageNum参数，则设置pageNum为当前第几页
-		if (pageNum !=null && !"".equals(pageNum.trim())) {
-			currentPage = Integer.parseInt(pageNum);
-		}else {
-			currentPage = Pager.DEFAULT_PAGENUM;
-		}
-		Pager pager = new Pager(currentPage, pageSize, totalRecord);
-		int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
-		List<UserMac> macList = this.userMacServiceIMP.list(fromIndex, pageSize);
-		mm.put("page", pager);
-		mm.put("list", macList);
-		mm.put("pageNum", pageNum);
-		return "usermac/list";
+	@RequestMapping("bigdata/wifi/userMacList")
+    @ResponseBody
+	public TableDataInfo UserMacList (UserMac userMac)throws Exception{
+        startPage();
+		List<UserMac> macList = this.userMacServiceIMP.list(userMac);
+		TableDataInfo tableDataInfo = getDataTable(macList);
+        return tableDataInfo;
 	}
+
+	@RequestMapping("bigdata/wifi/usermac")
+	public String usermac() {
+		return "bigdata/wifidata/usermac";
+	}
+
 	/*
 	 * 删除数据
 	 */
@@ -63,7 +59,7 @@ public class UserMacCtrl {
 		if(result){
 			System.out.println("删除成功");
 		}
-		return UserMacList(mm,request);	
+		return usermac();
 	}
 	/*
 	 * 添加数据
@@ -78,7 +74,7 @@ public class UserMacCtrl {
 		}else{
 			boolean result=this.userMacServiceIMP.AddUserMac(userMac);
 			
-			return UserMacList(mm,request);
+			return usermac();
 			
 		}
 			
@@ -98,7 +94,7 @@ public class UserMacCtrl {
 			
 			boolean result1=this.userMacServiceIMP.updateUserMac(userMac);
 			
-			return UserMacList(mm,request);
+			return usermac();
 		}
 		
 	}

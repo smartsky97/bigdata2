@@ -23,5 +23,5 @@ public interface DateTimeService {
 	
 	public int getSearchDataSize(String date, String descb);
 	
-	public List<DateTime> dataList(int fromIndex, int pageSize);
+	public List<DateTime> dataList(DateTime dateTime);
 }

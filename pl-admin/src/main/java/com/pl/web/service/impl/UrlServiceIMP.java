@@ -24,9 +24,9 @@ public class UrlServiceIMP implements UrlService {
 	 * 获取Url列表
 	 */
 	@Override
-	public List<Url> getUrls(int fromIndex, int pageSize) {
+	public List<Url> getUrls(Url url) {
 		// TODO Auto-generated method stub
-		return this.urlDao.getUrls(fromIndex,pageSize);
+		return this.urlDao.getUrls(url);
 	}
 	@Override
 	public int getUrlSize(){

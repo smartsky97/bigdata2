@@ -10,8 +10,19 @@
     <result column="mac" jdbcType="VARCHAR" property="mac" />
   </resultMap>
    <!--查询所有数据 -->
-    <select id="findAll" parameterType="Map" resultMap="WifiPositionResultMap">
-        select * from postion_mac limit #{index},#{length};
+    <select id="findAll" parameterType="WifiPosition" resultMap="WifiPositionResultMap">
+        select * from postion_mac
+		<where>
+			<if test="number !=null and number !=''">
+				number = #{number}
+			</if>
+			<if test="place != null and place !=''">
+				and place = #{place}
+			</if>
+			<if test="mac != null and mac !=''">
+				and mac = #{mac}
+			</if>
+		</where>
     </select>
     
     <!--查询所有数据的记录数(用于分页) -->

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UrlService {
 	//分页显示URL列表
-    public List<Url> getUrls(int fromIndex, int pageSize);
+    public List<Url> getUrls(Url url);
     //URL1列表
     public List<Url> getUrls1();
     //保存URL

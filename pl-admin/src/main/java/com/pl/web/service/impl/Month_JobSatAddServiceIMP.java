@@ -4,6 +4,7 @@ package com.pl.web.service.impl;
  */
 
 import com.pl.web.dao.Month_saturation_collection_aMapper;
+import com.pl.web.model.JobSatAdd;
 import com.pl.web.model.Month_saturation_collection_a;
 import com.pl.web.service.MonthJobSatAddService_A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class Month_JobSatAddServiceIMP implements MonthJobSatAddService_A {
 	}
 
 	@Override
-	public List<Month_saturation_collection_a> Month_list() {
+	public List<Month_saturation_collection_a> Month_list(JobSatAdd jobSatAdd) {
 		
-		return this.month_saturation_collection_aMapper.findAll();
+		return this.month_saturation_collection_aMapper.findAll(jobSatAdd);
 	}
 
 	@Override

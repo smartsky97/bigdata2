@@ -9,8 +9,19 @@
   </resultMap>
 
     <!--查询所有数据(分页显示) -->
-    <select id="fiandAll" parameterType="Map" resultMap="UserMacResultMap">
-        select * from user_mac limit #{index},#{length};
+    <select id="fiandAll" parameterType="UserMac" resultMap="UserMacResultMap">
+        select * from user_mac
+		<where>
+			<if test="userName !=null and userName !=''">
+				user_name = #{userName}
+			</if>
+			<if test="cnName !=null and cnName !=''">
+				cn_name = #{cnName}
+			</if>
+			<if test="mac != null and mac !=''">
+				and mac = #{mac}
+			</if>
+		</where>
     </select>
     
     <!-- 查询所有记录数(用于分页) -->

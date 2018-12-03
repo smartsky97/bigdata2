@@ -1,9 +1,9 @@
 package com.pl.web.dao;
 
-import java.util.List;
-
 import com.pl.web.model.WifiPosition;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /*
  * Wifi数据采集设备mac和物理位置对应表管理
@@ -12,7 +12,7 @@ public interface WifiPostionMapper {
 	/*
 	 * 查询列表
 	 */
-	public List<WifiPosition> findAll(@Param("index") int fromIndex, @Param("length") int pageSize);
+	public List<WifiPosition> findAll(WifiPosition wifiPosition);
 	/*
 	 * 删除
 	 */

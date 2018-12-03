@@ -70,9 +70,9 @@ public class WifiPostionServiceIMP implements WifiPostionService {
 	 * 分页显示
 	 */
 	@Override
-	public List<WifiPosition> list(int fromIndex, int pageSize) {
+	public List<WifiPosition> list(WifiPosition wifiPosition) {
 		// TODO Auto-generated method stub
-		return this.wifiPostionMapper.findAll(fromIndex, pageSize);
+		return this.wifiPostionMapper.findAll(wifiPosition);
 	}
 	/*
 	 * 查询结果分页显示

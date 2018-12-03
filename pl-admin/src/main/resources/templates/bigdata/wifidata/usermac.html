@@ -2,14 +2,47 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
+<style>
+    .select-list li {
+        margin: 5px 0 0 0 !important;
+    }
+</style>
 <body class="gray-bg">
     
      <div class="container-div">
 		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+                        <div class="col-sm-10">
+                            <ul class="row">
+                                <div class="col-sm-12">
+                                    <li class="col-sm-4">
+                                        域账号：
+                                        <input name="userName">
+                                    </li>
+                                    <li class="col-sm-4">
+                                        中文名：
+                                        <input name="cnName">
+                                    </li>
+                                    <li class="col-sm-4">
+                                        MAC：
+                                        <input name="mac">
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="col-sm-2 pull-right">
+                            <a class="btn btn-primary btn-rounded btn-sm page-btn" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm page-btn" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;添加</a>
+                        </div>
+					</div>
+				</form>
+			</div>
 
             <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
                 <div class="box-header box_bg">
-                    <h3 class="box-title col-md-12" style="padding: 8px 0;">指标管理 / 指标设置</h3>
+                    <h3 class="box-title col-md-12" style="padding: 8px 0;">用户MAC管理 /用户MAC列表</h3>
                 </div>
             </div>
 
@@ -22,12 +55,11 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:jobsatadd:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:jobsatadd:remove')}]];
-        var prefix = ctx + "bigdata/staff";
+        var prefix = ctx + "bigdata/wifi";
         console.info([[${depts}]]);
         $(function() {
-
             var options = {
-                url: prefix + "/updateTagStatus",
+                url: prefix + "/userMacList",
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
@@ -43,19 +75,22 @@
                 columns: [
 				{
 					field : 'id',
-					title : '编号',
-                    width: '25%'
+					title : 'ID'
 				},
 				{
-					field : 'tagmc',
-					title : '标签简称'
+					field : 'userName',
+					title : '域账户'
 				},
 				{
-					field : 'tagname',
-					title : '标签名称'
+					field : 'cnName',
+					title : '中文名'
 				},
                 {
-                    title: '选择',
+                    field : 'mac',
+                    title : 'MAC'
+                },
+                {
+                    title: '操作',
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
@@ -63,7 +98,8 @@
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.roleId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
-                }]
+                }
+                ]
             };
             $.table.init(options);
         });

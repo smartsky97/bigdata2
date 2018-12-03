@@ -1,9 +1,9 @@
 package com.pl.web.dao;
 
-import java.util.List;
-
 import com.pl.web.model.UserMac;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 public interface UserMacMapper {
@@ -26,7 +26,7 @@ public interface UserMacMapper {
 	/*
 	 * 查询所有用户Mac
 	 */
-	public List<UserMac> fiandAll(@Param("index") int fromIndex, @Param("length") int pageSize);
+	public List<UserMac> fiandAll(UserMac userMac);
 	/*
 	 * 通过Id查询
 	 */

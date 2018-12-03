@@ -1,5 +1,6 @@
 package com.pl.web.service;
 
+import com.pl.web.model.JobSatAdd;
 import com.pl.web.model.Month_saturation_collection_a;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface MonthJobSatAddService_A {
 	/*
 	 * 分页查询员工饱和
 	 */
-	public List<Month_saturation_collection_a> Month_list();
+	public List<Month_saturation_collection_a> Month_list(JobSatAdd jobSatAdd);
 	/*
 	 * 由名字,开始时间,结束时间 查询.用于Echars展示
 	 */

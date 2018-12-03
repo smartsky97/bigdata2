@@ -9,7 +9,7 @@ public interface WifiPostionService {
 	/*
 	 * 查询列表
 	 */
-	public List<WifiPosition> list(int fromIndex, int pageSize);
+	public List<WifiPosition> list(WifiPosition wifiPosition);
 	/*
 	 * 添加数据
 	 */

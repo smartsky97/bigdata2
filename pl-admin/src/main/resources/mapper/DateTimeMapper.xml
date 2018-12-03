@@ -8,8 +8,16 @@
   </resultMap>
 
     <!--查询所有数据(分页显示) -->
-    <select id="findAll" parameterType="Map" resultMap="DateTimeResultMap">
-        select * from date_time limit #{index},#{length};
+    <select id="findAll" parameterType="DateTime" resultMap="DateTimeResultMap">
+        select * from date_time
+		<where>
+			<if test="date !=null and date !=''">
+				date_time = #{date}
+			</if>
+			<if test="descb != null and descb !=''">
+				and descb = #{descb}
+			</if>
+		</where>
     </select>
     
     <!-- 查询所有记录数(用于分页) -->

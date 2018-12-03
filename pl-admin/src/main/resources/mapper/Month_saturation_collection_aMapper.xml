@@ -21,13 +21,38 @@
 		FROM
 		(
 		SELECT
+		c.id,
+		c.mailname,
+		c.date,
+		c.saturability
+		FROM
+		(
+		SELECT
+		b.department_id id,
 		b.cn_name AS mailname,
 		a.date,
 		a.saturability
 		FROM
 		month_saturation_collection_a a
-		INNER JOIN base_info b ON a.mailname = b.mail_name
-		) c order by date desc
+		INNER JOIN
+		base_info b ON a.mailname = b.mail_name
+		) c
+		) d
+		<where>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				AND date_format(d.date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				AND date_format(d.date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+			<if test="department != null and department !=''">
+				and d.id = #{department,jdbcType=VARCHAR}
+			</if>
+			<if test="mailname != null and mailname !=''">
+				and d.mailname = #{mailname,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY date DESC
 	</select>
 	
 	<!-- (中文名字)详细查询  用于画像(Echars展示)-->

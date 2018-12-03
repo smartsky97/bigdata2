@@ -10,7 +10,7 @@ public interface UrlDao {
     //保存URL
 	public void saveUrl(Url url);
     //分页显示URL列表
-	public List<Url> getUrls(@Param("index") int fromIndex, @Param("length") int pageSize);
+	public List<Url> getUrls(Url url);
 	//删除URL
 	public void deleteUrl(@Param("urlName") String urlName);
 	//查询URL通过URL名称

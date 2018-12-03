@@ -24,7 +24,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		new_url_lib a
 		LEFT JOIN
 		new_url_type b ON a.type = b.type
-		limit #{index},#{length}
+		<where>
+			<if test="urlName !=null and urlName !=''">
+				instr (lower(a.url),#{urlName}) &gt;0
+			</if>
+			<if test="urlType !=null and urlType !=''">
+				and a.type=#{urlType};
+			</if>
+		</where>
 	</select>
 	<!-- 自建的URL库 -->
 	<select id="getUrls1" resultMap="UrlResult">

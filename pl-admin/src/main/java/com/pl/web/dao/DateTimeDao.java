@@ -26,7 +26,7 @@ public interface DateTimeDao {
 	/*
 	 * 分页显示
 	 */
-	public List<DateTime> findAll(@Param("index") int fromIndex, @Param("length") int pageSize);
+	public List<DateTime> findAll(DateTime dateTime);
 	
 	/*
 	 * 查询总记录数,用于分页

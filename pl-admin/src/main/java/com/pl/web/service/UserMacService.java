@@ -9,7 +9,7 @@ public interface UserMacService {
 	/*
 	 * 查询列表
 	 */
-	public List<UserMac> list(int fromIndex, int pageSize);
+	public List<UserMac> list(UserMac userMac);
 	/*
 	 * 添加数据
 	 */

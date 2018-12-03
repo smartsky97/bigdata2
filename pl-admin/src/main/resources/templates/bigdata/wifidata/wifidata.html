@@ -2,6 +2,11 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
+<style>
+    .select-list li {
+        margin: 5px 0 0 0 !important;
+    }
+</style>
 <body class="gray-bg">
     
      <div class="container-div">
@@ -10,31 +15,27 @@
 				<form id="formId">
 					<div class="select-list">
                         <div class="col-sm-11">
-                            <ul>
+                            <ul class="row">
                                 <div class="col-sm-12">
-                                    <li class="col-sm-3">
-                                        域账号：
-                                        <input name="username">
+                                    <li class="col-sm-4">
+                                        域账号：<input name="username">
                                     </li>
-                                    <li class="col-sm-3">
-                                        中文名：
-                                        <input name="cnName">
+                                    <li class="col-sm-4">
+                                        　中文名：<input name="cnname">
                                     </li>
-                                    <li class="col-sm-3">
-                                        地点：
-                                        <input name="position">
+                                    <li class="col-sm-4">
+                                        地　　点：<input name="position">
                                     </li>
                                 </div>
                                 <div class="col-sm-12">
-                                    <li class="col-sm-3">
-                                        探针：
-                                        <input name="cnname">
+                                    <li class="col-sm-4">
+                                        探　针：<input name="number">
                                     </li>
                                     <li class="select-time" style="margin: 0;">
-                                        <li class="col-sm-3">
+                                        <li class="col-sm-4">
                                             起始时间：<input type="text" style="padding-left:10px;"　autocomplete="off" id="startTime" class="startTime" placeholder="开始时间" name="startime"/>
                                         </li>
-                                        <li class="col-sm-3">
+                                        <li class="col-sm-4">
                                             结束时间：<input type="text" style="padding-left:10px;" id="endTime"　autocomplete="off" class="endTime" placeholder="结束时间" name="endtime"/>
                                         </li>
                                     </li>

@@ -59,9 +59,8 @@ public class DateTimeServiceIMP implements DateTimeService {
 	}
 
 	@Override
-	public List<DateTime> dataList(int fromIndex, int pageSize) {
-		
-		return this.dateTimeDao.findAll(fromIndex, pageSize);
+	public List<DateTime> dataList(DateTime dateTime) {
+		return this.dateTimeDao.findAll(dateTime);
 	}
 
 	@Override

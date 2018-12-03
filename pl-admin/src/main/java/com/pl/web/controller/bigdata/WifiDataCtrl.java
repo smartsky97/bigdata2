@@ -85,6 +85,11 @@ public class WifiDataCtrl extends BaseController {
 		return "bigdata/wifidata/wifidata";
 	}
 
+	@RequestMapping("bigdata/wifi/plane")
+	public String plane() {
+		return "bigdata/wifidata/plane";
+	}
+
 	/*
 	 * 查询Wifi定位数据(Echars视图展示)
 	 */

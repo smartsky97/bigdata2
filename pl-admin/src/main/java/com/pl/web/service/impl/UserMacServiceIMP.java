@@ -24,8 +24,8 @@ public class UserMacServiceIMP implements UserMacService {
 	 * 查询列表 
 	 */
 	@Override
-	public List<UserMac> list(int fromIndex, int pageSize) {
-		return this.userMacMapper.fiandAll(fromIndex, pageSize);
+	public List<UserMac> list(UserMac userMac) {
+		return this.userMacMapper.fiandAll(userMac);
 	}
 	/*
 	 * 添加

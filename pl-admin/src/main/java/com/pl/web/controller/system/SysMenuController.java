@@ -177,4 +177,12 @@ public class SysMenuController extends BaseController
         mmap.put("menu", menuService.selectMenuById(menuId));
         return prefix + "/tree";
     }
+
+    @GetMapping("/groupTreeData")
+    @ResponseBody
+    public List<Map<String, Object>> groupTreeData(SysRole role) {
+        role.setUserid(getUserId());
+        List<Map<String, Object>> tree = menuService.groupTreeData(role);
+        return tree;
+    }
 }

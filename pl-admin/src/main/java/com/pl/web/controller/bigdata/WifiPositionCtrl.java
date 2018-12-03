@@ -1,5 +1,7 @@
 package com.pl.web.controller.bigdata;
 
+import com.pl.framework.web.base.BaseController;
+import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.WifiPosition;
 import com.pl.web.service.impl.WifiPostionServiceIMP;
 import com.pl.web.util.Pager;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.List;
  *
  */
 @Controller
-public class WifiPositionCtrl{
+public class WifiPositionCtrl extends BaseController {
 	/*
 	 * 日志收集
 	 */
@@ -32,27 +35,20 @@ public class WifiPositionCtrl{
 	/*
 	 * 列表展示数据
 	 */
-	@RequestMapping("positionList")
-	public String wifiPositionList(ModelMap mm,HttpServletRequest request){
-		int currentPage = 0;
-		int totalRecord =this.wifiPostionServiceIMP.getDataSize();
-		mm.put("totalRecord", totalRecord);
-		String pageNum = request.getParameter("pageNum");
-		int pageSize = Pager.DEFAULT_PAGESIZE;
-		//如果前台传入pageNum参数，则设置pageNum为当前第几页
-		if (pageNum !=null && !"".equals(pageNum.trim())) {
-			currentPage = Integer.parseInt(pageNum);
-		}else {
-			currentPage = Pager.DEFAULT_PAGENUM;
-		}
-		Pager pager = new Pager(currentPage, pageSize, totalRecord);
-		int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
-		List<WifiPosition> wifis = this.wifiPostionServiceIMP.list(fromIndex, pageSize);
-		mm.put("page", pager);
-		mm.put("list", wifis);
-		mm.put("pageNum", pageNum);
-		return "wifipost/list";	
+	@RequestMapping("bigdata/wifi/positionList")
+    @ResponseBody
+	public TableDataInfo wifiPositionList(WifiPosition wifiPosition){
+        startPage();
+		List<WifiPosition> wifis = this.wifiPostionServiceIMP.list(wifiPosition);
+        TableDataInfo tableDataInfo = getDataTable(wifis);
+        return tableDataInfo;
 	}
+
+	@RequestMapping("bigdata/wifi/position")
+	public String positionlist() {
+		return "bigdata/wifidata/positionlist";
+	}
+
 	/*
 	 * 添加数据
 	 */
@@ -62,7 +58,7 @@ public class WifiPositionCtrl{
 		if(result){
 			System.out.println("添加记录成功");
 		}
-		return wifiPositionList(mm,request);	
+		return positionlist();
 	}
 	/*
 	 * 删除数据
@@ -75,7 +71,7 @@ public class WifiPositionCtrl{
 		if(result1){
 			System.out.println("删除成功");
 		}
-		return wifiPositionList(mm,request);
+		return positionlist();
 	}
 	/*
 	 * 更新数据
@@ -86,7 +82,7 @@ public class WifiPositionCtrl{
 		if(result2){
 			System.out.println("更新成功");
 		}
-		return wifiPositionList(mm,request);
+		return positionlist();
 	}
 	/*
 	 * 通过id查询
