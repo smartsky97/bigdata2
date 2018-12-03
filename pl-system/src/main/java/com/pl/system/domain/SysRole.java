@@ -50,6 +50,8 @@ public class SysRole extends BaseEntity
     /** 部门组（数据权限） */
     private Long[] deptIds;
 
+    private String SourceId;
+
     public Long getRoleId()
     {
         return roleId;
@@ -148,6 +150,14 @@ public class SysRole extends BaseEntity
     public void setDeptIds(Long[] deptIds)
     {
         this.deptIds = deptIds;
+    }
+
+    public String getSourceId() {
+        return SourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        SourceId = sourceId;
     }
 
     @Override

@@ -1,8 +1,9 @@
 package com.pl.system.mapper;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 import com.pl.system.domain.SysMenu;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 菜单表 数据层
@@ -105,4 +106,8 @@ public interface SysMenuMapper
      * @return 结果
      */
     public SysMenu checkMenuNameUnique(@Param("menuName") String menuName, @Param("parentId") Long parentId);
+
+    public List<SysMenu> selectGroupAll(@Param("userid") Long userid);
+
+    public List<String> selectGroupTree(Long roleId);
 }

@@ -369,4 +369,18 @@ public class SysMenuServiceImpl implements ISysMenuService
     {
         return getChildList(list, t).size() > 0 ? true : false;
     }
+
+    @Override
+    public List<Map<String, Object>> groupTreeData(SysRole role) {
+        Long roleId = role.getRoleId();
+        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
+        List<SysMenu> authorityList = menuMapper.selectGroupAll(role.getUserid());
+        if (StringUtils.isNotNull(roleId)) {
+            List<String> roleMenuList = menuMapper.selectGroupTree(roleId);
+            trees = getTrees(authorityList, true, roleMenuList, false);
+        } else {
+            trees = getTrees(authorityList, false, null, false);
+        }
+        return trees;
+    }
 }

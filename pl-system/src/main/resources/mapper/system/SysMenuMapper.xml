@@ -143,5 +143,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			sysdate()
  		)
 	</insert>
-	
+
+	<select id="selectGroupAll" resultMap="SysMenuResult">
+      SELECT id menu_id,pid parent_id,department menu_name from department_index
+	</select>
+
+    <select id="selectGroupTree" parameterType="Long" resultType="String">
+        select concat(g.id, g.department) as perms
+        from department_index g
+    </select>
 </mapper> 

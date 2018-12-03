@@ -1,11 +1,12 @@
 package com.pl.system.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import com.pl.system.domain.SysMenu;
 import com.pl.system.domain.SysRole;
 import com.pl.system.domain.SysUser;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 菜单 业务层
@@ -122,4 +123,6 @@ public interface ISysMenuService
      * @return 结果
      */
     public String checkMenuNameUnique(SysMenu menu);
+
+    public List<Map<String, Object>> groupTreeData(SysRole role);
 }
