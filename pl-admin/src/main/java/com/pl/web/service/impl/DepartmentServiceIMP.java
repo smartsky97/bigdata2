@@ -13,9 +13,9 @@ public class DepartmentServiceIMP implements DepartmentService {
 	@Autowired
     private DepartmentDao departmentDao;
 	@Override
-	public List<Department> getDepartments() {
+	public List<Department> getDepartments(Long userid) {
 		// TODO Auto-generated method stub
-		return this.departmentDao.getDepartments();
+		return this.departmentDao.getDepartments(userid);
 	}
 
 }

@@ -51,6 +51,7 @@ public class SysRole extends BaseEntity
     private Long[] deptIds;
 
     private String SourceId;
+    private String[] sourceids;
 
     public Long getRoleId()
     {
@@ -158,6 +159,14 @@ public class SysRole extends BaseEntity
 
     public void setSourceId(String sourceId) {
         SourceId = sourceId;
+    }
+
+    public String[] getSourceids() {
+        return sourceids;
+    }
+
+    public void setSourceids(String[] sourceids) {
+        this.sourceids = sourceids;
     }
 
     @Override

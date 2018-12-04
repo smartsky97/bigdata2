@@ -182,6 +182,7 @@ public class SysRoleServiceImpl implements ISysRoleService
         roleMapper.updateRole(role);
         // 删除角色与菜单关联
         roleMenuMapper.deleteRoleMenuByRoleId(role.getRoleId());
+        roleMenuMapper.deleteRoleDepaByRoleId(role.getRoleId());
         return insertRoleMenu(role);
     }
 
@@ -222,6 +223,20 @@ public class SysRoleServiceImpl implements ISysRoleService
         if (list.size() > 0)
         {
             rows = roleMenuMapper.batchRoleMenu(list);
+        }
+        List<SysRoleMenu> listdepa = new ArrayList<SysRoleMenu>();
+        if (null != role.getSourceids()) {
+            for (String sourceid : role.getSourceids())
+            {
+                SysRoleMenu rm = new SysRoleMenu();
+                rm.setRoleId(role.getRoleId());
+                rm.setMenuId(Long.valueOf(sourceid));
+                listdepa.add(rm);
+            }
+            if (listdepa.size() > 0)
+            {
+                roleMenuMapper.batchRoleDepa(listdepa);
+            }
         }
         return rows;
     }

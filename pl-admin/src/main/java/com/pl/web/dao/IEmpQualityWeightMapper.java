@@ -60,7 +60,8 @@ public interface IEmpQualityWeightMapper {
 	int getSerachDataSize();
 
 	List<EmpQualityWeight> pageShow(@Param("departmentId") String departmentId,
-                                    @Param("startime") String startime, @Param("endTime") String endTime);
+                                    @Param("startime") String startime, @Param("endTime") String endTime
+			,@Param("userid") Long userid);
 
 	int resultCount(@Param("departmentId") String departmentId, @Param("starTime") String starTime, @Param("endTime") String endTime);
 

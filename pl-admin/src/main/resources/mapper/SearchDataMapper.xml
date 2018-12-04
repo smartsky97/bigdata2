@@ -18,10 +18,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  select count(*) from index_search_data
 </select>
 <select id="list" resultMap="Result">
- select a.id,b.department,a.employee_account,a.employee_name,
+ select DISTINCT a.id,b.department,a.employee_account,a.employee_name,
  a.job_content,a.start_time,a.end_time
- from index_search_data a left join department_index b 
- on a.department=b.id
+ from index_search_data a
+ left join department_index b on a.department=b.department
+ left JOIN sys_role_depa ss on ss.depa_id=b.id
+ <where>
+     <if test="userid != null and userid !=''">
+         and ss.depa_id=b.id
+         and ss.role_id in (select role_id from sys_user_role where user_id= #{userid})
+     </if>
+ </where>
 </select>
   
 <select id="sumte" resultType="com.pl.web.model.JobTime">

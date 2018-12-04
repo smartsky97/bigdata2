@@ -59,20 +59,26 @@
 	<div th:include="include::footer"></div>
 	<script th:src="@{/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js}"></script>
 	<script type="text/javascript">
-        var groupTrees;
-	    $(function() {
-            var setting = {
-                check:{enable:true,nocheckInherit:true,chkboxType:{"Y":"ps","N":"ps"}},
-                view:{selectedMulti:false,nameIsHTML: true},
-                data:{simpleData:{enable:true},key:{title:"title"}},
-                callback:{
-                    beforeClick: function (treeId, treeNode, clickFlag) {
-                        var menuTrees = $.fn.zTree.getZTreeObj(treeId);
-                        menuTrees.checkNode(treeNode, !treeNode.checked, true, true);
-                        return false;
-                    }
+        var setting = {
+            check:{enable:true,nocheckInherit:true,chkboxType:{"Y":"ps","N":"ps"}},
+            view:{selectedMulti:false,nameIsHTML: true},
+            data:{simpleData:{enable:true},key:{title:"title"}},
+            callback:{
+                beforeClick: function (treeId, treeNode, clickFlag) {
+                    var menuTrees = $.fn.zTree.getZTreeObj(treeId);
+                    menuTrees.checkNode(treeNode, !treeNode.checked, true, true);
+                    return false;
                 }
-            };
+            }
+        };
+        var groupTrees;
+        var loadGroupTree = function () {
+            $.get(ctx + "system/menu/groupTreeData", function(data) {
+                groupTrees = $.fn.zTree.init($("#groupTrees"), setting, data); //.expandAll(true);
+            }, null, null, "正在加载，请稍后...");
+        };
+        loadGroupTree();
+	    $(function() {
 			var url = ctx + "system/menu/roleMenuTreeData";
 			var options = {
 				id: "menuTrees",
@@ -81,12 +87,6 @@
 		        expandLevel: 0
 		    };
 			$.tree.init(options);
-			var loadGroupTree = function () {
-                $.get(ctx + "system/menu/groupTreeData", function(data) {
-                    groupTrees = $.fn.zTree.init($("#groupTrees"), setting, data); //.expandAll(true);
-                }, null, null, "正在加载，请稍后...");
-            };
-            loadGroupTree();
 		});
 		
 		$("#form-role-add").validate({
@@ -163,7 +163,7 @@
 					"status": status,
 					"remark": remark,
 					"menuIds": menuIds,
-                    "groupIds": groupIds
+                    "sourceId": groupIds
 				},
 				async : false,
 				error : function(request) {

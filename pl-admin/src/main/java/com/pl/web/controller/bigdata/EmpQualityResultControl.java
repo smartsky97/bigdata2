@@ -39,14 +39,14 @@ public class EmpQualityResultControl extends BaseController {
 			computeDate=null;
 		}
         startPage();
-		List<QualityResultPage> list = qualityResultService.select(computeDate,department_id);
+		List<QualityResultPage> list = qualityResultService.select(computeDate,department_id,getUserId());
         TableDataInfo tableDataInfo = getDataTable(list);
         return tableDataInfo;
 	}
 
 	@RequestMapping("qualityresultpage")
 	public String SerachDataCtrl(ModelMap mm) {
-        mm.put("depts",departmentServiceIMP.getDepartments());
+        mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		return "bigdata/jobData/qualityresultpage";
 	}
 }

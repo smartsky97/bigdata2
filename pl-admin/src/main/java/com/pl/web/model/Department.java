@@ -5,6 +5,7 @@ import java.util.List;
 public class Department {
     private String id;
     private String department;
+    private Long userid;
     private List<Employee> employeeList;
     public Department(){}
 	public Department(String id, String department) {
@@ -20,6 +21,15 @@ public class Department {
 	public String getDepartment() {
 		return department;
 	}
+
+	public Long getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Long userid) {
+		this.userid = userid;
+	}
+
 	public void setDepartment(String department) {
 		this.department = department;
 	}

@@ -29,8 +29,8 @@ public interface IEmpQualityResultMapper {
 	 * 查询工作量表的所有数据,带有分页效果的
 	 * @return
 	 */
-	List<QualityResultPage> select(@Param("computeDate") String computeDate, @Param("department_id") String department_id
-								   );
+	List<QualityResultPage> select(@Param("computeDate") String computeDate, @Param("department_id") String department_id,
+								   @Param("userid") Long userid);
 	
 
 	int resultCount(@Param("computeDate") String computeDate, @Param("department_id") String department_id);

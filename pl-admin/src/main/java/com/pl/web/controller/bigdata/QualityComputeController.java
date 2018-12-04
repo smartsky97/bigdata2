@@ -55,7 +55,7 @@ public class QualityComputeController extends BaseController {
 		String id =request.getParameter("id");
 		System.out.println(  id+"--department_id--"+ department_id);
 		
-		List<Department> depts = departmentServiceIMP.getDepartments();
+		List<Department> depts = departmentServiceIMP.getDepartments(getUserId());
 		if (null!=department_id &&!"".equals(department_id)) {
 		    String name=""; 	
 			for (int i = 0; i < depts.size(); i++) {
@@ -88,7 +88,7 @@ public class QualityComputeController extends BaseController {
 			EmpQualityWeight empQualityWeight=empQualityWeightService.getById(id);
              System.out.println("--empQualityWeight--"+ empQualityWeight);
 			mm.put("empQualityWeight", empQualityWeight);
-			mm.put("depts", departmentServiceIMP.getDepartments());
+			mm.put("depts", departmentServiceIMP.getDepartments(getUserId()));
 			return "redirect:listQualiWeig.do";
 	}
 	
@@ -144,7 +144,7 @@ public class QualityComputeController extends BaseController {
 			endTime="20160931";
 		}
         startPage();
-		List<EmpQualityWeight> list = empQualityWeightService.pageShow(deptId, startTime, endTime);
+		List<EmpQualityWeight> list = empQualityWeightService.pageShow(deptId, startTime, endTime,getUserId());
 		
 		System.out.println("---EmpQualityWeight---list --" +list);
         TableDataInfo tableDataInfo = getDataTable(list);
@@ -153,7 +153,7 @@ public class QualityComputeController extends BaseController {
 
 	@RequestMapping("bigdata/jobData/empqualityweight")
 	public String SerachDataCtrl(ModelMap mm) {
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		return "bigdata/jobData/empqualityweight";
 	}
 	

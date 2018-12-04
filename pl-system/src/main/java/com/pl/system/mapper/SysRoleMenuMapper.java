@@ -1,7 +1,8 @@
 package com.pl.system.mapper;
 
-import java.util.List;
 import com.pl.system.domain.SysRoleMenu;
+
+import java.util.List;
 
 /**
  * 角色与菜单关联表 数据层
@@ -17,7 +18,8 @@ public interface SysRoleMenuMapper
      * @return 结果
      */
     public int deleteRoleMenuByRoleId(Long roleId);
-    
+    public int deleteRoleDepaByRoleId(Long roleId);
+
     /**
      * 批量删除角色菜单关联信息
      * 
@@ -41,4 +43,6 @@ public interface SysRoleMenuMapper
      * @return 结果
      */
     public int batchRoleMenu(List<SysRoleMenu> roleMenuList);
+
+    public int batchRoleDepa(List<SysRoleMenu> roleMenuList);
 }

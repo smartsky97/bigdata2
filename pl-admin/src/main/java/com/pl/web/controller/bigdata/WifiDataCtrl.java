@@ -75,7 +75,8 @@ public class WifiDataCtrl extends BaseController {
 		String endTime = request.getParameter("endtime");
 		System.out.println("-------" + endTime);
         startPage();
-		List<WifiData> wifiDatas = this.wifiDataServiceIMP.searchWifiData(macCode, positionName, userName,cnName,startTime, endTime);
+		List<WifiData> wifiDatas = this.wifiDataServiceIMP.searchWifiData(macCode, positionName, userName,cnName,startTime, endTime,
+				getUserId());
         TableDataInfo tableDataInfo = getDataTable(wifiDatas);
         return tableDataInfo;
 	}

@@ -45,6 +45,10 @@ public class MonthSatAdd_aCtrl extends BaseController {
     @ResponseBody
     public TableDataInfo MonthSatAdd_a_list(JobSatAdd jobSatAdd) throws Exception {
         startPage();
+		jobSatAdd.setUserid(getUserId());
+		if ("全部".equals(jobSatAdd.getMailname())) {
+            jobSatAdd.setMailname(null);
+        }
         List<Month_saturation_collection_a> MonthJobSatAdds_a = month_JobSatAddServiceIMP.Month_list(jobSatAdd);
         TableDataInfo tableDataInfo = getDataTable(MonthJobSatAdds_a);
         return tableDataInfo;
@@ -52,7 +56,7 @@ public class MonthSatAdd_aCtrl extends BaseController {
 
     @RequestMapping("bigdata/month/monthjob")
     public String monthjob(ModelMap mm) {
-        mm.put("depts",departmentServiceIMP.getDepartments());
+        mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
         return "bigdata/month/monthjob";
     }
 
@@ -92,7 +96,7 @@ public class MonthSatAdd_aCtrl extends BaseController {
 			mm.put("startime",startime );
 			mm.put("endtime",endtime );
 			mm.put("mailname",mailname );
-			mm.put("depts",departmentServiceIMP.getDepartments());
+			mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 			mm.put("nums", employees);
 			mm.put("page", pager);
 			mm.put("list", MonthjobSatAdd);

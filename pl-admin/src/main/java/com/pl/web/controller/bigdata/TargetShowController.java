@@ -3,6 +3,7 @@ package com.pl.web.controller.bigdata;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pl.framework.web.base.BaseController;
 import com.pl.web.dto.EmpBasicInfo;
 import com.pl.web.dto.EmpLabelResult;
 import com.pl.web.dto.EmpTargetDynamic;
@@ -34,7 +35,7 @@ import java.util.Map;
  *
  */
 @Controller
-public class TargetShowController {
+public class TargetShowController extends BaseController {
 
 	@Autowired
 	private ITagsService tagsService;
@@ -96,8 +97,14 @@ public class TargetShowController {
 		return "target";
 	}
 
+	@RequestMapping("bigdata/staff/userdraw")
+	public String userdraw(ModelMap mm) {
+        mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
+		return "bigdata/staff/userdraw";
+	}
+
 //	@RequestMapping(value = "/showjson.do", produces = { "application/json,charset=utf-8" })
-	@RequestMapping(value = "/showjson.do")
+	@RequestMapping(value = "bigdata/staff/showjson")
 //	public void showJson(@RequestParam() Map<String, String> map, HttpServletResponse response) throws Exception {
 	public void showJson(@RequestParam() Map<String, String> map) throws Exception {
 		String departmentId = map.get("department_id");
@@ -203,7 +210,7 @@ public class TargetShowController {
 		mm.put("empTargetDynamics", empTargetDynamics);
 		List<EmpLabelResult> labelResults = empLabelService.selectByUserId(department_id, employee);
 		mm.put("labels", labelResults);
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		mm.put("nums", employeeServiceIMP.getEmps(department_id));
 		mm.put("department_id", department_id);
 		mm.put("employee", employee);

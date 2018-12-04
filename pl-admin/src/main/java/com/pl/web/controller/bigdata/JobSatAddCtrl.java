@@ -52,7 +52,7 @@ public class JobSatAddCtrl extends BaseController {
 	@RequestMapping("jobSatAddListCtrl")
 	public String listAdd(ModelMap mm,HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		return prefix + "/listAdd";
 	}
 
@@ -60,6 +60,7 @@ public class JobSatAddCtrl extends BaseController {
     @ResponseBody
 	public TableDataInfo list(JobSatAdd jobSatAdd) {
         startPage();
+        jobSatAdd.setUserid(getUserId());
         List<JobSatAdd> list = jobSatAddServiceIMP.list(jobSatAdd);
         return getDataTable(list);
     }
@@ -99,7 +100,7 @@ public class JobSatAddCtrl extends BaseController {
 		mm.put("startime",startime );
 		mm.put("endtime",endtime );
 		mm.put("mailname",mailname );
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		mm.put("nums", employees);
 		mm.put("page", pager);
 		mm.put("list", jobSatAdd);
@@ -161,8 +162,9 @@ public class JobSatAddCtrl extends BaseController {
 			mm.put("list", JobSatAdds);
 			mm.put("depts",departmentServiceIMP.getDepartments());
 			mm.put("pageNum", pageNum);*/
+            List<JobSatAdd> JobSatAdds = jobSatAddServiceIMP.list_B(0,10);
 
-            mm.put("depts",departmentServiceIMP.getDepartments());
+            mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 			return prefix + "/listAdd_b";
 		}
 
@@ -170,6 +172,7 @@ public class JobSatAddCtrl extends BaseController {
     @ResponseBody
     public TableDataInfo list_b(JobSatAdd jobSatAdd) {
         startPage();
+        jobSatAdd.setUserid(getUserId());
         List<JobSatAdd> list = jobSatAddServiceIMP.list_b(jobSatAdd);
         return getDataTable(list);
     }
@@ -209,7 +212,7 @@ public class JobSatAddCtrl extends BaseController {
 			mm.put("startime",startime );
 			mm.put("endtime",endtime );
 			mm.put("mailname",mailname );
-			mm.put("depts",departmentServiceIMP.getDepartments());
+			mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 			mm.put("nums", employees);
 			mm.put("page", pager);
 			mm.put("list", jobSatAdd);

@@ -32,9 +32,9 @@ public class EmpQualityResultImpl implements IEmpQualityResultService {
 	}
 
 	@Override
-	public List<QualityResultPage> select(String computeDate, String department_id) {
+	public List<QualityResultPage> select(String computeDate, String department_id, Long userid) {
 		// TODO Auto-generated method stub
-		return empQualityResultDAO.select(computeDate,department_id);
+		return empQualityResultDAO.select(computeDate,department_id,userid);
 	}
 
 	@Override

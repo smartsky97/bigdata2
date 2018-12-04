@@ -1,6 +1,7 @@
 package com.pl.web.controller.bigdata;
 
 import com.alibaba.fastjson.JSONObject;
+import com.pl.framework.web.base.BaseController;
 import com.pl.web.model.Employee;
 import com.pl.web.model.JobSatDown;
 import com.pl.web.service.impl.DepartmentServiceIMP;
@@ -27,7 +28,7 @@ import java.util.List;
  *
  */
 @Controller
-public class JobSatDownCtrl {
+public class JobSatDownCtrl extends BaseController {
 	/*
 	 * 日志收集
 	 */
@@ -61,7 +62,7 @@ public class JobSatDownCtrl {
 		Pager pager = new Pager(currentPage, pageSize, totalRecord);
 		int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
 		List<JobSatDown> JobSatDowns = jobSatDownServiceIMP.list(fromIndex,pageSize);
-		mm.put("depts", departmentServiceIMP.getDepartments());
+		mm.put("depts", departmentServiceIMP.getDepartments(getUserId()));
 		mm.put("page", pager);
 		mm.put("list", JobSatDowns);
 		mm.put("pageNum", pageNum);
@@ -97,7 +98,7 @@ public class JobSatDownCtrl {
 		//根据部门id查询员工.
 		List<Employee> employees = employeeServiceIMP.getEmps(department_id);
 		mm.put("department",department);
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		mm.put("nums", employees);
 		mm.put("startime",startime );
 		mm.put("mailname", mailname);
@@ -153,7 +154,7 @@ public class JobSatDownCtrl {
 			Pager pager = new Pager(currentPage, pageSize, totalRecord);
 			int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
 			List<JobSatDown> JobSatDowns = jobSatDownServiceIMP.list_B(fromIndex,pageSize);
-			mm.put("depts", departmentServiceIMP.getDepartments());
+			mm.put("depts", departmentServiceIMP.getDepartments(getUserId()));
 			mm.put("page", pager);
 			mm.put("list", JobSatDowns);
 			mm.put("pageNum", pageNum);
@@ -189,7 +190,7 @@ public class JobSatDownCtrl {
 			//根据部门id查询员工.
 			List<Employee> employees = employeeServiceIMP.getEmps(department_id);
 			mm.put("department",department);
-			mm.put("depts",departmentServiceIMP.getDepartments());
+			mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 			mm.put("nums", employees);
 			mm.put("startime",startime );
 			mm.put("mailname", mailname);

@@ -27,18 +27,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
     
     <select id="select" resultType="com.pl.web.model.QualityResultPage">
-    SELECT   e.`id`  AS "id" , b.`cn_name` cnName,b.`department`,e.`mail_name`,e.`quality_result` qualityResult,e.`compute_date` computeDate
-     FROM emp_quality_result e LEFT JOIN base_info b ON b.`mail_name`=e.`mail_name`
-		   WHERE 1=1   
-		   <if test="computeDate  != null ">
-		     AND  e.`compute_date`=#{computeDate}
-		   </if>
-		   <if test="department_id  != null ">
-		    AND e.`mail_name` IN 
-		   (SELECT mail_name FROM base_info 
-		       WHERE department_id=#{department_id})
-		    </if>   
-		  ORDER BY e.`compute_date` DESC 
+		SELECT e.`id` AS "id" , b.`cn_name` cnName,b.`department`,e.`mail_name`,e.`quality_result`
+		qualityResult,e.`compute_date` computeDate
+		FROM emp_quality_result e
+		LEFT JOIN base_info b ON b.`mail_name`=e.`mail_name`
+		left JOIN sys_role_depa ss on ss.depa_id=b.department_id
+		WHERE 1=1
+		<if test="computeDate  != null ">
+			AND e.`compute_date`=#{computeDate}
+		</if>
+		<if test="department_id  != null ">
+			AND e.`mail_name` IN
+			(SELECT mail_name FROM base_info
+			WHERE department_id=#{department_id})
+		</if>
+		<if test="userid != null and userid !=''">
+			and ss.depa_id=b.department_id
+			and ss.role_id in (select role_id from sys_user_role where user_id= #{userid})
+		</if>
+		ORDER BY e.`compute_date` DESC
 	</select>
 	
 	<update id="updateResult" parameterType="com.pl.web.model.EmpQualityResult">

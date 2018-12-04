@@ -6,5 +6,5 @@ import com.pl.web.model.Department;
 import java.util.List;
 
 public interface DepartmentService {
-    public List<Department> getDepartments();
+    public List<Department> getDepartments(Long userid);
 }

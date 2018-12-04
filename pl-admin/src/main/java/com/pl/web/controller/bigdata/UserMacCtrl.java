@@ -38,6 +38,7 @@ public class UserMacCtrl extends BaseController {
     @ResponseBody
 	public TableDataInfo UserMacList (UserMac userMac)throws Exception{
         startPage();
+		userMac.setUserid(getUserId());
 		List<UserMac> macList = this.userMacServiceIMP.list(userMac);
 		TableDataInfo tableDataInfo = getDataTable(macList);
         return tableDataInfo;

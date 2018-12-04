@@ -49,20 +49,45 @@
 					<div id="menuTrees" class="ztree"></div>
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">数据权限</label>
+				<div class="col-sm-8">
+					<div id="groupTrees" class="ztree"></div>
+				</div>
+			</div>
 		</form>
 	</div>
 	<div th:include="include::footer"></div>
 	<script th:src="@{/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js}"></script>
 	<script type="text/javascript">
-	     $(function() {
-			var url = ctx + "system/menu/roleMenuTreeData?roleId=" + $("#roleId").val();
-			var options = {
-				id: "menuTrees",
-		        url: url,
-		        check: { enable: true, nocheckInherit: true, chkboxType: { "Y": "ps", "N": "ps" } },
-		        expandLevel: 0
-		    };
-			$.tree.init(options);
+        var setting = {
+            check:{enable:true,nocheckInherit:true,chkboxType:{"Y":"ps","N":"ps"}},
+            view:{selectedMulti:false,nameIsHTML: true},
+            data:{simpleData:{enable:true},key:{title:"title"}},
+            callback:{
+                beforeClick: function (treeId, treeNode, clickFlag) {
+                    var menuTrees = $.fn.zTree.getZTreeObj(treeId);
+                    menuTrees.checkNode(treeNode, !treeNode.checked, true, true);
+                    return false;
+                }
+            }
+        };
+        var groupTrees;
+        $(function() {
+             var url = ctx + "system/menu/roleMenuTreeData?roleId=" + $("#roleId").val();
+             var options = {
+                 id: "menuTrees",
+                 url: url,
+                 check: {enable: true, nocheckInherit: true, chkboxType: {"Y": "ps", "N": "ps"}},
+                 expandLevel: 0
+             };
+             $.tree.init(options);
+             var loadGroupTree = function () {
+                 $.get(ctx + "system/menu/groupTreeData?roleId=" + $("#roleId").val(), function (data) {
+                     groupTrees = $.fn.zTree.init($("#groupTrees"), setting, data); //.expandAll(true);
+                 }, null, null, "正在加载，请稍后...");
+             };
+             loadGroupTree();
 		});
 	
 		$("#form-role-edit").validate({
@@ -128,6 +153,7 @@
 			var status = $("input[name='status']").is(':checked') == true ? 0 : 1;
 			var remark = $("input[name='remark']").val();
 			var menuIds = $.tree.getCheckedNodes();
+            var groupIds = selectGroupCheckeds();
 			$.ajax({
 				cache : true,
 				type : "POST",
@@ -139,7 +165,8 @@
 					"roleSort": roleSort,
 					"status": status,
 					"remark": remark,
-					"menuIds": menuIds
+					"menuIds": menuIds,
+                    "sourceids": groupIds
 				},
 				async : false,
 				error : function(request) {
@@ -156,6 +183,19 @@
 	        	edit();
 	        }
 	    }
+
+         function selectGroupCheckeds() {
+             var menuIds = "";
+             var treeNodes = groupTrees.getCheckedNodes(true);
+             for (var i = 0; i < treeNodes.length; i++) {
+                 if (0 == i) {
+                     menuIds = treeNodes[i].id;
+                 } else {
+                     menuIds += ("," + treeNodes[i].id);
+                 }
+             }
+             return menuIds;
+         }
 	</script>
 </body>
 </html>

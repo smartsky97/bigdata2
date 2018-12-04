@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="SysMenu" id="SysMenuResult">
 		<id     property="menuId"         column="menu_id"        />
+		<id     property="smenuid"         column="smenuid"        />
 		<result property="menuName"       column="menu_name"      />
 		<result property="parentName"     column="parent_name"    />
 		<result property="parentId"       column="parent_id"      />
@@ -145,11 +146,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<select id="selectGroupAll" resultMap="SysMenuResult">
-      SELECT id menu_id,pid parent_id,department menu_name from department_index
+      SELECT DISTINCT d.id menu_id,d.id smenuid,d.pid parent_id,d.department menu_name from department_index d
+	</select>
+	<select id="selectGroupByRole" resultMap="SysMenuResult">
+      SELECT DISTINCT d.id menu_id,d.id smenuid,d.pid parent_id,d.department menu_name from department_index d
+		left join sys_role_depa s on s.depa_id = d.id
+		<where>
+			<if	test="userid != null and userid!=''">
+				and s.depa_id = d.id
+				and s.role_id in (select role_id from sys_user_role where user_id=#{userid})
+			</if>
+		</where>
 	</select>
 
     <select id="selectGroupTree" parameterType="Long" resultType="String">
         select concat(g.id, g.department) as perms
         from department_index g
+        left join sys_role_depa s on s.depa_id = g.id
+        <where>
+			<if test="roleId!=null and roleId!=''">
+				s.role_id = #{roleId}
+			</if>
+		</where>
     </select>
 </mapper> 

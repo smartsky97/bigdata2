@@ -214,16 +214,21 @@ order by b.mail_name
 	
 	
 	<select id="pageShow" resultType="com.pl.web.model.EmpQualityWeight">
-	
-	 SELECT  d.department,t.key_word_weight keyWordWeight,t.examine_score_weight examineScoreWeight,t.month_file_growth_weight monthFileGrowthWeight,
+		SELECT d.department,t.key_word_weight keyWordWeight,t.examine_score_weight
+		examineScoreWeight,t.month_file_growth_weight monthFileGrowthWeight,
 		t.keyboard_click_weight keyboardClickWeight,t.work_saturation_add_weight workSaturationAddWeight,
 		t.work_saturation_sub_weight workSaturationSubWeight,t.email_send_times_weight emailSendTimesWeight
-		FROM emp_quality_weight  AS t , department_index  AS d
-  		WHERE   1=1  
+		FROM emp_quality_weight AS t
+		inner join department_index AS d on t.dept_id=d.id
+		left JOIN sys_role_depa ss on ss.depa_id=t.dept_id
+		WHERE 1=1
 		<if test="departmentId != null">
-			AND	t.dept_id = #{departmentId} 
+			AND t.dept_id = #{departmentId}
 		</if>
-		 AND t.dept_id=d.id
+		<if test="userid != null and userid !=''">
+			and ss.depa_id=t.dept_id
+			and ss.role_id in (select role_id from sys_user_role where user_id= #{userid})
+		</if>
 	<!-- 	<if test="start_time != null and end_time != null">
 			and t.compute_date BETWEEN #{start_time} AND #{end_time}
 		</if>

@@ -107,7 +107,8 @@ public interface SysMenuMapper
      */
     public SysMenu checkMenuNameUnique(@Param("menuName") String menuName, @Param("parentId") Long parentId);
 
-    public List<SysMenu> selectGroupAll(@Param("userid") Long userid);
+    public List<SysMenu> selectGroupAll();
+    public List<SysMenu> selectGroupByRole(@Param("userid") Long userid);
 
-    public List<String> selectGroupTree(Long roleId);
+    public List<String> selectGroupTree(@Param("roleId") Long roleId);
 }

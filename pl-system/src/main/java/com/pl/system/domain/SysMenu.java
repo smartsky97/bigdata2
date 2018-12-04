@@ -1,10 +1,11 @@
 package com.pl.system.domain;
 
+import com.pl.common.base.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.pl.common.base.BaseEntity;
 
 /**
  * 菜单权限表 sys_menu
@@ -17,6 +18,8 @@ public class SysMenu extends BaseEntity
     
     /** 菜单ID */
     private Long menuId;
+
+    private String smenuid;
     
     /** 菜单名称 */
     private String menuName;
@@ -51,6 +54,14 @@ public class SysMenu extends BaseEntity
     public Long getMenuId()
     {
         return menuId;
+    }
+
+    public String getSmenuid() {
+        return smenuid;
+    }
+
+    public void setSmenuid(String smenuid) {
+        this.smenuid = smenuid;
     }
 
     public void setMenuId(Long menuId)

@@ -24,7 +24,7 @@ public class ListSearchDataCtrl extends BaseController {
     @ResponseBody
 	public TableDataInfo list(ModelMap mm, HttpServletRequest request, HttpServletResponse response){
 		startPage();
-		List<SerachData> list = searchDataServiceImpl.list();
+		List<SerachData> list = searchDataServiceImpl.list(getUserId());
         TableDataInfo tableDataInfo = getDataTable(list);
         return tableDataInfo;
 	}

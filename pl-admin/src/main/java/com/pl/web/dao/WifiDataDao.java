@@ -29,5 +29,6 @@ public interface WifiDataDao {
 	 */
 	public List<WifiData> searchWifiData(@Param("macCode") String macCode, @Param("positionName") String positionName,
 										 @Param("userName") String userName, @Param("cnName") String cnName,
-										 @Param("startTime") String startTime, @Param("endTime") String endTime);
+										 @Param("startTime") String startTime, @Param("endTime") String endTime,
+										 @Param("userid")Long userid);
 }

@@ -45,7 +45,7 @@ public interface IEmpQualityWeightService {
 	
 	
 	public List<EmpQualityWeight> pageShow(@Param("dept_id") String dept_id, @Param("startTime") String startime,
-                                           @Param("endTime") String endTime);
+                                           @Param("endTime") String endTime,Long userid);
 	
 	public int resultCount(@Param("departmentId") String departmentId, @Param("startTime") String starTime,
                            @Param("endTime") String endTime);

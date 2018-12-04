@@ -125,4 +125,5 @@ public interface ISysMenuService
     public String checkMenuNameUnique(SysMenu menu);
 
     public List<Map<String, Object>> groupTreeData(SysRole role);
+
 }

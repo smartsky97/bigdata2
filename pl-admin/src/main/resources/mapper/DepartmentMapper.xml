@@ -8,18 +8,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  <result property="department" column="department"/>
 </resultMap>
     
-<resultMap id="departResult" type="Department">
+<resultMap id="departResultt" type="Department">
     <id column="id" property="id"/>
     <result column="department" property="department"/> 
-    <collection property="employeeList" ofType="Employee" select="selectBaseinfo" column="{department_id=id}"></collection>
+    <result column="userid" property="userid"/>
+    <collection property="employeeList" ofType="Employee" select="selectBaseinfo" column="{department_id=id,userid=userid}"></collection>
 </resultMap>
     
-<select id="getDepartments" resultMap="departResult">
-  select id,department from department_index
+<select id="getDepartments" resultMap="departResultt">
+  select DISTINCT d.id,d.department,${userid} userid from department_index d
+  left join sys_role_depa s on d.id=s.depa_id
+  where
+    d.id=s.depa_id
+    and s.role_id in (select role_id from sys_user_role where user_id=#{userid} )
 </select>
 
 <select id="selectBaseinfo" parameterType="java.util.Map" resultType="Employee">
-    SELECT mail_name,cn_name from base_info
-    where department_id = #{department_id}
+    SELECT DISTINCT b.mail_name,b.cn_name from base_info b
+    left join sys_role_depa s on b.department_id=s.depa_id
+    where b.department_id = #{department_id}
+    and b.department_id=s.depa_id
+    and s.role_id in (select role_id from sys_user_role where user_id=#{userid} )
 </select>
 </mapper>

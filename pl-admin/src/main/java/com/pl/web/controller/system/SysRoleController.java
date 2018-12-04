@@ -84,14 +84,11 @@ public class SysRoleController extends BaseController
         ShiroUtils.clearCachedAuthorizationInfo();
         if (!StringUtils.isEmpty(role.getSourceId()) && role.getSourceId().contains(",")) {
             String[] sourceids = role.getSourceId().split(",");
-            for(int i = 0;i<sourceids.length;i++) {
-                role.setSourceId(sourceids[i]);
-                roleService.insertRole(role);
-            }
+            role.setSourceids(sourceids);
+            return toAjax(roleService.insertRole(role));
         } else {
             return toAjax(roleService.insertRole(role));
         }
-        return null;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.pl.web.controller.bigdata;
 
+import com.pl.framework.web.base.BaseController;
 import com.pl.web.model.KeyWords;
 import com.pl.web.service.impl.DepartmentServiceIMP;
 import com.pl.web.service.impl.KeyWordServiceIMP;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-public class KeyWordsCtrl {
+public class KeyWordsCtrl extends BaseController {
 	/*
 	 * 日志收集
 	 */
@@ -48,7 +49,7 @@ public class KeyWordsCtrl {
 		List<KeyWords> keyWords = this.keyWordServiceIMP.list(fromIndex, pageSize);
 		mm.put("list",keyWords);
 		mm.put("page", pager);
-		mm.put("depts", departmentServiceIMP.getDepartments());
+		mm.put("depts", departmentServiceIMP.getDepartments(getUserId()));
 		return "keyword/list";
 	}
 	/*
@@ -56,7 +57,7 @@ public class KeyWordsCtrl {
 	 */
 	@RequestMapping("toAdd")
 	public String toAdd(ModelMap mm){
-		mm.put("depts", departmentServiceIMP.getDepartments());
+		mm.put("depts", departmentServiceIMP.getDepartments(getUserId()));
 		return "keyword/add";
 	}
 	/*
@@ -106,7 +107,7 @@ public class KeyWordsCtrl {
 			int id=Integer.parseInt(id2);
 			KeyWords keyWords=this.keyWordServiceIMP.getKeyWordsById(id);
 			mm.put("keywords", keyWords);
-			mm.put("depts", departmentServiceIMP.getDepartments());
+			mm.put("depts", departmentServiceIMP.getDepartments(getUserId()));
 		return "keyword/listinfo";
 	}
 	/*
@@ -149,7 +150,7 @@ public class KeyWordsCtrl {
 		mm.put("endtime", endtime);
 		mm.put("page", pager);
 		mm.put("list", keyWords);
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		return "keyword/listSearch";
 		
 	}

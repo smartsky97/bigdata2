@@ -18,7 +18,7 @@ public interface IEmpQualityResultService {
 	 * 查询工作量表的分页数据
 	 * @return
 	 */
-	List<QualityResultPage> select(@Param("computeDate") String computeDate, @Param("department_id") String department_id);
+	List<QualityResultPage> select(@Param("computeDate") String computeDate, @Param("department_id") String department_id, Long userid);
 	
 	/**
 	 * 查询工作量表的所有数据

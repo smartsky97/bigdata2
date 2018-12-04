@@ -48,9 +48,9 @@ public class EmpQualityWeightImpl implements IEmpQualityWeightService {
 	}
 
 	@Override
-	public List<EmpQualityWeight> pageShow(String departmentId, String startime, String endTime) {
+	public List<EmpQualityWeight> pageShow(String departmentId, String startime, String endTime,Long userid) {
 		// TODO Auto-generated method stub
-		return empQualityWeightDAO.pageShow(departmentId,startime, endTime);
+		return empQualityWeightDAO.pageShow(departmentId,startime, endTime,userid);
 	}
 
 	@Override

@@ -1,10 +1,13 @@
 package com.pl.web.model;
+
+import com.pl.common.base.BaseEntity;
+
 /**
  * 员工--移动电子设备mac地址对应
  * @author root
  *
  */
-public class UserMac {
+public class UserMac extends BaseEntity {
     /*
      * id
      */

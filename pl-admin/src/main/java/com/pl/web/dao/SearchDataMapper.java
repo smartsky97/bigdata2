@@ -11,7 +11,7 @@ public interface SearchDataMapper {
 
 	int getSerachDataSize();
 
-	List<SerachData> list();
+	List<SerachData> list(@Param("userid") Long userid);
 
 	List<JobTime> sumte(@Param("startTime") String startTime, @Param("endTime") String endTime);
 }

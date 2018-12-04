@@ -1,6 +1,7 @@
 package com.pl.web.controller.bigdata;
 
 import com.pl.common.config.Global;
+import com.pl.framework.web.base.BaseController;
 import com.pl.web.dto.EmpQualitySaturability;
 import com.pl.web.dto.EmpTartgetQuality;
 import com.pl.web.model.*;
@@ -29,7 +30,7 @@ import java.util.Map;
  *
  */
 @Controller
-public class QualityAllController {
+public class QualityAllController extends BaseController {
 	@Autowired
     private SearchDataServiceImpl searchDataServiceImpl;
 	
@@ -50,7 +51,7 @@ public class QualityAllController {
 	// 全导数据
 	@RequestMapping("lisQualiAll.do")
 	public String lisQaulity(Model model,HttpServletRequest request, HttpServletResponse response) {
-		List<Department> depts = departmentServiceIMP.getDepartments();
+		List<Department> depts = departmentServiceIMP.getDepartments(getUserId());
 		String allId=request.getParameter("allId");
       String department_id=request.getParameter("department_id");
 	 String computeDate=request.getParameter("computeDate");

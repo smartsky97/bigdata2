@@ -1,5 +1,6 @@
 package com.pl.web.controller.bigdata;
 
+import com.pl.framework.web.base.BaseController;
 import com.pl.web.model.Employee;
 import com.pl.web.model.EmpsKaoQin;
 import com.pl.web.service.impl.DepartmentServiceIMP;
@@ -19,7 +20,7 @@ import java.util.List;
  * 花样年员工考勤信息展示
  */
 @Controller
-public class EmpsKaoQinCtrl {
+public class EmpsKaoQinCtrl extends BaseController {
 	
 	@Autowired 
 	private EmpsKaoQinServiceIMP empsKaoQinServiceIMP;
@@ -55,7 +56,7 @@ public class EmpsKaoQinCtrl {
 		List<EmpsKaoQin> EmpsKaoQin = this.empsKaoQinServiceIMP.findAll(fromIndex, pageSize);
 		mm.put("list", EmpsKaoQin);
 		mm.put("page", pager);
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		mm.put("pageNum", pageNum);
 		return "kaoqin/empsList";
 	}
@@ -97,7 +98,7 @@ public class EmpsKaoQinCtrl {
 		mm.put("department",department);
 		mm.put("mailname", mailname);
 		mm.put("time", time);
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		mm.put("nums", empList);
 		mm.put("page", pager);
 		mm.put("list", searchEmpsKaoQins);

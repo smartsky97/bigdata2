@@ -194,6 +194,26 @@ public class SysMenuServiceImpl implements ISysMenuService
         return trees;
     }
 
+    public List<Map<String, Object>> getTrees2(List<SysMenu> menuList, boolean isCheck, List<String> roleMenuList,
+                                               boolean permsFlag) {
+        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
+        for (SysMenu menu : menuList) {
+            Map<String, Object> deptMap = new HashMap<String, Object>();
+            deptMap.put("id", menu.getMenuId());
+            deptMap.put("pId", menu.getParentId());
+            deptMap.put("name", transMenuName(menu, roleMenuList, permsFlag));
+            deptMap.put("title", menu.getMenuName());
+            if (isCheck) {
+                System.out.println(menu.getMenuId() + menu.getMenuName());
+                deptMap.put("checked", roleMenuList.contains(menu.getSmenuid() + menu.getMenuName()));
+            } else {
+                deptMap.put("checked", false);
+            }
+            trees.add(deptMap);
+        }
+        return trees;
+    }
+
     public String transMenuName(SysMenu menu, List<String> roleMenuList, boolean permsFlag)
     {
         StringBuffer sb = new StringBuffer();
@@ -374,10 +394,10 @@ public class SysMenuServiceImpl implements ISysMenuService
     public List<Map<String, Object>> groupTreeData(SysRole role) {
         Long roleId = role.getRoleId();
         List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
-        List<SysMenu> authorityList = menuMapper.selectGroupAll(role.getUserid());
+        List<SysMenu> authorityList = menuMapper.selectGroupAll();
         if (StringUtils.isNotNull(roleId)) {
             List<String> roleMenuList = menuMapper.selectGroupTree(roleId);
-            trees = getTrees(authorityList, true, roleMenuList, false);
+            trees = getTrees2(authorityList, true, roleMenuList, false);
         } else {
             trees = getTrees(authorityList, false, null, false);
         }

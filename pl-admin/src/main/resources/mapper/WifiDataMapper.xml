@@ -25,6 +25,8 @@
 		wifi_positioning a
 		INNER JOIN user_mac b ON a.dev_mac = b.mac
 		INNER JOIN postion_mac c ON a.ap_mac = c.mac
+		left join base_info bi on bi.mail_name=b.user_name
+		left join sys_role_depa ss on ss.depa_id=bi.department_id
 		<where>
 			<if test="macCode !=null and macCode !=''">
 				c.number = #{macCode}
@@ -43,6 +45,10 @@
 			</if>
 			<if test="endTime != null and endTime !=''">
 				and a.end_time &lt;= #{endTime}
+			</if>
+			<if test="userid != null and userid !=''">
+				and ss.depa_id=bi.department_id
+				and ss.role_id in (select role_id from sys_user_role where user_id= #{userid})
 			</if>
 		</where>
 		order by a.start_time DESC

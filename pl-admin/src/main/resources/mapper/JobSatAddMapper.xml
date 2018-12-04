@@ -34,6 +34,7 @@
 		INNER JOIN base_info b ON a.department = b.department
 		) c
 		INNER JOIN saturation_collection_a d ON c.mail_name =d.mailname
+		left JOIN sys_role_depa ss on ss.depa_id=c.id
 		<where>
 			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
 				AND date_format(d.date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
@@ -46,6 +47,10 @@
 			</if>
 			<if test="mailname != null and mailname !=''">
 				and c.cn_name = #{mailname,jdbcType=VARCHAR}
+			</if>
+			<if test="userid != null and userid !=''">
+				and ss.depa_id=c.id
+				and ss.role_id in (select role_id from sys_user_role where user_id= #{userid})
 			</if>
 		</where>
 		ORDER BY date DESC
@@ -239,15 +244,16 @@
 		FROM
 		(
 		SELECT
-		a.id,
 		b.cn_name AS mailname,
 		b.cn_name,
+        b.department_id departmentid,
 		a.date,
 		a.saturability
 		FROM
 		saturation_collection_b a
 		INNER JOIN base_info b ON a.mailname = b.mail_name
 		) c
+        left JOIN sys_role_depa ss on ss.depa_id=c.departmentid
 		<where>
 			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
 				AND date_format(a.date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
@@ -261,6 +267,10 @@
 			<if test="mailname != null and mailname !=''">
 				and c.cn_name = #{mailname,jdbcType=VARCHAR}
 			</if>
+            <if test="userid != null and userid !=''">
+                and ss.depa_id=c.departmentid
+                and ss.role_id in (select role_id from sys_user_role where user_id= #{userid})
+            </if>
 		</where>
 		order by date desc
 	</select>

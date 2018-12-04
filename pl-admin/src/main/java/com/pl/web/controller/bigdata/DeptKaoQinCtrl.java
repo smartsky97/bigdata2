@@ -1,5 +1,6 @@
 package com.pl.web.controller.bigdata;
 
+import com.pl.framework.web.base.BaseController;
 import com.pl.web.model.Depart_kaoqin;
 import com.pl.web.service.impl.DepartmentServiceIMP;
 import com.pl.web.service.impl.DeptKaoQinServicceIMP;
@@ -20,7 +21,7 @@ import java.util.List;
  * 部门考勤率展示
  */
 @Controller
-public class DeptKaoQinCtrl {
+public class DeptKaoQinCtrl extends BaseController {
 	
 	/*
 	 * 日志收集
@@ -51,7 +52,7 @@ public class DeptKaoQinCtrl {
 		List<Depart_kaoqin> DeptKaoQs=deptKaoQinServicceIMP.findAll(fromIndex, pageSize);
 		mm.put("list", DeptKaoQs);
 		mm.put("page", pager);
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		mm.put("pageNum", pageNum);
 		return "kaoqin/list";
 	}
@@ -75,7 +76,7 @@ public class DeptKaoQinCtrl {
 		int fromIndex = pager.getPageSize() * (pager.getCurrentPage() - 1);
 		List<Depart_kaoqin> SearchList =deptKaoQinServicceIMP.searchDekp(department, time, fromIndex, pageSize);
 		mm.put("department",department);
-		mm.put("depts",departmentServiceIMP.getDepartments());
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		mm.put("time",time );
 		mm.put("page", pager);
 		mm.put("list", SearchList);
