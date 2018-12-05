@@ -108,7 +108,7 @@ public class MonthSatAdd_aCtrl extends BaseController {
 		/*
 		 * Echars图表展示
 		 */
-		@RequestMapping("MonthEcharsAddListCtrl")
+		@RequestMapping("bigdata/month/MonthEcharsAddListCtrl")
 		@ResponseBody
 		public String LoadTree(ModelMap mm,HttpServletRequest request,HttpServletResponse response) throws Exception {
 			request.setCharacterEncoding("utf-8");

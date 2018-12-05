@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<script th:src="@{../../plugins/echars/js/echarts-all.js}"></script>
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+                        <div class="col-sm-11">
+                            <ul>
+                                <div class="col-sm-12">
+                                    <li class="col-sm-4">
+                                        部　　门：
+                                        <select name="department" id="department" class="m-b">
+                                            <option>全部</option>
+                                        </select>
+                                    </li>
+                                    <li class="col-sm-4">
+                                        员　　工：
+                                        <select name="mailname" id="mailname" class="m-b">
+                                            <option>全部</option>
+                                        </select>
+                                    </li>
+                                </div>
+                                <div class="col-sm-12">
+                                    <li class="select-time" style="margin: 0;">
+                                        <li class="col-sm-4">
+                                            起始时间：<input type="text" style="padding-left:10px;"　autocomplete="off" id="startTime" class="startTime" placeholder="开始时间" name="params[beginTime]"/>
+                                        </li>
+                                        <li class="col-sm-4">
+                                            结束时间：<input type="text" style="padding-left:10px;" id="endTime"　autocomplete="off" class="endTime" placeholder="结束时间" name="params[endTime]"/>
+                                        </li>
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="col-sm-1 pull-right">
+                            <a class="btn btn-primary btn-rounded btn-sm page-btn" id="search"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm page-btn" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </div>
+					</div>
+				</form>
+			</div>
+
+            <div class="col-sm-12 select-info box_wrap">
+                <div class="box-header box_bg_center" style="margin-bottom: 30px;">
+                    <h3 class="box-title" style="padding: 15px;">员工饱和度图(加法_8:30-17:30)</h3>
+                </div>
+                <div class="clearfix">
+                    <div id="main" style="height:440px;width:35%;float:left;"></div>
+                    <div id="main2" style="height:440px;width:65%;float:left;"></div>
+                </div>
+            </div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:jobsatadd:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:jobsatadd:remove')}]];
+        var prefix = ctx + "bigdata/jobData";
+        //二级下拉列表
+        var listproject = [[${depts}]];
+        $(function() {
+            var projectlist = [];
+            projectlist.push("<option value=''>全部</option>");
+            for (var i=0;i<listproject.length;i++) {
+                projectlist.push("<option value='"+listproject[i].id+"'>"+listproject[i].department+"</option>");
+            }
+            $("#department").html(projectlist.join(""));
+            // 群列表
+            $("#department").change(function () {
+                for (var i=0;i<listproject.length;i++) {
+                    var charlist = [];
+                    // charlist.push("<option value=''>全部</option>");
+                    if(listproject[i].id == $("#department").val()){
+                        for (var j=0;j<listproject[i].employeeList.length;j++) {
+                            charlist.push("<option value='"+listproject[i].employeeList[j].cn_name+"'>"+listproject[i].employeeList[j].cn_name+"</option>");
+                        }
+                        $("#mailname").html(charlist.join(""));
+                        return;
+                    }else{
+                        $("#mailname").html(charlist.join(""));
+                    }
+                }
+            });
+
+            $("#search").click(function () {
+                search();
+            });
+        });
+
+        function search() {
+            if (mailname != "") {
+                var myChart = echarts.init(document.getElementById('main'));
+                $.ajax({
+                    url: "../../bigdata/month/MonthEcharsAddListCtrl",
+                    data: {"mailname":$("#mailname").val(),"startime":$("#startTime").val(),endtime:$("#endTime").val()},
+                    success: function (datas) {
+                        var data = eval("(" + datas + ")");
+                        var data1 = [];
+                        var data2 = [];
+                        var data3;
+                        var data4 = 0;
+                        var data5 = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            data1[i] = data[i].date;
+                            data2[i] = data[i].saturability;
+                            data3 = data[i].mailname;
+                            data4 = data4 + Number(data2[i]);
+                            data2[i] = Number(data2[i]) * 100;
+                            data2[i] = Number(data2[i]).toFixed(2);
+                        }
+                        ;
+                        data5 = data4 / (data2.length) * 100;
+                        data5 = data5.toFixed(2);
+                        var myChart = echarts.init(document.getElementById('main'));
+                        option = {
+                            tooltip: {
+                                formatter: "{a} <br/>{b} : {c}%"
+                            },
+                            series: [{
+                                name: '员工指标',
+                                type: 'gauge',
+                                detail: {
+                                    formatter: '{value}%'
+                                },
+                                data: [{
+                                    value: data5,
+                                    name: '饱和度'
+                                }],
+                                center: ['50%', '50%'],
+                                radius: ['20%', '70%'],
+                                splitNumber: 10,
+                                precision: 2,
+                                min: 0,
+                                max: 100,
+                            }]
+                        };
+                        option2 = {
+                            tooltip: {
+                                trigger: 'axis',
+                                formatter: function (params) {
+                                    var relVal = params[0].name;
+                                    for (var i = 0, l = params.length; i < l; i++) {
+                                        relVal += '<br/>' + params[i].seriesName + ' : ' + params[i].value + '%' + '<br/>' + data3;
+                                    }
+                                    return relVal;
+                                }
+                            },
+                            toolbox: {
+                                show: true,
+                                orient: 'vertical',
+                                y: 'center',
+                                x: 'right',
+                                feature: {
+                                    dataZoom: {
+                                        show: false
+                                    },
+                                    dataView: {
+                                        show: true
+                                    },
+                                    magicType: {
+                                        show: true,
+                                        type: ['line', 'bar']
+                                    },
+                                    restore: {
+                                        show: true
+                                    },
+                                    saveAsImage: {
+                                        show: true
+                                    }
+                                }
+                            },
+                            xAxis: [{
+                                type: 'category',
+                                boundaryGap: false,
+                                data: data1,
+                                axisLabel: {
+                                    interval: 0,
+                                    rotate: -90,
+                                },
+                            }],
+                            yAxis: [{
+                                type: 'value'
+                            }],
+                            grid: {
+                                x2: 70,
+                                y2: 95
+                            },
+                            series: [{
+                                name: '员工饱和度',
+                                type: 'line',
+                                data: data2,
+                            }],
+                            calculable: false
+                        };
+                        var myChart2 = echarts.init(document.getElementById('main2'));
+                        myChart2.setOption(option2);
+                        myChart.setOption(option);
+                        //alert(JSON.stringify(data5)); //返回的值???
+                    },
+                    error: function (data) {
+                        //请求失败处理函数
+                        alert("error:" + data.responseText);
+                    }
+                });
+            } else {
+                alert("请选择员工");
+            }
+        }
+    </script>
+</body>
+</html>

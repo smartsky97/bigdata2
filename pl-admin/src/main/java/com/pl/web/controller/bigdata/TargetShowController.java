@@ -13,12 +13,14 @@ import com.pl.web.service.ITagsService;
 import com.pl.web.service.impl.DepartmentServiceIMP;
 import com.pl.web.service.impl.EmployeeServiceIMP;
 import com.pl.web.util.Pager;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -105,15 +107,16 @@ public class TargetShowController extends BaseController {
 
 //	@RequestMapping(value = "/showjson.do", produces = { "application/json,charset=utf-8" })
 	@RequestMapping(value = "bigdata/staff/showjson")
+	@ResponseBody
 //	public void showJson(@RequestParam() Map<String, String> map, HttpServletResponse response) throws Exception {
-	public void showJson(@RequestParam() Map<String, String> map) throws Exception {
-		String departmentId = map.get("department_id");
-		String cnName = map.get("employee");
-		String startTime = map.get("start_time");
+	public String showJson(@RequestParam(name="department_id",required = false)  String department_id,@RequestParam(name="employee",required = false) String employee,
+                           @RequestParam(name="start_time",required = false) String start_time) throws Exception {
+		String departmentId = department_id;
+		String cnName = employee;
+		String startTime = start_time;
 	//	String endTime = map.get("end_time");
 		if (startTime != "" && startTime != null ) {
 			startTime = startTime.substring(0, 7);
-			
 		} else {
 			startTime = null;
 			
@@ -151,7 +154,7 @@ public class TargetShowController extends BaseController {
 		System.out.println("empTargetDynamics:============" + empTargetDynamics);
 		List<EmpLabelResult> labelResults = empLabelService.selectByUserId(departmentId, cnName);
 		System.out.println(labelResults);
-
+		return sb.toString();
 //		response.setCharacterEncoding("UTF-8"); // 防止乱码
 //		response.setContentType("application/json;charset=utf-8");
 //		writer = response.getWriter();

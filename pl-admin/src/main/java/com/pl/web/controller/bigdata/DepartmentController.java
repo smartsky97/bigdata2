@@ -70,7 +70,7 @@ public class DepartmentController extends BaseController {
 		List<Department> depts = departmentServiceIMP.getDepartments(getUserId());
 		Map<String,List<Department>> model = new HashMap<String,List<Department>>();
 		model.put("depts",depts);
-		return new ModelAndView("pages/table/saturationAdd_B",model);
+		return new ModelAndView("bigdata/jobData/saturationAdd_B",model);
 	}
 	@RequestMapping(value="listDept5")
 	public ModelAndView getDepartments5(HttpServletRequest request,  
@@ -78,7 +78,7 @@ public class DepartmentController extends BaseController {
 		List<Department> depts = departmentServiceIMP.getDepartments(getUserId());
 		Map<String,List<Department>> model = new HashMap<String,List<Department>>();
 		model.put("depts",depts);
-		return new ModelAndView("pages/table/saturationAdd",model);
+		return new ModelAndView("bigdata/jobData/saturationAdd",model);
 	}
 	@RequestMapping(value="listDept6")
 	public ModelAndView getDepartments6(HttpServletRequest request,  
@@ -102,7 +102,7 @@ public class DepartmentController extends BaseController {
 		List<Department> depts = departmentServiceIMP.getDepartments(getUserId());
 		Map<String,List<Department>> model = new HashMap<String,List<Department>>();
 		model.put("depts",depts);
-		return new ModelAndView("MonthJobSta/saturation",model);
+		return new ModelAndView("bigdata/month/saturation",model);
 	}
 	@RequestMapping(value="listDept9")
 	public ModelAndView getDepartments9(HttpServletRequest request,  
