@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
+<script th:src="@{../../plugins/echars/js/echarts-all.js}"></script>
 <style>
     .w1200{width:1050px; height:auto; margin:0 auto;position: relative;}
     button{border:0;outline:none;font-family:Arial,​"宋体",​sans-serif;}
@@ -24,21 +25,21 @@
                         <div class="col-sm-11">
                             <ul>
                                 <div class="col-sm-12">
-                                    <li class="col-sm-3">
-                                        域账号：
-                                        <input name="username">
+                                    <li class="col-sm-4">
+                                        　域账号：
+                                        <input name="username" id="username">
                                     </li>
-                                    <li class="col-sm-3">
-                                        中文名：
-                                        <input name="cnName">
+                                    <li class="col-sm-4">
+                                        　中文名：
+                                        <input name="cnName" id="cnName">
                                     </li>
                                 </div>
                                 <div class="col-sm-12">
                                     <li class="select-time" style="margin: 0;">
-                                        <li class="col-sm-3">
+                                        <li class="col-sm-4">
                                             起始时间：<input type="text" style="padding-left:10px;"　autocomplete="off" id="startTime" class="startTime" placeholder="开始时间" name="startime"/>
                                         </li>
-                                        <li class="col-sm-3">
+                                        <li class="col-sm-4">
                                             结束时间：<input type="text" style="padding-left:10px;" id="endTime"　autocomplete="off" class="endTime" placeholder="结束时间" name="endtime"/>
                                         </li>
                                     </li>
@@ -46,7 +47,7 @@
                             </ul>
                         </div>
                         <div class="col-sm-1 pull-right">
-                            <a class="btn btn-primary btn-rounded btn-sm page-btn" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-primary btn-rounded btn-sm page-btn" id="search"><i class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm page-btn" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                         </div>
 					</div>
@@ -83,48 +84,189 @@
         var prefix = ctx + "bigdata/wifi";
         console.info([[${depts}]]);
         $(function() {
-            var options = {
-                url: prefix + "/searchWifiData",
-                createUrl: prefix + "/add",
-                updateUrl: prefix + "/edit/{id}",
-                removeUrl: prefix + "/remove",
-				exportUrl: prefix + "/export",
-                modalName: "员工饱和度",
-                search: false,
-                showSearch: false,
-                showExport: false,
-                showRefresh: false,
-                sortStable: true,
-                showColumns: false,
-                showToggle: false,
-                columns: [
-				{
-					field : 'macCode',
-					title : '探针编号'
-				},
-				{
-					field : 'positionName',
-					title : '位置名称'
-				},
-				{
-					field : 'userName',
-					title : '员工姓名'
-				},
-                {
-                    field : 'avgSig',
-                    title : '信号强度'
-                },
-                {
-                    field : 'startTime',
-                    title : '开始时间'
-                },
-                {
-                    field : 'endTime',
-                    title : '结束时间'
-                }]
-            };
-            $.table.init(options);
+            $("#search").click(function () {
+                search();
+            });
         });
+
+        function search() {
+            var url="./showWifiData";
+            if(username !="" || cnname != "" ){
+                $.ajax({
+                    type:'post',
+                    url:url,
+                    data: {"username":$("#username").val(),"cnname":$("#cnName").val(),"startime":$("#startTime").val(),"endTime":$("#endTime").val()},
+                    cache: false,
+                    async:false,
+                    success: function(datas) {
+                        var data = eval("("+datas+")");
+                        var data1=[];
+                        var data2=[];
+                        var data3=[];
+                        var data4=[];
+                        var data5=[];
+                        var data6=[];
+                        var data7=[];
+                        var data8=[];
+                        var data9=[];
+                        var data10=[];
+                        var startTime;
+                        var endTime;
+                        data10=[data[0].x,data[0].y,data[0].startTime,data[0].endTime,data[0].positionName];
+                        data3.push(data10);//data3 坐标
+                        for (var i=1;i <data.length;i++ )
+                        {
+                            data1[i] = data[i].x;//data1横坐标
+                            data2[i] = data[i].y;//data2纵坐标
+                            if(i==data.length-1){
+
+                            }else{
+                                if(data[i-1].x==data[i].x && data[i-1].y == data[i].y){
+                                    continue;
+                                }
+                            }
+                            data10=[data[i].x,data[i].y,data[i].startTime,data[i].endTime,data[i].positionName];
+                            data3.push(data10);//data3 坐标
+                        }
+                        for(var k=0;k<data3.length-1;k++){
+                            startTime=data3[k][2].toString();
+                            endTime=data3[k+1][2].toString();
+                            var str_date = new Date(startTime);
+                            var end_date = new Date(endTime);
+                            //endTime=data[i].endTime;
+                            var num = (end_date-str_date)/(1000*60);
+                            data4.push({name:data3[k][4],value:num,xAxis:data3[k][0],yAxis:data3[k][1]});//data4
+                            data5[k]={name:data3[k][2],xAxis:data3[k][0],yAxis:data3[k][1]};
+                            data6[k]={name:data3[k+1][2],xAxis:data3[k+1][0],yAxis:data3[k+1][1]};
+                            data7.push([data5[k],data6[k]]);
+                        }
+                        //alert(data3);
+                        //alert(data6[0].name);
+                        data8=data[0].userName;
+                        // 基于准备好的dom，初始化echarts图表
+                        // 自定义扩展图表类型：mapType = body
+                        var myChart = echarts.init(document.getElementById('container'));
+                        option = {
+                            tooltip : {
+                                trigger: 'item',
+                                /*  									axisPointer:{
+                                                                        type : 'cross',
+                                                                    }, */
+                                formatter : function (data) {
+                                    var res,titleName;
+                                    titleName=data.value[4]==undefined ? "":'<br/>'+data.value[4];
+                                    res = data.seriesName+titleName;
+                                    for (var i = 0, l = data.series.data.length; i < l; i++) {
+                                        if(data.series.data[l-2][4]==data.series.data[l-1][4]){
+                                            if(i==data.series.data.length-1){
+                                                if(data.value[4]==data.series.data[i][4]){
+                                                    res+= '<br/>'+"停留结束时间："+data.series.data[i][3];
+                                                }
+                                            }else{
+                                                if(data.value[4]==data.series.data[i][4]){
+                                                    if(i==data.series.data.length-2){
+                                                        res+= '<br/>'+(1+i)+"、"+'<br/>'+"停留开始时间："+data.series.data[i][2];
+                                                    }else{
+                                                        res+= '<br/>'+(1+i)+"、"+'<br/>'+"停留开始时间："+data.series.data[i][2];
+                                                        res+= '<br/>'+"停留结束时间："+data.series.data[i+1][2];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            if(i==data.series.data.length-1){
+                                                if(data.value[4]==data.series.data[i][4]){
+                                                    res+= '<br/>'+(1+i)+"、"+'<br/>'+"停留开始时间："+data.series.data[i][2];
+                                                    res+= '<br/>'+"停留结束时间："+data.series.data[i][3];
+                                                }
+                                            }else{
+                                                if(data.value[4]==data.series.data[i][4]){
+                                                    res+= '<br/>'+(1+i)+"、"+'<br/>'+"停留开始时间："+data.series.data[i][2];
+                                                    res+= '<br/>'+"停留结束时间："+data.series.data[i+1][2];
+                                                }
+                                            }
+                                        }
+                                    }
+                                    return res;
+                                }
+                            },
+                            calculable : true,
+                            xAxis : [
+                                {	show :false,
+                                    max:100,
+                                    type: 'value'
+                                }
+                            ],
+                            yAxis : [
+                                {	show :false,
+                                    type: 'value',
+                                    max:300,
+                                }
+                            ],
+                            grid :{
+                                x:0,
+                                y:0,
+                                x2:0,
+                                y2:0
+                            },
+                            series : [
+                                {
+                                    name:data8,
+                                    type:'scatter',
+                                    data:data3,
+                                    symbol:'emptyCircle',
+                                    symbolSize:20,
+                                    markPoint : {
+                                        symbolSize : 10,
+                                        symbol :'pin',
+                                        effect:	{
+                                            show: true,
+                                            loop: true,
+                                            period: 15,
+                                            scaleSize : 2,
+                                            color : null,
+                                            shadowColor : null,
+                                            shadowBlur : 0
+                                        } ,
+                                        data :[]
+                                    },
+                                    markLine : {
+                                        smooth:true,
+                                        symbolSize:[8,10],
+                                        symbol:['emptyCircle','arrow'],
+                                        effect : {
+                                            show: false,
+                                            scaleSize: 1,
+                                            period: 20,
+                                            color: 'red',
+                                            shadowBlur: 5
+                                        },
+                                        itemStyle : {
+                                            normal: {
+                                                borderWidth:1,
+                                                lineStyle: {
+                                                    type: 'solid',
+                                                    width:3
+                                                }
+                                            }
+                                        },
+                                        data:data7
+                                    }
+                                },
+
+                            ]
+                        };
+                        myChart.setOption(option);
+                    },
+                    error :function(data){
+                        //请求失败处理函数
+                        alert("error:"+data.responseText);
+                    }
+                });
+            }else{
+                alert("用户名/域账户至少填写一个!");
+            }
+        }
     </script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.pl.web.controller.bigdata;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pl.common.base.AjaxResult;
 import com.pl.framework.web.base.BaseController;
 import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.Tags;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,6 +50,11 @@ public class TagsListCtrl extends BaseController {
         TableDataInfo tableDataInfo = getDataTable(tags);
         return tableDataInfo;
 	}
+
+    @RequestMapping("bigdata/staff/tagsCtrladd")
+    public String tagsCtrladd() {
+        return "bigdata/staff/tagsCtrladd";
+    }
 
     @RequestMapping("bigdata/staff/tagsCtrl")
     public String tagsCtrl(ModelMap mm) {
@@ -99,51 +106,54 @@ public class TagsListCtrl extends BaseController {
     }
 
 	//删除标签.
-	@RequestMapping("delTags")
-	public String delete(Tags tags, ModelMap mm, HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-		String id = request.getParameter("id");
+	@RequestMapping("bigdata/staff/tagsCtrlremove/{id}")
+    @ResponseBody
+	public AjaxResult delete(@PathVariable("id") String id) throws Exception{
 		boolean result = this.tagsServiceIMP.del(id);
 		if (result) {
-			System.out.println("删除成功");
+            System.out.println("删除成功");
+            return toAjax(1);
 		}
 //		return list(mm,request,response);
-		return null;
+		return toAjax(0);
 	}
 	//增加标签.
-	@RequestMapping("addTags")
-	public String add(Tags tags, ModelMap mm,HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@RequestMapping("bigdata/staff/addTags")
+    @ResponseBody
+	public AjaxResult add(Tags tags) throws Exception {
 		boolean result = this.tagsServiceIMP.addTags(tags);
 		if (result) {
 			System.out.println("添加成功");
-		}
-//		return list(mm,request,response);
-        return null;
+			return toAjax(1);
+		} else {
+            return toAjax(0);
+        }
 	}
 
 	//更新标签
-	@RequestMapping("updateTags")
-	public String update(Tags tags, ModelMap mm,HttpServletRequest request,
+	@RequestMapping("bigdata/staff/updateTags")
+    @ResponseBody
+	public AjaxResult update(Tags tags, ModelMap mm,HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		boolean result = this.tagsServiceIMP.update1(tags);
 		if (result) {
 			System.out.println("更新成功");
+            return toAjax(1);
 		}
 //		return list(mm,request,response);
-        return null;
+        return toAjax(0);
 	}
 	//更新时由id查询出的结果然后更新该内容.
-	@RequestMapping("updateTagsUI")
-	public String updateuserUI(ModelMap mm, HttpServletRequest request)
+	@RequestMapping("bigdata/staff/tagsCtrledit/{id}")
+	public String updateuserUI(@PathVariable("id") String id,ModelMap mp)
 			throws Exception {
-		String id = request.getParameter("id");
 		Tags tags = this.tagsServiceIMP.getTagsById(id);
-		mm.put("tags", tags);
-		return "tags/listinfo";
+        mp.put("tags",tags);
+		return "bigdata/staff/tagsCtrledit";
 	}
 	//测试代码
-	@RequestMapping("testUpdate")
+	@RequestMapping("bigdata/staff/testUpdate")
+    @ResponseBody
 	public void updateStatus(ModelMap mm , HttpServletRequest request){
 		String code	= request.getParameter("id");
 		System.out.println("code--"+code);

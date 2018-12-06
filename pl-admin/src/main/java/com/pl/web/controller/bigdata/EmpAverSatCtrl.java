@@ -1,10 +1,13 @@
 package com.pl.web.controller.bigdata;
 
 import com.alibaba.fastjson.JSONArray;
+import com.pl.framework.web.base.BaseController;
 import com.pl.web.dto.EmpAverSat;
+import com.pl.web.service.impl.DepartmentServiceIMP;
 import com.pl.web.service.impl.EmpAverSatServiceIMP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,12 +24,14 @@ import java.util.List;
  *
  */
 @Controller
-public class EmpAverSatCtrl {
+public class EmpAverSatCtrl extends BaseController {
 	@Autowired
 	private EmpAverSatServiceIMP empAverSatServiceIMP;
+    @Autowired
+    private DepartmentServiceIMP departmentServiceIMP;
 	
 /*................A方法计算结果展示(8:30-17:30)...................*/
-	@RequestMapping("empAverSat")
+	@RequestMapping("bigdata/main/empAverSat")
 	@ResponseBody
 	public String AverSat(HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
@@ -54,7 +59,15 @@ public class EmpAverSatCtrl {
 		return null;
 		
 	}
-	@RequestMapping("empSearchAverSat")
+
+	@RequestMapping("bigdata/main/main")
+	public String listAdd(ModelMap mm, HttpServletRequest request,
+						  HttpServletResponse response) throws Exception {
+		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
+		return "main";
+	}
+
+	@RequestMapping("bigdata/main/empSearchAverSat")
 	@ResponseBody
 	public String SearchAverSat(HttpServletRequest request,
 			HttpServletResponse response) throws Exception{

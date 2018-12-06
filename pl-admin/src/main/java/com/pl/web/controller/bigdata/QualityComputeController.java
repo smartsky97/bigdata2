@@ -1,5 +1,6 @@
 package com.pl.web.controller.bigdata;
 
+import com.pl.common.base.AjaxResult;
 import com.pl.framework.web.base.BaseController;
 import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.dto.EmpQualitySaturability;
@@ -17,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -49,32 +51,25 @@ public class QualityComputeController extends BaseController {
 	
 
 	
-	@RequestMapping(value="quality")
-	public String getDepartment(Model model,HttpServletRequest request) throws Exception{
-		String department_id =request.getParameter("department_id");
-		String id =request.getParameter("id");
-		System.out.println(  id+"--department_id--"+ department_id);
-		
-		List<Department> depts = departmentServiceIMP.getDepartments(getUserId());
-		if (null!=department_id &&!"".equals(department_id)) {
-		    String name=""; 	
-			for (int i = 0; i < depts.size(); i++) {
-				if (Integer.valueOf(depts.get(i).getId()).equals(Integer.valueOf(department_id))) {
-					name=depts.get(i).getDepartment();
-				}
-			}
-			if (null!=id &&!"".equals(id)) {
-				EmpQualityWeight empQualityWeight=empQualityWeightService.getById(Integer.valueOf(id));
-	            System.out.println("--empQualityWeight--"+ empQualityWeight);
-	            model.addAttribute("empQualityWeight", empQualityWeight);
-			    model.addAttribute("department_id",department_id);
-			    System.out.println("=-departmentName--" +name);
-			   model.addAttribute("departmentName",name);
-			}
-		}
-		model.addAttribute("depts",depts);
-		return "quality/edit";
-	}
+	@RequestMapping(value="bigdata/jobData/empqualityweightedit/{id}")
+    public String getDepartment(Model model,@PathVariable("id") int id) throws Exception {
+        List<Department> depts = departmentServiceIMP.getDepartments(getUserId());
+        String name = "";
+        if (id != 0) {
+            EmpQualityWeight empQualityWeight = empQualityWeightService.getById(Integer.valueOf(id));
+            for (int i=0;i<depts.size();i++) {
+                if (depts.get(i).getId().equals(empQualityWeight.getDeptId()+"")) {
+                    name = depts.get(i).getDepartment();
+                }
+            }
+            empQualityWeight.setDepartment(name);
+            System.out.println("--empQualityWeight--" + empQualityWeight);
+            model.addAttribute("empQualityWeight", empQualityWeight);
+            model.addAttribute("departmentName", name);
+        }
+        model.addAttribute("depts", depts);
+        return "bigdata/jobData/empqualityweightedit";
+    }
 	
 	
 	/*
@@ -110,20 +105,21 @@ public class QualityComputeController extends BaseController {
 	}
 	*/
 	private double result;
-	@RequestMapping("qualityWeight.do")
-	public String insertQualityWeight(EmpQualityWeight empQualityWeight,Model model,HttpServletRequest request) {
+	@RequestMapping("bigdata/jobData/qualityWeight")
+    @ResponseBody
+	public AjaxResult insertQualityWeight(EmpQualityWeight empQualityWeight, Model model, HttpServletRequest request) {
 //		System.out.println("EmpQualityWeight:" + empQualityWeight.getId());
 		System.out.println("EmpQualityWeight:" + empQualityWeight.getMouseClickWeight());
-	   
+        int result = 0;
 		 if (null !=empQualityWeight.getId()) {
-			 int result = empQualityWeightService.update(empQualityWeight);
+			 result = empQualityWeightService.update(empQualityWeight);
 				System.out.println("update:" + result);
 		}else{
-			int result = empQualityWeightService.insert(empQualityWeight);
+			result = empQualityWeightService.insert(empQualityWeight);
 			System.out.println("update:" + result);
 		}
 		
-		return "redirect:listQualiWeig.do";
+		return toAjax(result);
 	}
 	
 	@RequestMapping("bigdata/jobData/listQualiWeig")
@@ -155,6 +151,12 @@ public class QualityComputeController extends BaseController {
 	public String SerachDataCtrl(ModelMap mm) {
 		mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
 		return "bigdata/jobData/empqualityweight";
+	}
+
+	@RequestMapping("bigdata/jobData/empqualityweightadd")
+	public String SerachDataCtrladd(ModelMap mm) {
+        mm.put("depts",departmentServiceIMP.getDepartments(getUserId()));
+		return "bigdata/jobData/empqualityweightadd";
 	}
 	
 	@RequestMapping("qualityList.do")

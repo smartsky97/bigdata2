@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-user-add" th:object="${empQualityWeight}">
+        <input name="id"  type="hidden" id="id" th:field="*{id}"/>
+        <input name="deptId"  type="hidden" id="deptId" th:field="*{deptId}"/>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">部门：：</label>
+            <div class="col-sm-8">
+                <input class="form-control" readonly="readonly" th:field="*{department}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">关键字权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="keyWordWeight" id="keyWordWeight" th:field="*{keyWordWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">任务总时长权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="jobTimeWeight" id="jobTimeWeight" th:field="*{jobTimeWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">考核得分权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" name="examineScoreWeight" id="examineScoreWeight" th:field="*{examineScoreWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">月度文件增长量权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="monthFileGrowthWeight" id="monthFileGrowthWeight" th:field="*{monthFileGrowthWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">键盘敲击量权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="keyboardClickWeight" id="keyboardClickWeight" th:field="*{keyboardClickWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">鼠标敲击量权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="mouseClickWeight" id="mouseClickWeight" th:field="*{mouseClickWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">工作饱和度(加法权重)：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="workSaturationAddWeight" id="workSaturationAddWeight" th:field="*{workSaturationAddWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">工作饱和度(减法权重)：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="workSaturationSubWeight" id="workSaturationSubWeight" th:field="*{workSaturationSubWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">邮箱发送次数权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="emailSendTimesWeight" id="emailSendTimesWeight" th:field="*{emailSendTimesWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">lync通信次数权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="lyncComuTimesWeight" id="lyncComuTimesWeight" th:field="*{lyncComuTimesWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">会议时长权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="meetingDuraWeight" id="meetingDuraWeight" th:field="*{meetingDuraWeight}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">打电话次数权重：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="callPhoneTimesWeight" id="callPhoneTimesWeight" th:field="*{callPhoneTimesWeight}">
+            </div>
+        </div>
+    </form>
+</div>
+<div th:include="include::footer"></div>
+<script th:src="@{/ajax/libs/select/select2.js}"></script>
+<script th:inline="javascript">
+    var listproject = [[${depts}]];
+    $(function () {
+        var projectlist = [];
+        for (var i=0;i<listproject.length;i++) {
+            projectlist.push("<option value='"+listproject[i].id+"'>"+listproject[i].department+"</option>");
+        }
+        $("#deptId").html(projectlist.join(""));
+    });
+    $("#form-user-add").validate({
+        rules:{
+            deptId:{
+                required:true,
+            },
+            keyWordWeight:{
+                required:true,
+                number:true
+            },
+            jobTimeWeight:{
+                required:true,
+                number:true
+            },
+            examineScoreWeight:{
+                required:true,
+                number:true
+            },
+            monthFileGrowthWeight:{
+                required:true,
+                number:true
+            },
+            keyboardClickWeight:{
+                required:true,
+                number:true
+            },
+            mouseClickWeight:{
+                required:true,
+                number:true
+            },
+            workSaturationAddWeight:{
+                required:true,
+                number:true
+            },
+            workSaturationSubWeight:{
+                required:true,
+                number:true
+            },
+            emailSendTimesWeight:{
+                required:true,
+                number:true
+            },
+            lyncComuTimesWeight:{
+                required:true,
+                number:true
+            },
+            meetingDuraWeight:{
+                required:true,
+                number:true
+            },
+            callPhoneTimesWeight:{
+                required:true,
+                number:true
+            },
+        },
+        messages: {
+        }
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            add();
+        }
+    }
+
+    function add() {
+        var id = $("#id").val();
+        var deptId = $("#deptId").val();
+        var keyWordWeight = $("input[name='keyWordWeight']").val();
+        var jobTimeWeight = $("input[name='jobTimeWeight']").val();
+        var examineScoreWeight = $("input[name='examineScoreWeight']").val();
+        var monthFileGrowthWeight = $("input[name='monthFileGrowthWeight']").val();
+        var keyboardClickWeight = $("input[name='keyboardClickWeight']").val();
+        var mouseClickWeight = $("input[name='mouseClickWeight']").val();
+        var workSaturationAddWeight = $("#workSaturationAddWeight").val();
+        var workSaturationSubWeight = $("#workSaturationSubWeight").val();
+        var emailSendTimesWeight = $("#emailSendTimesWeight").val()
+        var lyncComuTimesWeight = $("#lyncComuTimesWeight").val()
+        var meetingDuraWeight = $("#meetingDuraWeight").val()
+        var callPhoneTimesWeight = $("#callPhoneTimesWeight").val()
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : "../../../bigdata/jobData/qualityWeight",
+            data : {
+                "id": id,
+                "deptId": deptId,
+                "keyWordWeight": keyWordWeight,
+                "jobTimeWeight": jobTimeWeight,
+                "examineScoreWeight": examineScoreWeight,
+                "monthFileGrowthWeight": monthFileGrowthWeight,
+                "keyboardClickWeight": keyboardClickWeight,
+                "jobTimeWeight": jobTimeWeight,
+                "mouseClickWeight": mouseClickWeight,
+                "workSaturationAddWeight": workSaturationAddWeight,
+                "workSaturationSubWeight": workSaturationSubWeight,
+                "emailSendTimesWeight": emailSendTimesWeight,
+                "lyncComuTimesWeight": lyncComuTimesWeight,
+                "meetingDuraWeight": meetingDuraWeight,
+                "callPhoneTimesWeight": callPhoneTimesWeight
+            },
+            async : false,
+            error : function(request) {
+                $.modal.alertError("系统错误");
+            },
+            success : function(data) {
+                $.operate.saveSuccess(data);
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -25,8 +25,14 @@
 		keyboard_click_weight,
 		mouse_click_weight,
 		work_saturation_add_weight,work_saturation_sub_weight,email_send_times_weight,
-		lync_comu_times_weight,meeting_dura_weight,call_phone_times_weight,
-		start_time,end_time) value
+		lync_comu_times_weight,meeting_dura_weight,call_phone_times_weight
+		<if test="startTime != null ">
+		,start_time
+		</if>
+		<if test="endTime != null ">
+		,end_time
+		</if>
+		) value
 		(#{deptId},#{keyWordWeight},#{jobTimeWeight},
 		#{examineScoreWeight},#{monthFileGrowthWeight},#{keyboardClickWeight},
 		#{mouseClickWeight},
@@ -217,7 +223,7 @@ order by b.mail_name
 		SELECT d.department,t.key_word_weight keyWordWeight,t.examine_score_weight
 		examineScoreWeight,t.month_file_growth_weight monthFileGrowthWeight,
 		t.keyboard_click_weight keyboardClickWeight,t.work_saturation_add_weight workSaturationAddWeight,
-		t.work_saturation_sub_weight workSaturationSubWeight,t.email_send_times_weight emailSendTimesWeight
+		t.work_saturation_sub_weight workSaturationSubWeight,t.email_send_times_weight emailSendTimesWeight,d.id deptId,t.id id
 		FROM emp_quality_weight AS t
 		inner join department_index AS d on t.dept_id=d.id
 		left JOIN sys_role_depa ss on ss.depa_id=t.dept_id
@@ -247,6 +253,23 @@ order by b.mail_name
 	</select>
 	
 	<select id="getById" resultType="com.pl.web.model.EmpQualityWeight">
-		select * from emp_quality_weight  where id = #{id}
+		select
+		`id`,
+		`dept_id` deptId,
+		`key_word_weight` keyWordWeight,
+		`job_time_weight` jobTimeWeight,
+		`examine_score_weight` examineScoreWeight,
+		`month_file_growth_weight` monthFileGrowthWeight,
+		`mouse_click_weight` keyboardClickWeight,
+		`keyboard_click_weight` mouseClickWeight,
+		`work_saturation_add_weight` workSaturationAddWeight,
+		`work_saturation_sub_weight` workSaturationSubWeight,
+		`email_send_times_weight` emailSendTimesWeight,
+		`lync_comu_times_weight` lyncComuTimesWeight,
+		`meeting_dura_weight` meetingDuraWeight,
+		`call_phone_times_weight` callPhoneTimesWeight,
+		`start_time` startTime,
+		`end_time` endTime
+		from emp_quality_weight  where id = #{id}
 	</select>
 </mapper>

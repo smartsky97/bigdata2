@@ -25,7 +25,7 @@
         var prefix = ctx + "bigdata/staff";
         console.info([[${depts}]]);
         $(function() {
-
+            $("#firstType").click();
             var options = {
                 url: prefix + "/updateTagStatus",
                 createUrl: prefix + "/add",
@@ -56,16 +56,32 @@
 				},
                 {
                     title: '选择',
-                    align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.roleId + '\')"><i class="fa fa-edit"></i>更新</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.roleId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        if (row.status == '1') {
+                            actions.push('<span style="display: inline-block;vertical-align: middle;"><input style="width:15px;height:15px;" class="radiobtn" type="radio" name="'+row.id+'" value="1"  checked="checked" /></span> 启用 ');
+                            actions.push('<span style="display: inline-block;vertical-align: middle;"><input style="width:15px;height:15px;margin-left: 10px;" class="radiobtn"  type="radio" name="'+row.id+'" value="0" /></span> 禁用');
+                        } else {
+                            actions.push('<span style="display: inline-block;vertical-align: middle;"><input class="radioInput" style="width:15px;height:15px;" class="radiobtn" type="radio" name="'+row.id+'" value="1" /></span> 启用');
+                            actions.push('<span style="display: inline-block;vertical-align: middle;"><input class="radioInput" style="width:15px;height:15px;margin-left: 10px;" class="radiobtn" type="radio" name="'+row.id+'" value="0"  checked="checked" /></span> 禁用');
+                        }
                         return actions.join('');
                     }
                 }]
             };
             $.table.init(options);
+
+            $('body').on('input click', '.radiobtn', function (event) {
+                var str = $(this).val();
+                var strr = $(this).attr("name");
+                $.ajax({
+                    url: prefix + "/testUpdate",
+                    data: {id:strr,status:str},
+                    cache: false,
+                    type: "post",
+                    datatype: "text",
+                });
+            })
         });
     </script>
 </body>

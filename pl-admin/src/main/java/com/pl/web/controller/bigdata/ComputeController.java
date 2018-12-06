@@ -38,7 +38,7 @@ public class ComputeController {
 	
 	
 	
-	@RequestMapping("computeQaulity.do")
+	@RequestMapping("bigdata/jobData/computeQaulity")
 //	@Scheduled(cron="0 0 0 * * ?")
 //	@Scheduled(fixedRate=2000)
 	public void computeQaulityWeight(HttpServletRequest request) {

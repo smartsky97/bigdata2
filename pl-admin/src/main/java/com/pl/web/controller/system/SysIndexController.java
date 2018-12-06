@@ -5,6 +5,7 @@ import com.pl.framework.web.base.BaseController;
 import com.pl.system.domain.SysMenu;
 import com.pl.system.domain.SysUser;
 import com.pl.system.service.ISysMenuService;
+import com.pl.web.service.impl.DepartmentServiceIMP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,6 +23,8 @@ public class SysIndexController extends BaseController
 {
     @Autowired
     private ISysMenuService menuService;
+    @Autowired
+    private DepartmentServiceIMP departmentServiceIMP;
 
     // 系统首页
     @GetMapping("/index")
@@ -42,6 +45,7 @@ public class SysIndexController extends BaseController
     public String main(ModelMap mmap)
     {
         mmap.put("version", Global.getVersion());
+        mmap.put("depts",departmentServiceIMP.getDepartments(getUserId()));
         return "main";
     }
 }

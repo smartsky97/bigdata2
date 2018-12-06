@@ -262,7 +262,7 @@
 				AND date_format(a.date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
 			</if>
 			<if test="department != null and department !=''">
-				and c.id = #{department,jdbcType=VARCHAR}
+				and c.departmentid = #{department,jdbcType=VARCHAR}
 			</if>
 			<if test="mailname != null and mailname !=''">
 				and c.cn_name = #{mailname,jdbcType=VARCHAR}

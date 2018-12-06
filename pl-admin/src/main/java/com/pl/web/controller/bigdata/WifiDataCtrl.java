@@ -94,7 +94,7 @@ public class WifiDataCtrl extends BaseController {
 	/*
 	 * 查询Wifi定位数据(Echars视图展示)
 	 */
-	@RequestMapping("showWifiData")
+	@RequestMapping("bigdata/wifi/showWifiData")
 	@ResponseBody
 	public String showWifiData(ModelMap mm, WifiData wifiData,
 			HttpServletRequest request, HttpServletResponse response)

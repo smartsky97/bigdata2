@@ -46,6 +46,11 @@ public class SysRoleController extends BaseController
     public TableDataInfo list(SysRole role)
     {
         startPage();
+        Long userid = getUserId();
+        // 非超级管理员只查询自己的下级角色
+        if (1 != userid) {
+            role.setUserid(userid);
+        }
         List<SysRole> list = roleService.selectRoleList(role);
         return getDataTable(list);
     }

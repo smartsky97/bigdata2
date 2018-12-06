@@ -140,6 +140,9 @@ public class JobDataBeanCtrl extends BaseController {
         }
         try {
             ExcelUtil<JobDataAll> util = new ExcelUtil<JobDataAll>(JobDataAll.class);
+            jobDataAlls.stream().forEach(i -> {
+                i.setSaturabilityA(i.getSaturabilityA()+"%");
+            });
             return util.exportExcel(jobDataAlls, "jobs");
         } catch (Exception e) {
             return error("导出Excel失败，请联系网站管理员！");
