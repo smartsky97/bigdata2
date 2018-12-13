@@ -65,7 +65,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:jobsatadd:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:jobsatadd:remove')}]];
-        var prefix = ctx + "bigdata/wifi";
+        var prefix = ctx + "bigdata/wifidata";
         console.info([[${depts}]]);
         $(function() {
             var options = {

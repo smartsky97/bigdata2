@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-user-add">
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">编号：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="number" id="number">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">坐标X：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="x" id="x">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">坐标Y：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="y" id="y">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">地点：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="place" id="place">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">MAC：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="mac" id="mac">
+            </div>
+        </div>
+    </form>
+</div>
+<div th:include="include::footer"></div>
+<script th:src="@{/ajax/libs/select/select2.js}"></script>
+<script th:inline="javascript">
+    $("#form-user-add").validate({
+        rules: {
+            number: {
+                required: true,
+            },
+            x: {
+                required: true,
+            },
+            y: {
+                required: true,
+            },
+            place: {
+                required: true,
+            },
+            mac: {
+                required: true,
+                // remote: {
+                //     url: ctx + "bigdata/wifidata/isMacExit",
+                //     type: "post",
+                //     dataType: "json",
+                //     data: {
+                //         "mac": function () {
+                //             return $.common.trim($("#mac").val());
+                //         }
+                //     },
+                //     dataFilter: function (data, type) {
+                //         return $.validate.unique(data);
+                //     }
+                // }
+            },
+            messages: {
+                // mac: {
+                //     remote: "此MAC地址已经存在,请不要重复添加"
+                // }
+            }
+        }
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            add();
+        }
+    }
+
+    function add() {
+        var number = $("#number").val();
+        var x = $("#x").val();
+        var y = $("#y").val();
+        var place = $("#place").val();
+        var mac = $("#mac").val();
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : "../../../bigdata/wifidata/addwifipot",
+            data : {
+                "number": number,
+                "x": x,
+                "y": y,
+                "place": place,
+                "mac": mac,
+            },
+            async : false,
+            error : function(request) {
+                $.modal.alertError("系统错误");
+            },
+            success : function(data) {
+                $.operate.saveSuccess(data);
+            }
+        });
+    }
+</script>
+</body>
+</html>

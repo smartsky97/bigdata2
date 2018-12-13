@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
     
     <select id="select" resultType="com.pl.web.model.QualityResultPage">
-		SELECT e.`id` AS "id" , b.`cn_name` cnName,b.`department`,e.`mail_name`,e.`quality_result`
+		SELECT e.`id` AS "id" , b.`cn_name` cnName,b.`department`,e.`mail_name` mailName,e.`quality_result`
 		qualityResult,e.`compute_date` computeDate
 		FROM emp_quality_result e
 		LEFT JOIN base_info b ON b.`mail_name`=e.`mail_name`

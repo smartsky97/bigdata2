@@ -3,11 +3,13 @@ package com.pl.web.controller.bigdata;
 import com.pl.web.model.Comparison;
 import com.pl.web.model.Emp_Lable_target;
 import com.pl.web.model.Tar_index;
+import com.pl.web.service.impl.LablesServiceIMP;
 import com.pl.web.service.impl.LablesTargetServiceIMP;
 import com.pl.web.service.impl.TarIndexServiceIMP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,9 @@ public class TarIndexCtrl {
 	
 	@Autowired
 	private LablesTargetServiceIMP lablesTargetServiceIMP;
+
+    @Autowired
+    private LablesServiceIMP lablesServiceIMP;
 	
 	@RequestMapping("TarIndexCtrl")
 	public String list(ModelMap mm,HttpServletRequest request){
@@ -52,7 +57,24 @@ public class TarIndexCtrl {
 		mm.put("label_id", label_id);
 		return "editlabel/add";
 	}
-	
+
+	@RequestMapping("bigdata/staff/labletargetadd/{id}")
+	public String labletargetadd(ModelMap mm,@PathVariable("id") int id) {
+		List<Tar_index> tarindex=this.tarIndexServiceIMP.findAll(id);
+		mm.put("tarindex",tarindex);
+        mm.put("labelid",id);
+		return "bigdata/staff/labletargetadd";
+	}
+
+	@RequestMapping("bigdata/staff/labletargetedit/{id}")
+	public String labletargetedit(ModelMap mm,@PathVariable("id") int id) {
+		Emp_Lable_target lables=this.lablesTargetServiceIMP.selectLableTargetById(id);
+		List<Tar_index> tarindex=this.tarIndexServiceIMP.findAll(lables.getLabel_id());
+		mm.put("tarindex",tarindex);
+        mm.put("lable",lables);
+		return "bigdata/staff/labletargetedit";
+	}
+
 	@RequestMapping("TarIndexCtrlupdate")
 	public String list1(ModelMap mm,HttpServletRequest request){
 		

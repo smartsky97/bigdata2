@@ -96,4 +96,7 @@
  	<select id="Compare" resultType="java.lang.Integer">
  		select count(*) from user_mac where mac =#{mac}
  	</select> 
+ 	<select id="Compare2" resultType="java.lang.Integer">
+ 		select count(*) from user_mac where mac =#{mac} and id !=#{id}
+ 	</select>
 </mapper>

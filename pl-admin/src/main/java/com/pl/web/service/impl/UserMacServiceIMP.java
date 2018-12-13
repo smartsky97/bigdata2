@@ -98,5 +98,9 @@ public class UserMacServiceIMP implements UserMacService {
 		// TODO Auto-generated method stub
 		return this.userMacMapper.Compare(mac);
 	}
-
+	@Override
+	public int Compare2(String mac,int id) {
+		// TODO Auto-generated method stub
+		return this.userMacMapper.Compare2(mac,id);
+	}
 }

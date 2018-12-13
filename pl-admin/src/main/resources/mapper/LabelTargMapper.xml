@@ -7,4 +7,6 @@
 		SELECT *
 		from emp_lable_target
 	</select>
+
+
 </mapper>

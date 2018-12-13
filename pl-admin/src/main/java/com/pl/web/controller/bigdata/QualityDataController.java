@@ -310,7 +310,7 @@ public class QualityDataController extends BaseController {
 		return "quality/value";
 	}
 	
-	@RequestMapping("fileQaulity.do")
+	@RequestMapping("bigdata/quality/fileQaulity")
 	public void computeQaulityWeight(HttpServletRequest request, HttpServletResponse response) {
 	  try {
 		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");

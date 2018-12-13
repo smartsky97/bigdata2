@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-user-add">
+        <input class="form-control" type="hidden" name="label_id" id="label_id" th:value="${labelid}">
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">指标名字：</label>
+            <div class="col-sm-8">
+                <select id="tag_name" name="tag_name" class="form-control m-b">
+                    <option th:each="tar : ${tarindex}" th:text="${tar.tagname}" th:value="${tar.id}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">比较：</label>
+            <div class="col-sm-8">
+                <select id="compare_operation" name="compare_operation" class="form-control m-b">
+                    <option value=">">></option>
+                    <option value="<"><</option>
+                    <option value=">=">>=</option>
+                    <option value="<="><=</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">单位：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="unit" id="unit">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">指标值：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" name="target_value" id="target_value">
+            </div>
+        </div>
+    </form>
+</div>
+<div th:include="include::footer"></div>
+<script th:src="@{/ajax/libs/select/select2.js}"></script>
+<script th:inline="javascript">
+    $("#form-user-add").validate({
+        rules: {
+            tag_name: {
+                required: true,
+            },
+            compare_operation: {
+                required: true,
+            },
+            unit: {
+                required: true,
+            },
+            target_value: {
+                required: true,
+            },
+            messages: {}
+        }
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            add();
+        }
+    }
+
+    function add() {
+        var label_id = $("#label_id").val();
+        var tag_name = $("#tag_name").val();
+        var compare_operation = $("#compare_operation").val();
+        var unit = $("#unit").val();
+        var target_value = $("#target_value").val();
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : "../../../bigdata/staff/addLablesTarget",
+            data : {
+                "label_id": label_id,
+                "tag_id": tag_name,
+                "compare_operation": compare_operation,
+                "unit": unit,
+                "target_value": target_value,
+            },
+            async : false,
+            error : function(request) {
+                $.modal.alertError("系统错误");
+            },
+            success : function(data) {
+                $.operate.saveSuccess(data);
+            }
+        });
+    }
+</script>
+</body>
+</html>

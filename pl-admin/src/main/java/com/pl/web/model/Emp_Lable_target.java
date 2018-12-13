@@ -1,4 +1,7 @@
 package com.pl.web.model;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * 标签计算结果指标管理Bean类
  * @author root
@@ -11,6 +14,8 @@ public class Emp_Lable_target {
 	private int label_id;
 	
 	private String tag_id;
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	private String tag_name;
 	
 	private String compare_operation;
 	
@@ -67,6 +72,12 @@ public class Emp_Lable_target {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	
-	
+
+	public String getTag_name() {
+		return tag_name;
+	}
+
+	public void setTag_name(String tag_name) {
+		this.tag_name = tag_name;
+	}
 }

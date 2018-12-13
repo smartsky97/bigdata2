@@ -40,7 +40,7 @@
 	</delete>
 	<!--通过Id查询 -->
 	<select id="getLablesById" parameterType="java.lang.String" resultType="Lables">
-		select * from emp_lable where id=#{id}
+		select id,label_name labelName,status from emp_lable where id=#{id}
 	</select>
 
 </mapper>

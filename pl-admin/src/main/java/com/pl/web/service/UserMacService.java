@@ -45,4 +45,5 @@ public interface UserMacService {
 	 * 更新/添加前的验证是否有重复数据.
 	 */
 	public int Compare(String mac);
+	public int Compare2(String mac,int id);
 }

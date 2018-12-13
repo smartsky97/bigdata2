@@ -5,15 +5,13 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
-
+@WebServlet(urlPatterns="/servlet/UploadHandleServlet", description="Servlet的说明")
 public class UploadHandleServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6344431710197434037L;
@@ -26,7 +24,8 @@ public class UploadHandleServlet extends HttpServlet {
 		/*
 		 * 文件上传路径服务器磁盘路径
 		 */
-		String savePath ="/mnt/share";
+//		String savePath ="/mnt/share";
+		String savePath ="C:\\Users\\12167\\AppData\\Local\\Temp\\tomcat-docbase.2403553944113827210.82";
 		File file = new File(savePath);
 		// 判断上传文件的保存目录是否存在
 		if (!file.exists() && !file.isDirectory()) {
@@ -98,8 +97,10 @@ public class UploadHandleServlet extends HttpServlet {
 			e.printStackTrace();
 
 		}
-		request.setAttribute("message", message);
-		request.getRequestDispatcher("/message.jsp").forward(request, response);
+        PrintWriter out = response.getWriter();
+        out.println("66666");
+//		request.setAttribute("message", message);
+//		request.getRequestDispatcher("/message.jsp").forward(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

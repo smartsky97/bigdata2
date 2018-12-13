@@ -23,13 +23,18 @@
 	</select>
 	<!-- 根据ID查询计算指标 -->
 	<select id="selectLableTargetById" parameterType="INTEGER" resultMap="LableTargetResult">
-		select * from emp_lable_target where id=#{id}
+		select
+			e.id,e.label_id,i.tagname tag_id,e.compare_operation,e.target_value,e.unit
+		from emp_lable_target e,emp_index i where e.tag_id = i.id and e.id=#{id}
 	</select>
 	<!-- 更新计算指标 -->
 	<update id="updateLableTarget" parameterType="LabelTarget">
 		update emp_lable_target
-		set label_id=#{label_id},
-		tag_id=#{tag_id},
+		set
+			label_id=#{label_id},
+		<if test="tag_id != null and tag_id != ''">
+			tag_id=#{tag_id},
+		</if>
 		compare_operation=#{compare_operation},
 		target_value=#{target_value},
 		unit=#{unit}

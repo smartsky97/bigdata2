@@ -81,7 +81,18 @@
 				{
 					field : 'computeDate',
 					title : '日期'
-				}]
+				},
+                {
+                    title: '操作',
+                    align: "center",
+                    formatter: function(row, index) {
+                        var actions = [];
+                        debugger
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag
+                            + '" href="'+prefix+'/fileQaulity?computeData='+index.computeDate+'&mailName='+index.mailName+'" target="menuFrame"><i class="fa fa-edit"></i>计算清单</a> ');
+                        return actions.join('');
+                    }
+                }]
             };
             $.table.init(options);
             $("#search").click(function () {

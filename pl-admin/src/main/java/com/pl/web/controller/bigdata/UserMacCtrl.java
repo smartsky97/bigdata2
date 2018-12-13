@@ -1,5 +1,6 @@
 package com.pl.web.controller.bigdata;
 
+import com.pl.common.base.AjaxResult;
 import com.pl.framework.web.base.BaseController;
 import com.pl.framework.web.page.TableDataInfo;
 import com.pl.web.model.UserMac;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,7 +36,7 @@ public class UserMacCtrl extends BaseController {
 	/*
 	 * 数据列表
 	 */
-	@RequestMapping("bigdata/wifi/userMacList")
+	@RequestMapping("bigdata/wifidata/userMacList")
     @ResponseBody
 	public TableDataInfo UserMacList (UserMac userMac)throws Exception{
         startPage();
@@ -44,7 +46,7 @@ public class UserMacCtrl extends BaseController {
         return tableDataInfo;
 	}
 
-	@RequestMapping("bigdata/wifi/usermac")
+	@RequestMapping("bigdata/wifidata/usermac")
 	public String usermac() {
 		return "bigdata/wifidata/usermac";
 	}
@@ -52,53 +54,61 @@ public class UserMacCtrl extends BaseController {
 	/*
 	 * 删除数据
 	 */
-	@RequestMapping("DeleteUserMac")
-	public String DeleteUserMac(ModelMap mm,HttpServletRequest request) throws Exception{
-		String id1 = request.getParameter("id");
-		int id =Integer.parseInt(id1);
+	@RequestMapping("bigdata/wifidata/DeleteUserMac/{id}")
+    @ResponseBody
+	public AjaxResult DeleteUserMac(@PathVariable("id") int id) throws Exception{
 		boolean result = this.userMacServiceIMP.DeleteUserMac(id);
 		if(result){
 			System.out.println("删除成功");
+            return toAjax(1);
 		}
-		return usermac();
+        return toAjax(0);
+	}
+	@RequestMapping("bigdata/wifi/usermacadd")
+	public String AddUserMac() {
+		return "bigdata/wifidata/usermacadd";
 	}
 	/*
 	 * 添加数据
 	 */
-	@RequestMapping("AddUserMac")
-	public String AddUserMac(UserMac userMac,ModelMap mm,HttpServletRequest request) throws Exception{
+	@RequestMapping("bigdata/wifidata/AddUserMac")
+    @ResponseBody
+	public AjaxResult AddUserMac(UserMac userMac, ModelMap mm, HttpServletRequest request) throws Exception{
 		String mac =request.getParameter("mac");
 		int s =this.userMacServiceIMP.Compare(mac);
 		if(s>0){
 			mm.put("message", "此MAC地址已经存在,请不要重复添加!");
-			return "usermac/add";
+            return toAjax(0);
 		}else{
 			boolean result=this.userMacServiceIMP.AddUserMac(userMac);
-			
-			return usermac();
-			
+            return toAjax(1);
 		}
-			
-		
 	}
+    @RequestMapping("bigdata/wifidata/isMacExit")
+    @ResponseBody
+	public String isMacExit(String mac) {
+        int s =this.userMacServiceIMP.Compare(mac);
+        return s>0?"1":"0";
+    }
+    @RequestMapping("bigdata/wifidata/isMacExitByid")
+    @ResponseBody
+	public String isMacExitByid(String mac,int id) {
+        int s =this.userMacServiceIMP.Compare2(mac,id);
+        return s>0?"1":"0";
+    }
 	/*
 	 * 更新数据
 	 */
-	@RequestMapping("UpdateUserMac")
-	public String updateUserMac(ModelMap mm,UserMac userMac,HttpServletRequest request) throws Exception{
-		String mac =request.getParameter("mac");
-		int counts =this.userMacServiceIMP.Compare(mac);
-		if(counts>0){
-			mm.put("message", "此MAC地址已经存在,请不要重复添加!");
-			return updateUserMacUI(mm,request);
-		}else{
-			
-			boolean result1=this.userMacServiceIMP.updateUserMac(userMac);
-			
-			return usermac();
-		}
-		
-	}
+	@RequestMapping("bigdata/wifidata/UpdateUserMac")
+    @ResponseBody
+    public AjaxResult updateUserMac(ModelMap mm, UserMac userMac, HttpServletRequest request) throws Exception {
+        boolean result1 = this.userMacServiceIMP.updateUserMac(userMac);
+        if (result1) {
+            System.out.println("更新成功");
+            return toAjax(1);
+        }
+        return toAjax(0);
+    }
 	//更新前的查询
 	@RequestMapping("updateUserMacUI")
 	public String updateUserMacUI(ModelMap mm,HttpServletRequest request){
@@ -108,6 +118,13 @@ public class UserMacCtrl extends BaseController {
 			mm.put("usermac",userMac);
 			return "usermac/listinfo";
 	}
+    @RequestMapping("bigdata/wifidata/usermacedit/{id}")
+    public String usermacedit(@PathVariable("id") int id, ModelMap mp)
+            throws Exception {
+        UserMac userMac=this.userMacServiceIMP.getUserMacById(id);
+        mp.put("usermac",userMac);
+        return "bigdata/wifidata/usermacedit";
+    }
 	/*
 	 * 多条件查询
 	 */

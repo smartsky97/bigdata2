@@ -43,5 +43,6 @@ public interface UserMacMapper {
 	 * 添加/更新前查询是否存在.
 	 */
 	public int Compare(@Param("mac") String mac);
-	
+	public int Compare2(@Param("mac") String mac,@Param("id") int id);
+
 }

@@ -26,6 +26,16 @@ $(function() {
 			radioClass: 'iradio-blue',
 	    })
 	}
+	if ($(".data-month")) {
+        layui.use('laydate', function() {
+            var laydate = layui.laydate;
+            //年月选择器
+            laydate.render({
+                elem: '#date'
+                , type: 'month'
+            });
+        });
+	}
 	// laydate 时间控件绑定
 	if ($(".select-time").length > 0) {
 		layui.use('laydate', function() {

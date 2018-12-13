@@ -6,14 +6,34 @@
     
      <div class="container-div">
 		<div class="row">
+            <!--<div class="btn-group-sm hidden-xs" id="toolbar" role="group">-->
+                <!--<div class="box-header box_bg">-->
+                    <!--<h3 class="box-title col-md-12" style="padding: 8px 0;">标签管理 / 标签列表</h3>-->
+                    <!--<form id="post-form2">-->
+                        <!--<div class="col-md-3" style="padding: 0px 0px;">-->
+                            <!--<div class="col-md-4">-->
+                                <!--<a class="btn btn-primary btn-primary btn-sm page-btn" onclick="$.operate.add()">-->
+                                    <!--<i class="fa fa-plus"></i> 新增-->
+                                <!--</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</div>-->
+            <!--</div>-->
 
-            <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
-                <div class="box-header box_bg">
-                    <h3 class="box-title col-md-12" style="padding: 8px 0;">标签管理 / 标签列表</h3>
+			<div class="col-sm-12 select-table table-striped" box_wrap>
+                <div class="box-header box_bg" >
+                    <h3 class="box-title col-md-9" style="padding: 8px 0;">标签管理/标签列表</h3>
+                    <form id="post-form2">
+                        <div class="col-md-3" style="padding: 0px 0px;">
+                            <div class="col-md-4">
+                                <a class="btn btn-primary btn-primary btn-sm page-btn" onclick="$.operate.add()">
+                                    <i class="fa fa-plus"></i> 新增
+                                </a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div>
-
-			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table" data-mobile-responsive="true"></table>
 			</div>
 		</div>
@@ -28,11 +48,11 @@
 
             var options = {
                 url: prefix + "/lableCtrl",
-                createUrl: prefix + "/add",
-                updateUrl: prefix + "/edit/{id}",
-                removeUrl: prefix + "/remove",
+                createUrl: prefix + "/labletagadd",
+                updateUrl: prefix + "/labletagedit/{id}",
+                removeUrl: prefix + "/delLables/{id}",
 				exportUrl: prefix + "/export",
-                modalName: "员工饱和度",
+                modalName: "标签",
                 search: false,
                 showSearch: false,
                 showExport: false,
@@ -54,9 +74,9 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.roleId + '\')"><i class="fa fa-edit"></i>更新</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.roleId + '\')"><i class="fa fa-remove"></i>删除</a>');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.roleId + '\')"><i class="fa fa-remove"></i>标签</a>');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>更新</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-primary btn-xs ' + removeFlag + '" style="margin-left: 5px;" href="labletarget/'+row.id+'"><i class="fa fa-filter"></i>标签</a>');
                         return actions.join('');
                     }
                 }]

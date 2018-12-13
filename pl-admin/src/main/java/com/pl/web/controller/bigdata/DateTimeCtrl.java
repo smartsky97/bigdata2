@@ -43,6 +43,11 @@ public class DateTimeCtrl extends BaseController {
         return "bigdata/url/datetime";
     }
 
+	@RequestMapping("bigdata/url/upload")
+	public String upload() {
+		return "bigdata/url/upload";
+	}
+
 	//添加
 	@RequestMapping("AddDate")
 	public String AddDateTime(ModelMap mm,DateTime dateTime,HttpServletRequest request){

@@ -1,0 +1,231 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+    #SimpleCanleder_Year_Month * {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #SimpleCanleder_Year_Month .clear {
+        clear: both;
+    }
+
+    #SimpleCanleder_Year_Month {
+        width: 140px;
+        font-size: 14px;
+        line-height: 14px;
+        border: 1px solid lavender;
+        padding: 10px;
+        padding-top: 5px;
+        padding-right: 5px;
+        position: absolute;
+        background-color: white;
+    }
+
+    #SimpleCanleder_Year_Month .title {
+        height: 35px;
+    }
+
+    #SimpleCanleder_Year_Month .title li.middle {
+        width: 65px;
+        position: relative;
+        overflow: visible;
+    }
+
+    #SimpleCanleder_Year_Month .title li.middle select {
+        margin-top: -3px
+    }
+
+    #SimpleCanleder_Year_Month .title li.middle .year_list {
+        width: 100px;
+        position: absolute;
+        background-color: lightgrey;
+        left: -20px
+    }
+
+    #SimpleCanleder_Year_Month .title li.middle .year_list li {
+        background-color: transparent;
+        text-align: center;
+        width: 45px;
+        height: 20px;
+    }
+
+    #SimpleCanleder_Year_Month .title li.middle .year_list ul {
+        clear: both;
+    }
+
+    #SimpleCanleder_Year_Month .title li, #SimpleCanleder_Year_Month .body li {
+        background-color: lavender;
+        list-style: none;
+        width: 30px;
+        height: 30px;
+        overflow: hidden;
+        margin-top: 5px;
+        margin-right: 5px;
+        float: left;
+        display: inline;
+        cursor: pointer;
+    }
+
+    #SimpleCanleder_Year_Month .title li.cur, #SimpleCanleder_Year_Month .body li.cur {
+        background-color: tomato;
+    }
+
+    #SimpleCanleder_Year_Month .title li.over, #SimpleCanleder_Year_Month .body li.over {
+        background-color: lightblue;
+    }
+
+    #SimpleCanleder_Year_Month .title li .inner, #SimpleCanleder_Year_Month .body li .inner {
+        padding-top: 8px;
+        text-align: center;
+    }
+
+    #SimpleCanleder_Year_Month .bottom {
+        height: 16px;
+        padding-top: 5px;
+        text-align: center;
+    }
+
+    #SimpleCanleder_Year_Month .bottom button.clear {
+        background-color: gainsboro;
+        border: 1px solid;
+        font-size: 12px;
+    }
+</style>
+<body class="gray-bg">
+
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <div>
+                <div class="select-list">
+                    <div class="col-sm-11">
+                        <ul>
+                            <form id="form1"  enctype="multipart/form-data">
+                                <div class="col-sm-12">
+                                    <li class="col-sm-6">
+                                        上传文件1：
+                                        <input type="file" id="file1" name="file1">
+                                    </li>
+                                    <li class="col-sm-6">
+                                        上传文件2：
+                                        <input type="file" id="file2" name="file2">
+                                    </li>
+                                </div>
+                            </form>
+                            <div class="col-sm-12">
+                                <input style="margin: 5px 15px 5px 15px;" type="submit" id="submitfrom1" value="上传">
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="select-list">
+                    <div class="col-sm-11">
+                        <ul>
+                            <form id="myform">
+                                <div class="col-sm-12">
+                                    <li class="col-sm-6">
+                                        选择导入数据的月份：
+                                        <input id="date" class="date-month month11" name="month" style="width:158px;" placeholder="选择月份" readonly>
+                                    </li>
+                                </div>
+                            </form>
+                            <div class="col-sm-12">
+                                <button id="btn1" value="导入数据" style="margin: 5px 15px 5px 15px;">导入员工流程效率数据</button>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="select-list">
+                    <div class="col-sm-11">
+                        <ul>
+                            <form id="myform1">
+                                <div class="col-sm-12">
+                                    <li class="col-sm-6">
+                                        选择导入数据的月份：
+                                        <input id="date" class="date-month month22" name="month" style="width:158px;" placeholder="选择月份" readonly>
+                                    </li>
+                                </div>
+                            </form>
+                            <div class="col-sm-12">
+                                <button id="btn2" value="导入数据" style="margin: 5px 15px 5px 15px;">导入员工流程效率数据</button>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    $(function () {
+        // $("#date,#month,#month1").simpleCanleder();
+    });
+
+    $('#submitfrom1').on('click', function(){
+        if (!$("#file2").val() && !$("#file1").val()) {
+            $.modal.msg("请选择文件")
+            return;
+        }
+        var data = $("#form1").serializeArray();
+        var formData = new FormData();
+        formData.append("file1", document.getElementById("file1").files[0]);
+        if ($("#file2").val()) {
+            formData.append("file2", document.getElementById("file2").files[0]);
+        }
+        $.modal.loading("文件上传中，请稍后...");
+        $.ajax({
+            url: "/servlet/UploadHandleServlet",
+            data: formData,
+            type: "post",
+            processData: false,
+            contentType: false,
+            success: function(result) {
+                $.modal.closeLoading()
+            }
+        })
+    })
+
+    $('#btn1').on('click', function(){
+        if (!$(".month11").val()) {
+            $.modal.msg("请选择时间")
+            return;
+        }
+        $.ajax({
+            url: "/servlet/ExcelImportServlet",
+            data: {"month":$(".month11").val()},
+            type: "post",
+            success: function(result) {
+                alert(result);
+            }
+        })
+    })
+
+    $('#btn2').on('click', function(){
+        if (!$(".month22").val()) {
+            $.modal.msg("请选择时间")
+            return;
+        }
+        $.ajax({
+            url: "/servlet/EmpsExcelImportServlet",
+            data: {"month":$(".month22").val()},
+            type: "post",
+            success: function(result) {
+                alert(result);
+            }
+        })
+    })
+</script>
+</body>
+</html>

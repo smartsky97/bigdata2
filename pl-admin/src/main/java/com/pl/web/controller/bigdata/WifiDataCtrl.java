@@ -58,7 +58,7 @@ public class WifiDataCtrl extends BaseController {
 	/*
 	 * 查询wifi定位数据(以表格展示)
 	 */
-	@RequestMapping("bigdata/wifi/searchWifiData")
+	@RequestMapping("bigdata/wifidata/searchWifiData")
     @ResponseBody
 	public TableDataInfo searchWifiData(WifiData wifiData,
                                         HttpServletRequest request) throws Exception {
@@ -81,12 +81,12 @@ public class WifiDataCtrl extends BaseController {
         return tableDataInfo;
 	}
 
-	@RequestMapping("bigdata/wifi/wifidata")
+	@RequestMapping("bigdata/wifidata/wifidata")
 	public String wifidata(ModelMap mm) {
 		return "bigdata/wifidata/wifidata";
 	}
 
-	@RequestMapping("bigdata/wifi/plane")
+	@RequestMapping("bigdata/wifidata/plane")
 	public String plane() {
 		return "bigdata/wifidata/plane";
 	}
@@ -94,7 +94,7 @@ public class WifiDataCtrl extends BaseController {
 	/*
 	 * 查询Wifi定位数据(Echars视图展示)
 	 */
-	@RequestMapping("bigdata/wifi/showWifiData")
+	@RequestMapping("bigdata/wifidata/showWifiData")
 	@ResponseBody
 	public String showWifiData(ModelMap mm, WifiData wifiData,
 			HttpServletRequest request, HttpServletResponse response)

@@ -6,15 +6,15 @@
     
      <div class="container-div">
 		<div class="row">
-
             <!--<div class="btn-group-sm hidden-xs" id="toolbar" role="group">-->
                 <!--<div class="box-header box_bg">-->
-                    <!--<h3 class="box-title col-md-12" style="padding: 8px 0;">指标管理 / 指标列表</h3>-->
+                    <!--<h3 class="box-title col-md-12" style="padding: 8px 0;">新建/编辑标签</h3>-->
+                    <!--标签名称：<span th:text="${lable.labelName}"></span>-->
                     <!--<form id="post-form2">-->
                         <!--<div class="col-md-3" style="padding: 0px 0px;">-->
                             <!--<div class="col-md-4">-->
                                 <!--<a class="btn btn-primary btn-primary btn-sm page-btn" onclick="$.operate.add()">-->
-                                    <!--<i class="fa fa-plus"></i> 新增-->
+                                    <!--<i class="fa fa-plus"></i> 新增计算指标-->
                                 <!--</a>-->
                             <!--</div>-->
                         <!--</div>-->
@@ -22,14 +22,18 @@
                 <!--</div>-->
             <!--</div>-->
 
-			<div class="col-sm-12 select-table table-striped box_wrap">
+			<div class="col-sm-12 select-table table-striped">
                 <div class="box-header box_bg" >
-                    <h3 class="box-title col-md-9" style="padding: 8px 0;">指标管理/指标列表</h3>
+                    <div class="col-md-9">
+                        <h3 class="box-title" style="padding: 8px 0;">新建/编辑标签</h3>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>标签名称：</span><span th:text="${lable.labelName}"></span>
+                    </div>
                     <form id="post-form2">
                         <div class="col-md-3" style="padding: 0px 0px;">
                             <div class="col-md-4">
                                 <a class="btn btn-primary btn-primary btn-sm page-btn" onclick="$.operate.add()">
-                                    <i class="fa fa-plus"></i> 新增
+                                    <i class="fa fa-plus"></i> 新增计算指标
                                 </a>
                             </div>
                         </div>
@@ -44,16 +48,16 @@
         var editFlag = [[${@permission.hasPermi('system:jobsatadd:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:jobsatadd:remove')}]];
         var prefix = ctx + "bigdata/staff";
-        console.info([[${depts}]]);
+        var tar = [[${lable}]];
         $(function() {
 
             var options = {
-                url: prefix + "/tagsCtrllist",
-                createUrl: prefix + "/tagsCtrladd",
-                updateUrl: prefix + "/tagsCtrledit/{id}",
-                removeUrl: prefix + "/tagsCtrlremove/{id}",
+                url: prefix + "/addLableslist/"+tar.id,
+                createUrl: prefix + "/labletargetadd/"+tar.id,
+                updateUrl: prefix + "/labletargetedit/{id}",
+                removeUrl: prefix + "/delLablesTarget/{id}",
 				exportUrl: prefix + "/export",
-                modalName: "员工饱和度",
+                modalName: "标签",
                 search: false,
                 showSearch: false,
                 showExport: false,
@@ -64,16 +68,23 @@
                 columns: [
 				{
 					field : 'id',
-					title : '编号',
-                    width: '25%'
+					title : '编号'
 				},
 				{
-					field : 'tagmc',
-					title : '标签简称'
+					field : 'tag_id',
+					title : '指标名字'
 				},
 				{
-					field : 'tagname',
-                    width: '25%'
+					field : 'compare_operation',
+					title : '比较'
+				},
+				{
+					field : 'unit',
+					title : '单位'
+				},
+				{
+					field : 'target_value',
+					title : '指标值'
 				},
                 {
                     title: '操作',
